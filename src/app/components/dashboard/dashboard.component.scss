@@ -4,160 +4,214 @@ $input-background: #303030;
 $gray-color: #878787;
 $red-color: #DC3545;
 $orange-color: #FF6F00;
-$darkOrange-color: #532400;
+$darkOrange-color: #ff8615;
 
-$gap-small: clamp(0.3125rem, 0.3125rem + 0vw, 0.3125rem);
+$gap-small: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
 $gap-medium: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
 $padding-small: clamp(0.625rem, 0.625rem + 0vw, 0.625rem);
 $padding-medium: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
-$border-radius-small: 8px;
+$border-radius-small: 12px;
+
+$fontSize-small: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
+$fontSize-medium: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
+$fontSize-large: clamp(1.875rem, 1.8143rem + 0.2589vw, 2.125rem);
 
 .container {
-  gap: $gap-medium;
-  display: flex;
-  align-items: start;
-  flex-direction: column;
-
   width: 100%;
   height: 100vh;
   height: 100dvh;
+
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  background-color: #fcfcfc;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+  gap: $gap-medium;
+
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  justify-content: space-between;
   padding: $padding-medium;
-  background-color: $background;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('../../../../public/assets/images/banner.png');
 }
 
-.title {
-  font-weight: 500;
-  color: $white-color;
-
-  &--small {
-    color: $gray-color;
-    font-weight: 300;
-    font-size: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
-  }
-
-  &--medium {
-    font-size: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
-  }
-
-  &--large {
-    font-size: clamp(1.875rem, 1.8143rem + 0.2589vw, 2.125rem);
-  }
-}
-
-.subtitle {
-  font-weight: 300;
-  color: $white-color;
-
-  &--small {
-    font-size: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
-  }
-
-  &--medium {
-    font-size: clamp(0.875rem, 0.8447rem + 0.1294vw, 1rem);
-  }
-
-  &--large {
-    font-size: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
-  }
-
-  &--orange {
-    color: $orange-color;
-    font-weight: 500;
-    font-size: clamp(0.875rem, 0.8447rem + 0.1294vw, 1rem);
-  }
-}
-
-.icon {
-  color: $white-color;
-
-  &--large {
-    color: $orange-color;
-    width: 100%;
-    height: 50%;
-    font-size: 2.5rem;
-  }
-}
-
-.balance__content {
+.config {
   gap: $gap-small;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  &__icon {
+    color: #003278;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: $padding-medium;
+    backdrop-filter: blur(10px);
+    background-color: $white-color;
+    border-radius: $border-radius-small;
+
+  }
+
+  :nth-child(2) {
+    margin-left: auto;
+  }
+}
+
+.user {
+  width: 100%;
+  gap: $gap-small;
+
   display: flex;
   align-items: center;
   justify-content: start;
-}
+  padding: $padding-medium;
 
-.services {
-  display: flex;
-  max-width: 100%;
-  gap: $gap-medium;
-  overflow-y: auto;
+  border-radius: $border-radius-small;
+  background-color: $white-color;
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
+  &__value {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: $gap-small;
   }
 
-  &__item {
-    width: clamp(6.25rem, 6.25rem + 0vw, 6.25rem);
-    height: clamp(5.625rem, 5.625rem + 0vw, 5.625rem);
-    flex-shrink: 0;
+  &__title {
+    font-weight: 500;
+    color: #003278;
+    font-size: 14px;
+  }
 
+  &__subtitle {
+    color: $white-color;
+    font-weight: 300;
+    font-size: $fontSize-small;
+  }
+
+  &__icon {
+    color: #003278;
+  }
+
+  &__content {
     display: flex;
     align-items: start;
     flex-direction: column;
-    justify-content: space-between;
-
-    padding: $padding-small;
-    border-radius: $border-radius-small;
-    background-color: $input-background;
   }
 }
 
-.tracking {
-  gap: $gap-small;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-
-  border-radius: $border-radius-small;
-  padding: $padding-small;
-  background-color: $input-background;
-}
-
+.task,
+.tracking,
 .discover {
   width: 100%;
   display: flex;
   align-items: start;
   flex-direction: column;
+  gap: $gap-small;
+  padding: $padding-medium;
+  border-bottom: 2px solid #f3f3f3;
+
+  &__title {
+    color: #303030;
+    font-size: 16px;
+    font-weight: 500;
+  }
 
   &__content {
-    gap: $gap-medium;
     width: 100%;
     display: flex;
+    gap: $gap-medium;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__item {
-    gap: $gap-medium;
-    width: 100%;
-    height: auto;
+    width: 110px;
     display: flex;
+    align-items: start;
     flex-direction: column;
     justify-content: space-between;
+    gap: $gap-medium;
+    flex-shrink: 0;
 
     padding: $padding-small;
     border-radius: $border-radius-small;
-    background-color: $input-background;
+    background-color: #f3f3f3;
+  }
+
+  &__icon {
+    color: $gray-color;
+  }
+
+  &__subtitle {
+    font-size: $fontSize-small;
+    color: $gray-color;
   }
 }
 
-.help {
+.logout {
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+  gap: $gap-small;
+  padding: $padding-medium;
+  border-bottom: 1px solid #f3f3f3;
 
-  border-radius: $border-radius-small;
-  padding: $padding-small;
-  background-color: $input-background;
+  &__title {
+    color: #303030;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    gap: $gap-medium;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $gap-medium;
+    flex-shrink: 0;
+
+    padding: $padding-small;
+    border-radius: $border-radius-small;
+    background-color: rgb(220, 53, 69, 0.7);
+  }
+
+  &__icon {
+    color: $white-color;
+  }
+
+  &__subtitle {
+    font-size: $fontSize-small;
+    color: $white-color;
+  }
 }

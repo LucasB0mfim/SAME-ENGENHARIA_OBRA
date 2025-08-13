@@ -1,64 +1,94 @@
 <div class="container">
+  <header class="header">
+    <div class="config">
+      <mat-icon class="config__icon">person</mat-icon>
+      <mat-icon class="config__icon">notifications</mat-icon>
+      <mat-icon class="config__icon">settings</mat-icon>
+    </div>
 
-  <div class="user">
-    <h2 class="title title--small">Olá,</h2>
-    <h2 class="title title--large">Usuário!</h2>
-  </div>
+    <div class="user">
+      <mat-icon class="user__icon">flag</mat-icon>
+      <h3 class="user__title">Confira o status da obra.</h3>
+    </div>
+  </header>
 
-  <div class="balance">
-    <h2 class="title title--small">Total</h2>
-    <div class="balance__content">
-      <span class="title title--large">0</span>
-      <mat-icon class="icon">diamond</mat-icon>
+  <div class="task">
+    <h2 class="task__title">Tarefas</h2>
+    <div class="task__content">
+      <div class="task__item">
+        <mat-icon class="task__icon">add</mat-icon>
+        <p class="task__subtitle">Cadastrar tarefa</p>
+      </div>
+
+      <div class="task__item">
+        <mat-icon class="task__icon">settings</mat-icon>
+        <p class="task__subtitle">Gerenciar tarefas</p>
+      </div>
     </div>
   </div>
 
-  <div class="services">
-    <div class="services__item">
-      <mat-icon class="icon">diamond</mat-icon>
-      <h3 class="subtitle subtitle--small">Premiação</h3>
-    </div>
+  <div class="discover">
+    <h2 class="discover__title">Controle de material</h2>
+    <div class="discover__content">
+      <div class="discover__item">
+        <mat-icon class="discover__icon">list</mat-icon>
+        <p class="discover__subtitle">Lista de pedidos</p>
+      </div>
 
-    <div class="services__item">
-      <mat-icon class="icon">my_location</mat-icon>
-      <h3 class="subtitle subtitle--small">RM</h3>
-    </div>
+      <div class="discover__item">
+        <mat-icon class="discover__icon">download</mat-icon>
+        <p class="discover__subtitle">Receber pedido</p>
+      </div>
 
-    <div class="services__item">
-      <mat-icon class="icon">contact_support</mat-icon>
-      <h3 class="subtitle subtitle--small">Dúvidas</h3>
-    </div>
-
-    <div class="services__item">
-      <mat-icon class="icon">apps</mat-icon>
-      <h3 class="subtitle subtitle--small">Mais</h3>
+      <div class="discover__item">
+        <mat-icon class="discover__icon">inventory</mat-icon>
+        <p class="discover__subtitle">Estoque</p>
+      </div>
     </div>
   </div>
 
   <div class="tracking">
-    <h2 class="title title--medium">Rastreamento de materiais</h2>
-    <p class="subtitle subtitle--medium">
-      Acesse o RM para visualizar e gerenciar o destino de materiais e equipamentos.
-    </p>
-    <span class="subtitle subtitle--orange">Explorar</span>
-  </div>
-
-  <div class="discover">
-    <div class="discover__content">
-      <div class="discover__item">
-        <mat-icon class="icon icon--large">history</mat-icon>
-        <h2 class="subtitle subtitle--large">Veja suas premiações</h2>
+    <h2 class="tracking__title">Controle de equipamentos</h2>
+    <div class="tracking__content">
+      <div class="tracking__item">
+        <mat-icon class="tracking__icon">send</mat-icon>
+        <p class="tracking__subtitle">Enviar equipamento</p>
       </div>
 
-      <div class="discover__item">
-        <mat-icon class="icon icon--large">map</mat-icon>
-        <h2 class="subtitle subtitle--large">Registre um novo rastreamento</h2>
+      <div class="tracking__item">
+        <mat-icon class="tracking__icon">download</mat-icon>
+        <p class="tracking__subtitle">Receber equipamento</p>
+      </div>
+
+      <div class="tracking__item">
+        <mat-icon class="tracking__icon">settings</mat-icon>
+        <p class="tracking__subtitle">Meus envios</p>
       </div>
     </div>
   </div>
 
-  <div class="help">
-    <h2 class="subtitle subtitle--large">Central de ajuda</h2>
-    <mat-icon class="icon">arrow_right</mat-icon>
+  <div class="discover">
+    <h2 class="discover__title">Operacional</h2>
+    <div class="discover__content">
+      <div class="discover__item">
+        <mat-icon class="discover__icon">group</mat-icon>
+        <p class="discover__subtitle">Equipes</p>
+      </div>
+
+      <div class="discover__item">
+        <mat-icon class="discover__icon">list</mat-icon>
+        <p class="discover__subtitle">Folha de ponto</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="logout">
+    <h2 class="logout__title">Fazer logout</h2>
+    <div class="logout__content">
+      <div class="logout__item">
+        <mat-icon class="logout__icon">logout</mat-icon>
+        <p class="logout__subtitle">Sair</p>
+      </div>
+    </div>
   </div>
 </div>
