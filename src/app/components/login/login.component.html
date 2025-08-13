@@ -1,0 +1,47 @@
+<div class="container">
+
+  @if (showMessage) {
+  <div class="message" [ngClass]="messageType">{{ message }}</div>
+  }
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+    <div class="form__header">
+      <h2 class="form__title">Entrar</h2>
+      <p class="form__subtitle">Premiação de colaboradores</p>
+    </div>
+
+    <div class="form__content">
+      <div class="form__group">
+        <label class="form__label">Email</label>
+        <input type="email" placeholder="Digite seu email" formControlName="email" [class.invalid]="isInvalid('email')"
+          class="form__input">
+      </div>
+
+      <div class="form__group">
+        <label class="form__label">Senha</label>
+        <input type="password" placeholder="Digite sua senha" formControlName="senha"
+          [class.invalid]="isInvalid('senha')" class="form__input">
+      </div>
+    </div>
+
+    <footer class="form__footer">
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn--primary">
+        @if (isLogin) {
+        <div class="loading">
+          <div class="loading__dot"></div>
+          <div class="loading__dot"></div>
+          <div class="loading__dot"></div>
+        </div>
+        } @else {
+        Entrar
+        }
+      </button>
+
+      <button class="btn btn--secondary">
+        Primeiro acesso
+      </button>
+    </footer>
+
+    <a href="#" class="form__link">Esqueci minha senha</a>
+  </form>
+</div>
