@@ -1,0 +1,122 @@
+$light-white: #FCFCFC;
+
+$dark-blue: #003278;
+$dark-white: #F3F3F3;
+$dark-black: #1F1F1F;
+
+$gap-small: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
+$gap-medium: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
+
+$padding-small: clamp(0.625rem, 0.625rem + 0vw, 0.625rem);
+$padding-medium: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
+
+$border--small: 12px;
+
+$fs-small: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
+$fs-medium: clamp(1rem, 1rem + 0vw, 1rem);
+$fs-large: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
+
+$img-small: clamp(1.0625rem, 1.0625rem + 0vw, 1.0625rem);
+$img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: $light-white;
+}
+
+.section {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+
+  &__header {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    gap: $gap-small;
+    padding: $padding-medium;
+  }
+
+  &__title {
+    color: $dark-black;
+    font-weight: 400;
+    font-size: $fs-large;
+  }
+
+  &__content {
+    width: 100%;
+    max-height: 55vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+  }
+
+  &__input[type="checkbox"] {
+    display: none;
+  }
+
+  &__label {
+    color: $dark-black;
+    font-size: $fs-medium;
+
+    padding: $padding-medium;
+    border-bottom: 2px solid $dark-white;
+    transition: background-color 0.2s ease;
+  }
+
+  &__input[type="checkbox"]:checked+.section__label {
+    background-color: $dark-white;
+    border-bottom: 2px solid #ececec;
+  }
+
+  &__footer {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    margin-top: auto;
+    padding: $padding-medium;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: $dark-white;
+    padding: $padding-medium;
+
+    border: none;
+    border-radius: 50%;
+    background-color: $dark-blue;
+  }
+
+  &__icon {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $fs-large;
+
+    &--close {
+      justify-content: start;
+    }
+  }
+}
