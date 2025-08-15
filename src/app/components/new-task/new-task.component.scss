@@ -1,4 +1,5 @@
 $light-white: #FCFCFC;
+$light-gray: #303030;
 
 $dark-blue: #003278;
 $dark-white: #F3F3F3;
@@ -13,11 +14,12 @@ $padding-medium: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
 $border--small: 12px;
 
 $fs-small: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
-$fs-medium: clamp(1rem, 1rem + 0vw, 1rem);
+$fs-medium: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
 $fs-large: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
 
 $img-small: clamp(1.0625rem, 1.0625rem + 0vw, 1.0625rem);
 $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
+$img-large: clamp(2rem, 2rem + 0vw, 2rem);
 
 .container {
   width: 100vw;
@@ -43,7 +45,7 @@ $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
     flex-direction: column;
     justify-content: flex-start;
 
-    gap: $gap-small;
+    gap: $gap-medium;
     padding: $padding-medium;
   }
 
@@ -53,9 +55,16 @@ $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
     font-size: $fs-large;
   }
 
+  &__subtitle {
+    color: $dark-black;
+    font-size: $fs-medium;
+  }
+
   &__content {
     width: 100%;
-    max-height: 55vh;
+    height: 100%;
+
+    padding: $padding-medium;
 
     display: flex;
     flex-direction: column;
@@ -63,22 +72,51 @@ $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
     overflow-y: auto;
   }
 
-  &__input[type="checkbox"] {
-    display: none;
-  }
-
   &__label {
+    width: 100%;
+    height: auto;
+
     color: $dark-black;
     font-size: $fs-medium;
 
-    padding: $padding-medium;
+    padding: $padding-medium 0px;
+
     border-bottom: 2px solid $dark-white;
     transition: background-color 0.2s ease;
   }
 
-  &__input[type="checkbox"]:checked+.section__label {
-    background-color: $dark-white;
-    border-bottom: 2px solid #ececec;
+  &__input {
+    width: 100%;
+    height: auto;
+
+    color: $dark-black;
+    font-size: $fs-medium;
+
+    border: none;
+    border-bottom: 2px solid $dark-white;
+
+    padding-bottom: $padding-medium;
+
+    outline: none;
+    background-color: transparent;
+
+    &[type="checkbox"] {
+      display: none;
+    }
+
+    &[type="checkbox"]:checked+.section__label {
+      border-bottom: 2px solid #ececec;
+      background-color: $dark-white;
+    }
+
+    &[type="file"] {
+      display: none;
+    }
+
+    &--not-row {
+      border: none;
+      padding: 0;
+    }
   }
 
   &__footer {
@@ -94,15 +132,17 @@ $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
   }
 
   &__button {
+    width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
     color: $dark-white;
-    padding: $padding-medium;
+    padding: $padding-small;
 
     border: none;
-    border-radius: 50%;
+    border-radius: $border--small;
     background-color: $dark-blue;
   }
 
@@ -110,13 +150,11 @@ $img-medium: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
     width: 100%;
     height: auto;
 
+    font-size: $fs-large;
+    color: $light-gray;
+
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: $fs-large;
-
-    &--close {
-      justify-content: start;
-    }
+    justify-content: start;
   }
 }

@@ -1,22 +1,87 @@
 <div class="container">
-  <div class="section">
+  <section class="section" *ngIf="stepOne">
     <header class="section__header">
-      <mat-icon (click)="onReturn()" class="section__icon section__icon--close">close</mat-icon>
-      <h3 class="section__title">Marque os colaboradores premiados</h3>
+      <mat-icon (click)="onHome()" class="section__icon">close</mat-icon>
+      <h3 class="section__title">Descreva a proposta da atividade</h3>
     </header>
 
-    <section class="section__content">
+    <div class="section__content">
+      <input type="text" placeholder="Digite algo..." class="section__input">
+    </div>
+
+    <footer class="section__footer">
+      <button class="section__button" (click)="onStepTwo()">Continuar</button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="stepTwo">
+    <header class="section__header">
+      <mat-icon (click)="onStepOne()" class="section__icon">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Marque os colaboradores bonificados</h3>
+    </header>
+
+    <div class="section__content">
+      <input type="text" placeholder="Pesquisar" class="section__input section__input--not-row">
+    </div>
+
+    <div class="section__content">
       <input type="checkbox" id="ana" class="section__input">
       <label for="ana" class="section__label">Ana Souza</label>
 
       <input type="checkbox" id="bruno" class="section__input">
       <label for="bruno" class="section__label">Bruno Lima</label>
-    </section>
+    </div>
 
     <footer class="section__footer">
-      <button class="section__button">
-        <mat-icon class="section__icon">send</mat-icon>
-      </button>
+      <button class="section__button" (click)="onStepThree()">Continuar</button>
     </footer>
-  </div>
+  </section>
+
+  <section class="section" *ngIf="stepThree">
+    <header class="section__header">
+      <mat-icon (click)="onStepTwo()" class="section__icon">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Valor da bonificação para <strong>pedreiro</strong></h3>
+    </header>
+
+    <div class="section__content">
+      <input type="text" placeholder="R$ 0,00" (input)="formatCurrency($event)" class="section__input">
+    </div>
+
+    <footer class="section__footer">
+      <button class="section__button" (click)="onStepFour()">Continuar</button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="stepFour">
+    <header class="section__header">
+      <mat-icon (click)="onStepThree()" class="section__icon">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Valor da bonificação para <strong>servente</strong></h3>
+    </header>
+
+    <div class="section__content">
+      <input type="text" placeholder="R$ 0,00" (input)="formatCurrency($event)" class="section__input">
+    </div>
+
+    <footer class="section__footer">
+      <button class="section__button" (click)="onStepFive()">Continuar</button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="stepFive">
+    <header class="section__header">
+      <mat-icon (click)="onStepFour()" class="section__icon">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Anexe a foto da ata</h3>
+    </header>
+
+    <div class="section__content">
+      <label class="section__label">
+        <mat-icon class="section__icon">cloud_download</mat-icon>
+        <input type="file" accept="image/*" class="section__input">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button class="section__button" (click)="onHome()">Enviar</button>
+    </footer>
+  </section>
 </div>

@@ -15,8 +15,8 @@ $border--small: 12px;
 $fs-small: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
 $fs-medium: clamp(1rem, 1rem + 0vw, 1rem);
 
-$img-small: clamp(1.0625rem, 1.0625rem + 0vw, 1.0625rem);
-$img-medium: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
+$img-small: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
+$img-large: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
 
 .container {
   width: 100%;
@@ -80,7 +80,7 @@ $img-medium: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
     align-items: center;
     justify-content: flex-end;
 
-    gap: $gap-medium;
+    gap: $gap-small;
   }
 
   &__content {
@@ -148,7 +148,7 @@ $img-medium: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
 
       &-white {
         color: $light-white;
-        font-size: $img-medium;
+        font-size: $img-small;
       }
 
       &-blue {
