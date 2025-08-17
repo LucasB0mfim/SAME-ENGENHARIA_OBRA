@@ -1,17 +1,25 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { LoginService } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-new-task',
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.scss'
 })
 export class NewTaskComponent {
 
-  private readonly _route = inject(Router);
+  private readonly _taskService = inject(LoginService);
 
   stepOne: boolean = true;
   stepTwo: boolean = false;
@@ -19,9 +27,15 @@ export class NewTaskComponent {
   stepFour: boolean = false;
   stepFive: boolean = false;
 
-  onHome(): void {
-    this._route.navigate(['dashboard']);
-  }
+  uploadedFile: { [key: string]: File } = {};
+
+  createForm: FormGroup = new FormGroup({
+    nome: new FormControl(''),
+    descricao: new FormControl(''),
+    participante: new FormControl(''),
+    valor_pedreiro: new FormControl(''),
+    valor_servente: new FormControl(''),
+  });
 
   onStepOne(): void {
     this.stepOne = true;
@@ -63,20 +77,28 @@ export class NewTaskComponent {
     this.stepFive = true;
   }
 
-  formatCurrency(event: any) {
-    let value = event.target.value;
+  onSubmit(): void {
+    const formData = new FormData();
 
-    // Remove tudo que não é dígito
-    value = value.replace(/\D/g, "");
-
-    // Converte para número e divide por 100
-    const numericValue = parseFloat(value) / 100;
-
-    // Formata como BRL
-    event.target.value = numericValue.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
+    Object.entries(this.createForm.value).forEach(([key, value]) => {
+      formData.append(key, value != null ? String(value) : '');
     });
+
+    Object.entries(this.uploadedFile).forEach(([key, file]) => {
+      formData.append(key, file, file.name);
+    });
+
+    this._taskService.login(formData).subscribe({
+
+    })
   }
 
+  // ========== MANIPULAR IMAGEM ========== //
+  onFileChange(event: Event, field: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.uploadedFile['foto_prancheta'] = input.files[0];
+    }
+  }
 }
+

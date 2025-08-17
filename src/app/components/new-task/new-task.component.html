@@ -1,87 +1,96 @@
-<div class="container">
+<form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
   <section class="section" *ngIf="stepOne">
     <header class="section__header">
-      <mat-icon (click)="onHome()" class="section__icon">close</mat-icon>
-      <h3 class="section__title">Descreva a proposta da atividade</h3>
+      <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
+      <h3 class="section__title">Qual foi a atividade realizada?</h3>
     </header>
 
     <div class="section__content">
-      <input type="text" placeholder="Digite algo..." class="section__input">
+      <label class="section__label">Insira a descrição da atividade</label>
+      <input type="text" placeholder="Descrição" formControlName="descricao" class="section__input">
     </div>
 
-    <footer class="section__footer">
-      <button class="section__button" (click)="onStepTwo()">Continuar</button>
-    </footer>
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="onStepTwo()">Continuar</button>
+    </div>
   </section>
 
   <section class="section" *ngIf="stepTwo">
     <header class="section__header">
-      <mat-icon (click)="onStepOne()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Marque os colaboradores bonificados</h3>
+      <mat-icon class="section__icon section__icon--header" (click)="onStepOne()">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Selecione quem será bonificado</h3>
     </header>
 
     <div class="section__content">
-      <input type="text" placeholder="Pesquisar" class="section__input section__input--not-row">
+      <label class="section__label">Colaboradores da sua obra</label>
+      <div class="section__item">
+        <label for="teste" class="section__label--checkbox">
+          teste
+          <input id="teste" type="checkbox" formControlName="participante"
+            class="section__input section__input--checkbox">
+        </label>
+      </div>
     </div>
 
-    <div class="section__content">
-      <input type="checkbox" id="ana" class="section__input">
-      <label for="ana" class="section__label">Ana Souza</label>
-
-      <input type="checkbox" id="bruno" class="section__input">
-      <label for="bruno" class="section__label">Bruno Lima</label>
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="onStepThree()">Continuar</button>
     </div>
-
-    <footer class="section__footer">
-      <button class="section__button" (click)="onStepThree()">Continuar</button>
-    </footer>
   </section>
 
   <section class="section" *ngIf="stepThree">
     <header class="section__header">
-      <mat-icon (click)="onStepTwo()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Valor da bonificação para <strong>pedreiro</strong></h3>
+      <mat-icon class="section__icon section__icon--header" (click)="onStepTwo()">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Qual o valor da bonificação para <strong>pedreiro</strong>?</h3>
     </header>
 
     <div class="section__content">
-      <input type="text" placeholder="R$ 0,00" (input)="formatCurrency($event)" class="section__input">
+      <label class="section__label">Insira o valor</label>
+      <input type="number" placeholder="R$ 0,00" formControlName="valor_pedreiro" inputmode="numeric" pattern="[0-9]*"
+        class="section__input">
     </div>
 
-    <footer class="section__footer">
-      <button class="section__button" (click)="onStepFour()">Continuar</button>
-    </footer>
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="onStepFour()">Continuar</button>
+    </div>
   </section>
 
   <section class="section" *ngIf="stepFour">
     <header class="section__header">
-      <mat-icon (click)="onStepThree()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Valor da bonificação para <strong>servente</strong></h3>
+      <mat-icon class="section__icon section__icon--header" (click)="onStepThree()">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Qual o valor da bonificação para <strong>servente</strong>?</h3>
     </header>
 
     <div class="section__content">
-      <input type="text" placeholder="R$ 0,00" (input)="formatCurrency($event)" class="section__input">
+      <label class="section__label">Insira o valor</label>
+      <input type="number" placeholder="R$ 0,00" formControlName="valor_servente" inputmode="numeric" pattern="[0-9]*"
+        class="section__input">
     </div>
 
-    <footer class="section__footer">
-      <button class="section__button" (click)="onStepFive()">Continuar</button>
-    </footer>
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="onStepFive()">Continuar</button>
+    </div>
   </section>
 
   <section class="section" *ngIf="stepFive">
     <header class="section__header">
-      <mat-icon (click)="onStepFour()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Anexe a foto da ata</h3>
+      <mat-icon class="section__icon section__icon--header" (click)="onStepFour()">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Anexe a foto da sua prancheta</h3>
     </header>
 
     <div class="section__content">
-      <label class="section__label">
-        <mat-icon class="section__icon">cloud_download</mat-icon>
-        <input type="file" accept="image/*" class="section__input">
+      <label class="section__label--file">
+        <mat-icon class="section__icon section__icon--file">cloud_upload</mat-icon>
+        <span class="section__span">
+          {{ uploadedFile['foto_prancheta'] ? uploadedFile['foto_prancheta'].name : 'Clique aqui para anexar a imagem'
+          }}
+        </span>
+        <input type="file" accept="image/*" formControlName="foto_prancheta"
+          (change)="onFileChange($event, 'foto_prancheta')" class="section__input--file">
       </label>
     </div>
 
-    <footer class="section__footer">
-      <button class="section__button" (click)="onHome()">Enviar</button>
-    </footer>
+    <div class="section__footer">
+      <button type="submit" class="section__button">Enviar</button>
+    </div>
   </section>
-</div>
+</form>

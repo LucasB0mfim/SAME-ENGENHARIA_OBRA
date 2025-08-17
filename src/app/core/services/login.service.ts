@@ -1,4 +1,5 @@
 import { map, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
@@ -8,6 +9,7 @@ import { inject, Injectable } from '@angular/core';
 export class LoginService {
 
   private readonly _httpClient = inject(HttpClient);
+  private readonly _router = inject(Router);
 
   login(request: any): Observable<any> {
     return this._httpClient.post<any>('https://sameengenharia.com.br/api/auth/employee/login', request).pipe(
@@ -20,4 +22,9 @@ export class LoginService {
       })
     );
   };
+
+  logout() {
+    localStorage.removeItem('token');
+    this._router.navigate(['/login']);
+  }
 };
