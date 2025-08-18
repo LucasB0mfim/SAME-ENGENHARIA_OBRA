@@ -1,5 +1,5 @@
 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
-  <section class="section" *ngIf="stepOne">
+  <section class="section" *ngIf="currentStep === 1">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
       <h3 class="section__title">Qual foi a atividade realizada?</h3>
@@ -11,35 +11,41 @@
     </div>
 
     <div class="section__footer">
-      <button type="button" class="section__button" (click)="onStepTwo()">Continuar</button>
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
     </div>
   </section>
 
-  <section class="section" *ngIf="stepTwo">
+  <section class="section section--checkbox" *ngIf="currentStep === 2">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="onStepOne()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Selecione quem será bonificado</h3>
     </header>
 
     <div class="section__content">
-      <label class="section__label">Colaboradores da sua obra</label>
-      <div class="section__item">
-        <label for="teste" class="section__label--checkbox">
-          teste
-          <input id="teste" type="checkbox" formControlName="participante"
+      <input type="text" placeholder="Pesquisar" class="section__input" (input)="onSearchChange($event)">
+    </div>
+
+    <div class="section__content">
+      <label class="section__label">Lista de colaboradores</label>
+
+      <div class="section__item" *ngIf="filteredEmployees.length > 0" formArrayName="participante">
+        <label *ngFor="let emp of filteredEmployees; let i = index" for="emp_{{ getEmployeeIndex(emp) }}"
+          class="section__label--checkbox">
+          {{ emp.nome }}
+          <input id="emp_{{ getEmployeeIndex(emp) }}" type="checkbox" [formControlName]="getEmployeeIndex(emp)"
             class="section__input section__input--checkbox">
         </label>
       </div>
     </div>
 
     <div class="section__footer">
-      <button type="button" class="section__button" (click)="onStepThree()">Continuar</button>
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
     </div>
   </section>
 
-  <section class="section" *ngIf="stepThree">
+  <section class="section" *ngIf="currentStep === 3">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="onStepTwo()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>pedreiro</strong>?</h3>
     </header>
 
@@ -50,13 +56,13 @@
     </div>
 
     <div class="section__footer">
-      <button type="button" class="section__button" (click)="onStepFour()">Continuar</button>
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
     </div>
   </section>
 
-  <section class="section" *ngIf="stepFour">
+  <section class="section" *ngIf="currentStep === 4">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="onStepThree()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>servente</strong>?</h3>
     </header>
 
@@ -67,13 +73,13 @@
     </div>
 
     <div class="section__footer">
-      <button type="button" class="section__button" (click)="onStepFive()">Continuar</button>
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
     </div>
   </section>
 
-  <section class="section" *ngIf="stepFive">
+  <section class="section" *ngIf="currentStep === 5">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="onStepFour()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Anexe a foto da sua prancheta</h3>
     </header>
 
@@ -81,11 +87,10 @@
       <label class="section__label--file">
         <mat-icon class="section__icon section__icon--file">cloud_upload</mat-icon>
         <span class="section__span">
-          {{ uploadedFile['foto_prancheta'] ? uploadedFile['foto_prancheta'].name : 'Clique aqui para anexar a imagem'
-          }}
+          {{ getFileName() }}
         </span>
-        <input type="file" accept="image/*" formControlName="foto_prancheta"
-          (change)="onFileChange($event, 'foto_prancheta')" class="section__input--file">
+        <input type="file" accept="image/*" formControlName="foto_prancheta" (change)="onFileChange($event)"
+          class="section__input--file">
       </label>
     </div>
 

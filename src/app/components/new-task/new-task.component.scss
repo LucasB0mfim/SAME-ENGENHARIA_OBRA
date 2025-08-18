@@ -51,6 +51,10 @@ $light-black: #303030;
   display: grid;
   grid-template-rows: auto 1fr auto;
 
+  &--checkbox {
+    grid-template-rows: auto auto 1fr auto;
+  }
+
   &__header {
     gap: $gp-lg;
 
@@ -84,7 +88,8 @@ $light-black: #303030;
       justify-content: start;
 
       cursor: pointer;
-      font-size: $fs-lg;
+      font-size: $fs-sm;
+      color: $dark-gray;
 
       padding: $pd-md 0;
       border-bottom: 1px solid $light-gray;
@@ -94,7 +99,7 @@ $light-black: #303030;
       }
 
       &:has(input[type="checkbox"]:checked) {
-        background-color: rgb(192, 192, 192, 0.4);
+        background-color: rgba(192, 192, 192, 0.4); // Usando rgba para clareza
       }
     }
 
