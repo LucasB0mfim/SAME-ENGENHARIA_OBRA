@@ -17,6 +17,6 @@ export class EmployeeService {
 
   findBasicInfo(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('http://localhost:3000/benefit/employee/basic', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/benefit/employee/basic', { headers });
   }
 }
