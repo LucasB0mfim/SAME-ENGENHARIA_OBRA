@@ -67,19 +67,21 @@ export class NewTaskComponent implements OnInit {
     this.isLoading = true;
 
     const formData = new FormData();
-    const criador = localStorage.getItem('name')
+    const criador = localStorage.getItem('name');
+    const centro_custo = localStorage.getItem('centro_custo');
 
     const participantes = this.createForm.get('bonificados') as FormArray;
 
     const bonificados = this.employees.filter((_, i) => participantes.at(i).value)
       .map(emp => ({ nome: emp.nome }));
 
-    if (!this.uploadedFile || !criador) {
+    if (!this.uploadedFile || !criador || !centro_custo) {
       alert('Todos os campos são necessários!');
       return
     }
 
     formData.append('criador', criador);
+    formData.append('centro_custo', centro_custo);
     formData.append('descricao', this.createForm.value.descricao ?? '');
     formData.append('valor_pedreiro', this.createForm.value.valor_pedreiro ?? '');
     formData.append('valor_servente', this.createForm.value.valor_servente ?? '');
