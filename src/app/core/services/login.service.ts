@@ -16,6 +16,8 @@ export class LoginService {
       map((response) => {
         if (response.success) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('name', response.name);
+          localStorage.setItem('centro_custo', response.centro_custo);
         } else {
           return response;
         }

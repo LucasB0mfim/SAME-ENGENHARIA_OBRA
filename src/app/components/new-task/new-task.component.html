@@ -1,5 +1,5 @@
 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
-  <section class="section" *ngIf="currentStep === 1">
+  <section class="section" *ngIf="currentStep === 1 && !isLoading && !isSend && !isError">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
       <h3 class="section__title">Qual foi a atividade realizada?</h3>
@@ -15,37 +15,33 @@
     </div>
   </section>
 
-  <section class="section section--checkbox" *ngIf="currentStep === 2">
+  <section class="section section--checkbox" *ngIf="currentStep === 2 && !isLoading && !isSend && !isError">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Selecione quem será bonificado</h3>
     </header>
 
     <div class="section__content">
-      <input type="text" placeholder="Pesquisar" class="section__input" (input)="onSearchChange($event)">
-    </div>
-
-    <div class="section__content">
       <label class="section__label">Lista de colaboradores</label>
 
-      <div class="section__item" *ngIf="filteredEmployees.length > 0" formArrayName="participante">
-        <label *ngFor="let emp of filteredEmployees; let i = index" for="emp_{{ getEmployeeIndex(emp) }}"
-          class="section__label--checkbox">
+      <div class="section__item" formArrayName="bonificados">
+        <label *ngFor="let emp of employees; let i = index" for="{{ emp.id }}" class="section__label--checkbox">
           {{ emp.nome }}
-          <input id="emp_{{ getEmployeeIndex(emp) }}" type="checkbox" [formControlName]="getEmployeeIndex(emp)"
+          <input id="{{ emp.id }}" type="checkbox" [formControlName]="i"
             class="section__input section__input--checkbox">
         </label>
       </div>
     </div>
+
 
     <div class="section__footer">
       <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 3">
+  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSend && !isError">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>pedreiro</strong>?</h3>
     </header>
 
@@ -60,9 +56,9 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 4">
+  <section class="section" *ngIf="currentStep === 4 && !isLoading && !isSend && !isError">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>servente</strong>?</h3>
     </header>
 
@@ -77,9 +73,9 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 5">
+  <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSend && !isError">
     <header class="section__header">
-      <mat-icon class="section__icon section__icon--header" (click)="previousStep()">arrow_back_ios</mat-icon>
+      <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Anexe a foto da sua prancheta</h3>
     </header>
 
@@ -87,7 +83,7 @@
       <label class="section__label--file">
         <mat-icon class="section__icon section__icon--file">cloud_upload</mat-icon>
         <span class="section__span">
-          {{ getFileName() }}
+          {{ uploadedFile ? uploadedFile.name : 'Clique aqui para anexar a imagem' }}
         </span>
         <input type="file" accept="image/*" formControlName="foto_prancheta" (change)="onFileChange($event)"
           class="section__input--file">
@@ -96,6 +92,46 @@
 
     <div class="section__footer">
       <button type="submit" class="section__button">Enviar</button>
+    </div>
+  </section>
+
+  <section class="section section--send" *ngIf="isLoading">
+    <div class="section__content">
+
+      <div class="loading">
+        <div class="loading__dot"></div>
+        <div class="loading__dot"></div>
+        <div class="loading__dot"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" *ngIf="isSend">
+    <header class="section__header">
+      <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
+    </header>
+
+    <div class="section__content section__content--center">
+      <mat-icon class="section__icon section__icon--file">check_circle</mat-icon>
+      <h3 class="section__title section__title--center">Tarefa enviada com sucesso!</h3>
+    </div>
+
+    <footer class="section__footer">
+      <button type="submit" class="section__button" routerLink="/dashboard">
+        <mat-icon>house</mat-icon>
+      </button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="isError">
+    <header class="section__header">
+      <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
+    </header>
+
+    <div class="section__content section__content--center">
+      <mat-icon class="section__icon section__icon--file">cancel</mat-icon>
+      <h3 class="section__title section__title--center">Falha ao enviar tarefa!</h3>
     </div>
   </section>
 </form>
