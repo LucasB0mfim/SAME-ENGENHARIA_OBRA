@@ -15,7 +15,39 @@
     </div>
   </section>
 
-  <section class="section section--checkbox" *ngIf="currentStep === 2 && !isLoading && !isSend && !isError">
+  <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSend && !isError">
+    <header class="section__header">
+      <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
+      <h3 class="section__title">Qual a data de <strong>início</strong> da atividade?</h3>
+    </header>
+
+    <div class="section__content">
+      <label class="section__label">Insira a data inicial</label>
+      <input type="date" formControlName="dataInicial" class="section__input">
+    </div>
+
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+    </div>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSend && !isError">
+    <header class="section__header">
+      <mat-icon class="section__icon section__icon--header" routerLink="/dashboard">close</mat-icon>
+      <h3 class="section__title">Qual a data de <strong>término</strong> da atividade?</h3>
+    </header>
+
+    <div class="section__content">
+      <label class="section__label">Insira a data final</label>
+      <input type="date" formControlName="dataFinal" class="section__input">
+    </div>
+
+    <div class="section__footer">
+      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+    </div>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 4 && !isLoading && !isSend && !isError">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Selecione quem será bonificado</h3>
@@ -39,7 +71,7 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSend && !isError">
+  <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSend && !isError">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>pedreiro</strong>?</h3>
@@ -56,7 +88,7 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 4 && !isLoading && !isSend && !isError">
+  <section class="section" *ngIf="currentStep === 6 && !isLoading && !isSend && !isError">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual o valor da bonificação para <strong>servente</strong>?</h3>
@@ -73,7 +105,7 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSend && !isError">
+  <section class="section" *ngIf="currentStep === 7 && !isLoading && !isSend && !isError">
     <header class="section__header">
       <mat-icon class="section__icon section__icon--header" (click)="prevStep()">arrow_back_ios</mat-icon>
       <h3 class="section__title">Anexe a foto da sua prancheta</h3>

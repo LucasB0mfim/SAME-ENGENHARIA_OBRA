@@ -50,10 +50,6 @@ $light-black: #303030;
   display: grid;
   grid-template-rows: auto 1fr auto;
 
-  &--checkbox {
-    grid-template-rows: auto auto 1fr auto;
-  }
-
   &--send {
     grid-template-rows: 1fr;
   }

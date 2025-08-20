@@ -27,7 +27,7 @@ export class NewTaskComponent implements OnInit {
 
   // ===== ESTADOS ===== //
   currentStep = 1;
-  totalSteps = 5;
+  totalSteps = 7;
 
   employees: any[] = [];
   uploadedFile: File | null = null;
@@ -39,6 +39,8 @@ export class NewTaskComponent implements OnInit {
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
     descricao: new FormControl('', Validators.required),
+    dataInicial: new FormControl('', Validators.required),
+    dataFinal: new FormControl('', Validators.required),
     bonificados: new FormArray([], Validators.required),
     valor_pedreiro: new FormControl('', Validators.required),
     valor_servente: new FormControl('', Validators.required),
@@ -82,10 +84,14 @@ export class NewTaskComponent implements OnInit {
 
     formData.append('criador', criador);
     formData.append('centro_custo', centro_custo);
+    
     formData.append('descricao', this.createForm.value.descricao ?? '');
+    formData.append('data_inicial', this.createForm.value.dataInicial ?? '');
+    formData.append('data_final', this.createForm.value.dataFinal ?? '');
     formData.append('valor_pedreiro', this.createForm.value.valor_pedreiro ?? '');
     formData.append('valor_servente', this.createForm.value.valor_servente ?? '');
     formData.append('bonificados', JSON.stringify(bonificados));
+
     formData.append('foto_prancheta', this.uploadedFile, this.uploadedFile.name);
 
     this.taskService.create(formData).pipe(finalize(() => this.isLoading = false))
