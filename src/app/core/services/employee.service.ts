@@ -15,8 +15,8 @@ export class EmployeeService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  findBasicInfo(request: any): Observable<any> {
+  findBasicInfo(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/benefit/cost-center', request, { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/benefit/employee/basic', { headers });
   }
 }

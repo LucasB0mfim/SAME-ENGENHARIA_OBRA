@@ -48,9 +48,7 @@ export class NewTaskComponent implements OnInit {
 
   // ===== CICLO DE VIDA ===== //
   ngOnInit(): void {
-    const request = { centro_custo: localStorage.getItem('centro_custo') };
-
-    this.employeeService.findBasicInfo(request).subscribe({
+    this.employeeService.findBasicInfo().subscribe({
       next: (res) => {
         this.employees = res.result;
 
@@ -84,7 +82,7 @@ export class NewTaskComponent implements OnInit {
 
     formData.append('criador', criador);
     formData.append('centro_custo', centro_custo);
-    
+
     formData.append('descricao', this.createForm.value.descricao ?? '');
     formData.append('data_inicial', this.createForm.value.dataInicial ?? '');
     formData.append('data_final', this.createForm.value.dataFinal ?? '');
