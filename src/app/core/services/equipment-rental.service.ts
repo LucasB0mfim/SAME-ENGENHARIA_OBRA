@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class EquipmentRentalService {
 
   private readonly _httpClient = inject(HttpClient);
 
@@ -15,8 +15,8 @@ export class EmployeeService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getInfo(): Observable<any> {
+  send(request: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee', { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental', request, { headers });
   }
 }

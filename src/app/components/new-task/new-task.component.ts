@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
-import { EmployeeService } from '../../core/services/employee.service';
+import { EmployeesService } from '../../core/services/employees.service';
 import { TaskService } from '../../core/services/task.service';
 import { finalize } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { finalize } from 'rxjs';
 export class NewTaskComponent implements OnInit {
 
   private readonly taskService = inject(TaskService);
-  private readonly employeeService = inject(EmployeeService);
+  private readonly employeeService = inject(EmployeesService);
 
   // ===== ESTADOS ===== //
   currentStep = 1;
