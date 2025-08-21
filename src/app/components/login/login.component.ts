@@ -2,15 +2,13 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { LoginService } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
-  providers: [provideNgxMask()],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
