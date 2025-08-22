@@ -1,5 +1,4 @@
 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
-
   <section class="section" *ngIf="currentStep === 1 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon class="section__icon" routerLink="/dashboard">close</mat-icon>
@@ -8,7 +7,13 @@
 
     <div>
       <label class="section__label">insira o nome</label>
-      <input type="text" placeholder="Nome do equipamento" formControlName="equipamento" class="section__input">
+      <input
+      type="text"
+      enterkeyhint="next"
+      placeholder="Nome do equipamento"
+      formControlName="equipamento"
+      class="section__input"
+      (keydown.enter)="$event.preventDefault(); nextStep()">
     </div>
 
     <footer class="section__footer">
@@ -26,8 +31,15 @@
 
     <div>
       <label class="section__label">Insira o código</label>
-      <input type="text" placeholder="idmov" mask="00000" inputmode="numeric" formControlName="idmov"
-        class="section__input">
+      <input
+      type="text"
+      placeholder="idmov"
+      mask="00000"
+      inputmode="numeric"
+      enterkeyhint="next"
+      formControlName="idmov"
+      class="section__input"
+      (keydown.enter)="$event.preventDefault(); nextStep()" />
     </div>
 
     <footer class="section__footer">
