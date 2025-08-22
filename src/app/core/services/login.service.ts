@@ -12,7 +12,7 @@ export class LoginService {
   private readonly _httpClient = inject(HttpClient);
 
   login(request: any): Observable<any> {
-    return this._httpClient.post<any>('http://localhost:3000/auth/employee/login', request).pipe(
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/auth/employee/login', request).pipe(
       map((response) => {
         if (response.success) {
           localStorage.setItem('token', response.token);

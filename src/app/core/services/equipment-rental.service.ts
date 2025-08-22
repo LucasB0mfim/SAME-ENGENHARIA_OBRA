@@ -17,6 +17,6 @@ export class EquipmentRentalService {
 
   send(request: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('http://localhost:3000/equipment-rental', request, { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental', request, { headers });
   }
 }

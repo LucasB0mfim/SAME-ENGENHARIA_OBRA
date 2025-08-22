@@ -7,8 +7,14 @@
 
     <div>
       <label class="section__label">Insira o código</label>
-      <input type="text" placeholder="idmov" inputmode="numeric" enterkeyhint="next" formControlName="idmov"
-        class="section__input">
+      <input
+      type="text"
+      placeholder="idmov"
+      inputmode="numeric"
+      enterkeyhint="next"
+      formControlName="idmov"
+      (keydown.enter)="$event.preventDefault(); nextStep()"
+      class="section__input">
     </div>
 
     <footer class="section__footer">
@@ -26,7 +32,10 @@
 
     <div>
       <label class="section__label">Insira a data</label>
-      <input type="date" formControlName="data_inicial" class="section__input">
+      <input
+      type="date"
+      formControlName="data_inicial"
+      class="section__input">
     </div>
 
     <footer class="section__footer">
