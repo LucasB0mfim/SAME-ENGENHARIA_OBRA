@@ -1,9 +1,8 @@
 import { finalize } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { EquipmentRentalService } from '../../core/services/equipment-rental.service';
@@ -11,8 +10,7 @@ import { EmployeeService } from '../../core/services/employee.service';
 
 @Component({
   selector: 'app-equipment-rental',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, MatIconModule, NgxMaskDirective],
-  providers: [provideNgxMask()],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, MatIconModule],
   templateUrl: './equipment-rental.component.html',
   styleUrl: './equipment-rental.component.scss'
 })
@@ -24,9 +22,7 @@ export class EquipmentRentalComponent implements OnInit {
 
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
-    equipamento: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    idmov: new FormControl('', [Validators.required, Validators.pattern(/^\d{5}$/)]),
-    tempo_contratado: new FormControl('', Validators.required),
+    idmov: new FormControl('', [Validators.required, Validators.minLength(5)]),
     data_inicial: new FormControl('', Validators.required)
   });
 
@@ -39,7 +35,7 @@ export class EquipmentRentalComponent implements OnInit {
   isServerError: boolean = false;
 
   currentStep: number = 1;
-  maxStep: number = 4;
+  maxStep: number = 2;
 
   successIllustration: string = 'assets/images/success.png';
   notFoundIllustration: string = 'assets/images/notFound.png';
@@ -65,9 +61,7 @@ export class EquipmentRentalComponent implements OnInit {
     const request = {
       criador: this.employeeInfo?.name,
       funcao: this.employeeInfo?.role,
-      equipamento: this.createForm.value.equipamento,
       idmov: this.createForm.value.idmov,
-      tempo_contratado: this.createForm.value.tempo_contratado,
       data_inicial: this.createForm.value.data_inicial
     };
 
@@ -103,6 +97,6 @@ export class EquipmentRentalComponent implements OnInit {
 
   onTryAgain(): void {
     this.isNotFound = false;
-    this.currentStep = 2;
+    this.currentStep = 1;
   };
 }

@@ -1,45 +1,14 @@
 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
   <section class="section" *ngIf="currentStep === 1 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
-      <mat-icon class="section__icon" routerLink="/dashboard">close</mat-icon>
-      <h3 class="section__title">Qual equipamento será locado?</h3>
-    </header>
-
-    <div>
-      <label class="section__label">insira o nome</label>
-      <input
-      type="text"
-      enterkeyhint="next"
-      placeholder="Nome do equipamento"
-      formControlName="equipamento"
-      class="section__input"
-      (keydown.enter)="$event.preventDefault(); nextStep()">
-    </div>
-
-    <footer class="section__footer">
-      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('equipamento')?.valid" class="section__button">
-        Continuar
-      </button>
-    </footer>
-  </section>
-
-  <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isNotFound && !isServerError">
-    <header class="section__header">
-      <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
+      <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
       <h3 class="section__title">Informe o idmov do equipamento locado</h3>
     </header>
 
     <div>
       <label class="section__label">Insira o código</label>
-      <input
-      type="text"
-      placeholder="idmov"
-      mask="00000"
-      inputmode="numeric"
-      enterkeyhint="next"
-      formControlName="idmov"
-      class="section__input"
-      (keydown.enter)="$event.preventDefault(); nextStep()" />
+      <input type="text" placeholder="idmov" inputmode="numeric" enterkeyhint="next" formControlName="idmov"
+        class="section__input">
     </div>
 
     <footer class="section__footer">
@@ -49,31 +18,7 @@
     </footer>
   </section>
 
-  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSuccess && !isNotFound && !isServerError">
-    <header class="section__header">
-      <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Informe o tempo de locação contratado</h3>
-    </header>
-
-    <div>
-      <label class="section__label">insira o tempo</label>
-      <select formControlName="tempo_contratado" class="section__input">
-        <option value="" disabled>Selecione um prazo</option>
-        <option value="DIA">Dia</option>
-        <option value="SEMANA">Semana</option>
-        <option value="QUINZENA">Quinzena</option>
-        <option value="MES">Mês</option>
-      </select>
-    </div>
-
-    <footer class="section__footer">
-      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('tempo_contratado')?.valid" class="section__button">
-        Continuar
-      </button>
-    </footer>
-  </section>
-
-  <section class="section" *ngIf="currentStep === 4 && !isLoading && !isSuccess && !isNotFound && !isServerError">
+  <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
       <h3 class="section__title">Qual a data de retirada do equipamento?</h3>
@@ -81,7 +26,7 @@
 
     <div>
       <label class="section__label">Insira a data</label>
-      <input type="date"formControlName="data_inicial" class="section__input">
+      <input type="date" formControlName="data_inicial" class="section__input">
     </div>
 
     <footer class="section__footer">
