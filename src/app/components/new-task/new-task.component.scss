@@ -30,14 +30,17 @@ $dark-white: #F3F3F3;
 $dark-black: #050505;
 $dark-gray: #808080;
 
+$light-blue: #0c67f6;
 $light-white: #FCFCFC;
 $light-gray: #C0C0C0;
 $light-black: #303030;
 
 .container {
-  width: 100%;
-  height: 100%;
-  padding: $gp-xl;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+
+  padding: $pd-xl;
   background-color: $dark-white;
 }
 
@@ -46,13 +49,8 @@ $light-black: #303030;
   height: 100%;
 
   gap: $gp-xl;
-
   display: grid;
   grid-template-rows: auto 1fr auto;
-
-  &--send {
-    grid-template-rows: 1fr;
-  }
 
   &__header {
     gap: $gp-lg;
@@ -67,34 +65,18 @@ $light-black: #303030;
     display: flex;
     flex-direction: column;
     overflow: auto;
-
-    &--center {
-      gap: $gp-xl;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
   }
 
   &__footer {
     width: 100%;
-    height: 100%;
+    height: auto;
   }
 
   &__label {
-    width: 100%;
-    height: auto;
-
     color: $dark-gray;
 
-    &--checkbox {
-      display: flex;
-      align-items: center;
-      justify-content: start;
-
-      cursor: pointer;
+    &--list {
       font-size: $fs-sm;
-      color: $dark-gray;
 
       padding: $pd-md 0;
       border-bottom: 1px solid $light-gray;
@@ -104,7 +86,7 @@ $light-black: #303030;
       }
 
       &:has(input[type="checkbox"]:checked) {
-        background-color: rgba(192, 192, 192, 0.4); // Usando rgba para clareza
+        background-color: rgba(192, 192, 192, 0.4);
       }
     }
 
@@ -130,17 +112,22 @@ $light-black: #303030;
 
     font-weight: 500;
     font-size: $fs-lg;
-    color: $light-black;
-
-    padding: $pd-md 0;
 
     border: none;
     outline: none;
-    border-bottom: 1px solid $light-gray;
+    padding: $pd-md 0;
+
+    color: $dark-gray;
     background-color: transparent;
+    border-bottom: 1px solid $light-gray;
+
 
     &::placeholder {
       color: $light-gray;
+    }
+
+    option {
+      color: $dark-gray;
     }
 
     &--file {
@@ -151,30 +138,41 @@ $light-black: #303030;
   &__title {
     color: $light-black;
 
-    font-size: $fs-xx;
     font-weight: 500;
+    font-size: $fs-xx;
   }
 
-  &__span {
-    width: 80%;
+  &__subtitle {
+    color: $dark-black;
+    font-size: $fs-md;
+  }
+
+  &__button {
+    width: 100%;
     height: auto;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
-    color: $dark-gray;
-    text-align: center;
+    border: none;
+    border-radius: $bd-df;
+    padding: $pd-lg;
+
+    color: $dark-white;
+    background-color: $light-blue;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   &__icon {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &--header {
-      color: $dark-gray;
-    }
 
     &--file {
       width: 100%;
@@ -184,28 +182,14 @@ $light-black: #303030;
     }
   }
 
-  &__button {
-    width: 100%;
+  &__image {
+    width: 250px;
     height: auto;
-
-    display: flex;
-    align-content: center;
-    justify-content: center;
-
-    color: $dark-white;
-
-    border: none;
-    border-radius: $bd-df;
-    cursor: pointer;
-
-    padding: $pd-lg;
-    background-color: $dark-blue;
   }
 }
 
 .loading {
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - (2 * $pd-xl));
 
   gap: $gp-sm;
   display: flex;
@@ -216,7 +200,7 @@ $light-black: #303030;
     width: $fs-xs;
     height: $fs-xs;
     border-radius: 50%;
-    background-color: $dark-blue;
+    background-color: $light-blue;
     animation: bounce 1.2s infinite ease-in-out;
 
     &:nth-child(1) {
