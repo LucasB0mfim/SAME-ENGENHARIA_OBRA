@@ -1,6 +1,6 @@
 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="container">
 
-  <section class="section" *ngIf="currentStep === 1">
+  <section class="section" *ngIf="currentStep === 1  && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
       <h1 class="section__title">Qual foi a atividade realizada?</h1>
@@ -9,6 +9,7 @@
     <div>
       <label class="section__label">
         Insira a descrição da atividade
+
         <input
         type="text"
         formControlName="descricao"
@@ -18,11 +19,43 @@
     </div>
 
     <footer class="section__footer">
-      <button type="button" (click)="nextStep()" class="section__button">Continuar</button>
+      <button
+      type="button"
+      (click)="nextStep()"
+      [disabled]="!createForm.get('descricao')?.valid"
+      class="section__button">Continuar</button>
     </footer>
   </section>
 
-  <section class="section" *ngIf="currentStep === 2">
+  <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isServerError">
+    <header class="section__header">
+      <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
+      <h1 class="section__title">Em qual centro de custo a atividade foi realizada?</h1>
+    </header>
+
+    <div class="section__content">
+      <span class="section__label">Centros de custo cadastrados</span>
+      <label
+        *ngFor="let cc of costCenter"
+        class="section__label section__label--list">
+        {{ cc }}
+
+        <input
+        type="radio"
+        formControlName="centroCusto"
+        [value]="cc">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button
+      type="button"
+      (click)="nextStep()"
+      class="section__button">Continuar</button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
       <h1 class="section__title">Qual a data de início da atividade?</h1>
@@ -31,6 +64,7 @@
     <div>
       <label class="section__label">
         Insira a data inicial
+
         <input
         type="date"
         formControlName="dataInicial"
@@ -39,11 +73,15 @@
     </div>
 
     <footer class="section__footer">
-      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+      <button
+      type="button"
+      (click)="nextStep()"
+      [disabled]="!createForm.get('dataInicial')?.valid"
+      class="section__button">Continuar</button>
     </footer>
   </section>
 
-  <section class="section" *ngIf="currentStep === 3">
+  <section class="section" *ngIf="currentStep === 4 && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
       <h1 class="section__title">Qual a data de término da atividade?</h1>
@@ -52,6 +90,7 @@
     <div>
       <label class="section__label">
         Insira a data final
+
         <input
         type="date"
         formControlName="dataFinal"
@@ -60,32 +99,46 @@
     </div>
 
     <footer class="section__footer">
-      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+      <button
+      type="button"
+      (click)="nextStep()"
+      [disabled]="!createForm.get('dataFinal')?.valid"
+      class="section__button">Continuar</button>
     </footer>
   </section>
 
-  <section class="section" *ngIf="currentStep === 4">
+  <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSuccess && !isServerError">
     <header (click)="prevStep()" class="section__header">
       <mat-icon class="section__icon section__icon--header">arrow_back_ios_new</mat-icon>
       <h1 class="section__title">Selecione quem será bonificado</h1>
     </header>
 
     <div class="section__content">
-      <span class="section__label">Lista de colaboradores</span>
-      <label *ngFor="let emp of employees; let i = index" class="section__label section__label--list">
+      <span class="section__label">
+        Lista de colaboradores
+      </span>
+
+      <label
+        *ngFor="let emp of employees; let i = index"
+        class="section__label section__label--list">
         {{ emp.nome }}
-        <input type="checkbox" [formControl]="getBonificadoControl(i)">
+
+        <input
+        type="checkbox"
+        [formControl]="getBonificadoControl(i)">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+      <button
+      type="button"
+      (click)="nextStep()"
+      class="section__button">Continuar</button>
     </footer>
   </section>
 
   <ng-container *ngFor="let funcao of selectedEmployeeFunctions; let i = index">
-
-    <section class="section" *ngIf="currentStep === 5 + i">
+    <section class="section" *ngIf="currentStep === 6 + i && !isLoading && !isSuccess && !isServerError">
       <header class="section__header">
         <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
         <h1 class="section__title">Qual o valor da bonificação para {{ funcao }}?</h1>
@@ -94,6 +147,7 @@
       <div>
         <label class="section__label">
           Insira o valor
+
           <input
           type="number"
           placeholder="Digite o valor"
@@ -103,13 +157,16 @@
       </div>
 
       <footer class="section__footer">
-        <button type="button" class="section__button" (click)="nextStep()">Continuar</button>
+        <button
+        type="button"
+        (click)="nextStep()"
+        [disabled]="!createForm.get('valoresFuncoes')?.valid"
+        class="section__button">Continuar</button>
       </footer>
     </section>
-
   </ng-container>
 
-  <section class="section" *ngIf="currentStep === 5 + selectedEmployeeFunctions.length">
+  <section class="section" *ngIf="currentStep === 6 + selectedEmployeeFunctions.length && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon class="section__icon" (click)="prevStep()">arrow_back_ios_new</mat-icon>
       <h1 class="section__title">Anexe a foto da sua prancheta</h1>
@@ -117,9 +174,19 @@
 
     <div>
       <label class="section__label section__label--file">
-        <mat-icon class="section__icon section__icon--file">cloud_upload</mat-icon>
-        <span class="section__span">{{ uploadedFile ? uploadedFile.name : 'Clique aqui para anexar a imagem' }}</span>
-        <input type="file" accept="image/*" (change)="onFileChange($event)" class="section__input--file">
+        <mat-icon class="section__icon section__icon--file">
+          cloud_upload
+        </mat-icon>
+
+        <span class="section__span">
+          {{ uploadedFile ? uploadedFile.name : 'Clique aqui para anexar a imagem' }}
+        </span>
+
+        <input
+        type="file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+        class="section__input--file">
       </label>
     </div>
 
@@ -128,7 +195,7 @@
     </footer>
   </section>
 
-  <section class="section" *ngIf="isLoading && !isSuccess && !isNotFound && !isServerError">
+  <section class="section" *ngIf="isLoading && !isSuccess && !isServerError">
     <div class="loading">
       <div class="loading__dot"></div>
       <div class="loading__dot"></div>
@@ -136,12 +203,12 @@
     </div>
   </section>
 
-  <section class="section" *ngIf="isSuccess && !isLoading && !isNotFound && !isServerError">
+  <section class="section" *ngIf="isSuccess && !isLoading && !isServerError">
     <header class="section__header">
       <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
     </header>
 
-    <div class="section__content">
+    <div class="section__content section__content--status">
       <img [src]="successIllustration" class="section__image">
       <h3 class="section__title">Bom trabalho!</h3>
       <p class="section__subtitle">
@@ -154,30 +221,12 @@
     </footer>
   </section>
 
-  <section class="section" *ngIf="isNotFound && !isLoading && !isSuccess && !isServerError">
+  <section class="section" *ngIf="isServerError && !isLoading && !isSuccess">
     <header class="section__header">
       <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
     </header>
 
-    <div class="section__content">
-      <img [src]="notFoundIllustration" class="section__image">
-      <h3 class="section__title">Que pena!</h3>
-      <p class="section__subtitle">
-        Não conseguimos encontrar o idmov que você informou. Tente novamente ou retorne para o início.
-      </p>
-    </div>
-
-    <footer class="section__footer">
-      <button type="button" class="section__button">Tentar novamente</button>
-    </footer>
-  </section>
-
-  <section class="section" *ngIf="isServerError && !isLoading && !isSuccess && !isNotFound">
-    <header class="section__header">
-      <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
-    </header>
-
-    <div class="section__content">
+    <div class="section__content section__content--status">
       <img [src]="serverErrorIllustration" class="section__image">
       <h3 class="section__title">Não pode ser...!</h3>
       <p class="section__subtitle">
