@@ -25,7 +25,6 @@ $mg-xl: 24px;
 
 $bd-df: 6px;
 
-$dark-blue: #003278;
 $dark-white: #F3F3F3;
 $dark-black: #050505;
 $dark-gray: #808080;
@@ -112,7 +111,7 @@ $light-black: #303030;
       gap: $gp-lg;
 
       border-radius: $bd-df;
-      border: 2px dashed $dark-blue;
+      border: 2px dashed $light-blue;
     }
   }
 
@@ -188,7 +187,7 @@ $light-black: #303030;
       width: 100%;
       height: auto;
       font-size: 54px;
-      color: $dark-blue;
+      color: $light-blue;
     }
   }
 

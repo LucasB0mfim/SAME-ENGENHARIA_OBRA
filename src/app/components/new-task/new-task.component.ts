@@ -43,7 +43,7 @@ export class NewTaskComponent implements OnInit {
   isSuccess: boolean = false;
   isServerError: boolean = false;
 
-  successIllustration: string = 'assets/images/success.png';
+  successIllustration: string = 'assets/images/task.png';
   serverErrorIllustration: string = 'assets/images/serverError.png';
 
   // ===== FORMULÁRIO ===== //
@@ -99,20 +99,20 @@ export class NewTaskComponent implements OnInit {
   onSubmit(): void {
     this.isLoading = true;
 
-    const formData = new FormData();
-    const criador = localStorage.getItem('name');
 
     const participantes = this.createForm.get('bonificados') as FormArray;
+
     const bonificados = this.employees
       .filter((_, i) => participantes.at(i).value)
       .map(emp => ({ nome: emp.nome, funcao: emp.funcao }));
 
-    if (!this.uploadedFile || !criador || !bonificados.length) {
-      alert('Todos os campos são necessários!');
+    if (!this.uploadedFile) {
+      alert('O envio da foto é obrigatório!');
       this.isLoading = false;
       return;
     }
 
+    const formData = new FormData();
     formData.append('criador', this.employeeInfo?.name);
     formData.append('centro_custo', this.createForm.value.centroCusto ?? '');
     formData.append('descricao', this.createForm.value.descricao ?? '');
@@ -124,7 +124,7 @@ export class NewTaskComponent implements OnInit {
       valor: Number(item.valor)
     })) ?? [];
 
-    formData.append('valoresFuncoes', JSON.stringify(valoresFuncoes));
+    formData.append('valores_funcoes', JSON.stringify(valoresFuncoes));
     formData.append('bonificados', JSON.stringify(bonificados));
     formData.append('foto_prancheta', this.uploadedFile, this.uploadedFile.name);
 
