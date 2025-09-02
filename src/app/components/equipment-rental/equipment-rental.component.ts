@@ -23,7 +23,7 @@ export class EquipmentRentalComponent implements OnInit {
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
     idmov: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    data_inicial: new FormControl('', Validators.required)
+    numero_documento: new FormControl('', [Validators.required, Validators.minLength(2)])
   });
 
   // ===== ESTADOS ===== //
@@ -35,11 +35,19 @@ export class EquipmentRentalComponent implements OnInit {
   isServerError: boolean = false;
 
   currentStep: number = 1;
-  maxStep: number = 2;
+  maxStep: number = 3;
+
+  uploadedFile: File | null = null;
+  compressedFile: File | null = null;
 
   successIllustration: string = 'assets/images/success.png';
   notFoundIllustration: string = 'assets/images/notFound.png';
   serverErrorIllustration: string = 'assets/images/serverError.png';
+
+  // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
+  private readonly MAX_WIDTH = 800;
+  private readonly MAX_HEIGHT = 600;
+  private readonly QUALITY = 0.3; // 30% de qualidade - baixa mas legível
 
   // ===== HOOK ===== //
   ngOnInit(): void {
@@ -58,14 +66,22 @@ export class EquipmentRentalComponent implements OnInit {
   onSubmit(): void {
     this.isLoading = true;
 
-    const request = {
-      criador: this.employeeInfo?.name,
-      funcao: this.employeeInfo?.role,
-      idmov: this.createForm.value.idmov,
-      data_inicial: this.createForm.value.data_inicial
-    };
+    if (!this.compressedFile && !this.uploadedFile) {
+      alert('O envio da foto é obrigatório!');
+      this.isLoading = false;
+      return;
+    }
 
-    this._equipamentRental.send(request)
+    const formData = new FormData();
+    formData.append('criador', this.employeeInfo.name);
+    formData.append('idmov', this.createForm.value.idmov || '');
+    formData.append('numero_documento', this.createForm.value.numero_documento || '');
+
+    // Usa a imagem comprimida se disponível, senão usa a original
+    const fileToSend = this.compressedFile || this.uploadedFile!;
+    formData.append('foto_equipamento', fileToSend, fileToSend.name);
+
+    this._equipamentRental.send(formData)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: () => {
@@ -99,4 +115,97 @@ export class EquipmentRentalComponent implements OnInit {
     this.isNotFound = false;
     this.currentStep = 1;
   };
+
+  // ===== CAPTURAR E COMPRIMIR IMAGEM ===== //
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.uploadedFile = input.files[0];
+
+      // Comprimir a imagem automaticamente
+      this.compressImage(this.uploadedFile)
+        .then(compressedFile => {
+          this.compressedFile = compressedFile;
+          console.log(`Imagem comprimida: ${(this.uploadedFile!.size / 1024).toFixed(0)}KB -> ${(compressedFile.size / 1024).toFixed(0)}KB`);
+        })
+        .catch(error => {
+          console.error('Erro ao comprimir imagem:', error);
+          // Em caso de erro na compressão, usa a imagem original
+          this.compressedFile = null;
+        });
+    }
+  }
+
+  // ===== FUNÇÃO SIMPLES DE COMPRESSÃO DE IMAGEM ===== //
+  private compressImage(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('Arquivo não é uma imagem'));
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        // Calcula as novas dimensões mantendo a proporção
+        let { width, height } = this.calculateNewDimensions(img.width, img.height);
+
+        // Define o tamanho do canvas
+        canvas.width = width;
+        canvas.height = height;
+
+        // Desenha a imagem redimensionada no canvas
+        ctx!.drawImage(img, 0, 0, width, height);
+
+        // Converte para JPEG com qualidade baixa
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const compressedFile = new File(
+                [blob],
+                file.name.replace(/\.[^/.]+$/, '_compressed.jpg'),
+                {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                }
+              );
+              resolve(compressedFile);
+            } else {
+              reject(new Error('Erro ao comprimir imagem'));
+            }
+          },
+          'image/jpeg',
+          this.QUALITY
+        );
+      };
+
+      img.onerror = () => {
+        reject(new Error('Erro ao carregar imagem'));
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  // ===== CALCULAR NOVAS DIMENSÕES ===== //
+  private calculateNewDimensions(originalWidth: number, originalHeight: number): { width: number, height: number } {
+    let width = originalWidth;
+    let height = originalHeight;
+
+    // Redimensiona se exceder os limites máximos
+    if (width > this.MAX_WIDTH) {
+      height = (height * this.MAX_WIDTH) / width;
+      width = this.MAX_WIDTH;
+    }
+
+    if (height > this.MAX_HEIGHT) {
+      width = (width * this.MAX_HEIGHT) / height;
+      height = this.MAX_HEIGHT;
+    }
+
+    return { width: Math.round(width), height: Math.round(height) };
+  }
 }
+

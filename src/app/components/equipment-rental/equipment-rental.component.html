@@ -2,13 +2,13 @@
   <section class="section" *ngIf="currentStep === 1 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
-      <h3 class="section__title">Informe o idmov do equipamento locado</h3>
+      <h3 class="section__title">Informe o <strong>ID</strong> do equipamento locado</h3>
     </header>
 
     <div>
       <label class="section__label">Insira o código</label>
       <input
-      type="text"
+      type="number"
       placeholder="idmov"
       inputmode="numeric"
       enterkeyhint="next"
@@ -27,19 +27,57 @@
   <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Qual a data de retirada do equipamento?</h3>
+      <h3 class="section__title">Qual o <strong>número</strong> do documento da locação?</h3>
     </header>
 
     <div>
-      <label class="section__label">Insira a data</label>
+      <label class="section__label">Insira o número</label>
       <input
-      type="date"
-      formControlName="data_inicial"
+      type="number"
+      placeholder="Número do documento"
+      inputmode="numeric"
+      enterkeyhint="next"
+      formControlName="numero_documento"
+      (keydown.enter)="$event.preventDefault(); nextStep()"
       class="section__input">
     </div>
 
     <footer class="section__footer">
-      <button type="submit" [disabled]="!createForm.get('data_inicial')?.valid" class="section__button">
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('numero_documento')?.valid" class="section__button">
+        Continuar
+      </button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSuccess && !isNotFound && !isServerError">
+    <header class="section__header">
+      <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
+      <h3 class="section__title">Anexe uma foto comprovando a retirada do(s) equipamento(s)</h3>
+    </header>
+
+    <div>
+      <label class="section__label section__label--file">
+        <mat-icon class="section__icon section__icon--file">
+          cloud_upload
+        </mat-icon>
+
+        <span class="section__span">
+          {{ uploadedFile ? uploadedFile.name : 'Clique aqui para anexar a imagem' }}
+        </span>
+
+        <input
+        type="file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+        class="section__input--file">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button
+      type="submit"
+      [disabled]="!uploadedFile"
+      class="section__button">
         Enviar
       </button>
     </footer>

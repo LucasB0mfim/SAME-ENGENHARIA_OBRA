@@ -15,8 +15,8 @@ export class EquipmentRentalService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  send(request: any): Observable<any> {
+  send(formData: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental', request, { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental', formData, { headers });
   }
 }
