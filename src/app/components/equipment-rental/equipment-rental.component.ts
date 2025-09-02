@@ -73,7 +73,7 @@ export class EquipmentRentalComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('criador', this.employeeInfo.name);
+    formData.append('criador', this.employeeInfo.email);
     formData.append('idmov', this.createForm.value.idmov || '');
     formData.append('numero_documento', this.createForm.value.numero_documento || '');
 
