@@ -37,13 +37,13 @@
       placeholder="Número do documento"
       inputmode="numeric"
       enterkeyhint="next"
-      formControlName="numero_documento"
+      formControlName="numero_contrato"
       (keydown.enter)="$event.preventDefault(); nextStep()"
       class="section__input">
     </div>
 
     <footer class="section__footer">
-      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('numero_documento')?.valid" class="section__button">
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('numero_contrato')?.valid" class="section__button">
         Continuar
       </button>
     </footer>

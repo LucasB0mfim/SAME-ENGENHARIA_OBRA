@@ -17,6 +17,6 @@ export class EquipmentRentalService {
 
   send(formData: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental', formData, { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental/create', formData, { headers });
   }
 }

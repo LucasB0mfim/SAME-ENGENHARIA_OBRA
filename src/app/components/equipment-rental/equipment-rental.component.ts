@@ -23,7 +23,7 @@ export class EquipmentRentalComponent implements OnInit {
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
     idmov: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    numero_documento: new FormControl('', [Validators.required, Validators.minLength(2)])
+    numero_contrato: new FormControl('', [Validators.required, Validators.minLength(2)])
   });
 
   // ===== ESTADOS ===== //
@@ -75,7 +75,7 @@ export class EquipmentRentalComponent implements OnInit {
     const formData = new FormData();
     formData.append('criador', this.employeeInfo.email);
     formData.append('idmov', this.createForm.value.idmov || '');
-    formData.append('numero_documento', this.createForm.value.numero_documento || '');
+    formData.append('numero_contrato', this.createForm.value.numero_contrato || '');
 
     // Usa a imagem comprimida se disponível, senão usa a original
     const fileToSend = this.compressedFile || this.uploadedFile!;
