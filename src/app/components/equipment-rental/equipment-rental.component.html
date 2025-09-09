@@ -2,14 +2,14 @@
   <section class="section" *ngIf="currentStep === 1 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
-      <h3 class="section__title">Informe o <strong>ID</strong> do equipamento locado</h3>
+      <h3 class="section__title">Informe o <strong>ID</strong> do contrato</h3>
     </header>
 
     <div>
       <label class="section__label">Insira o código</label>
       <input
       type="number"
-      placeholder="idmov"
+      placeholder="id"
       inputmode="numeric"
       enterkeyhint="next"
       formControlName="idmov"
@@ -27,7 +27,7 @@
   <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isNotFound && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios</mat-icon>
-      <h3 class="section__title">Qual o <strong>número</strong> do documento da locação?</h3>
+      <h3 class="section__title">Qual o <strong>número</strong> do contrato?</h3>
     </header>
 
     <div>
