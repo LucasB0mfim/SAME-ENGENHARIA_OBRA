@@ -79,7 +79,7 @@ export class EquipmentRentalComponent implements OnInit {
 
     // Usa a imagem comprimida se disponível, senão usa a original
     const fileToSend = this.compressedFile || this.uploadedFile!;
-    formData.append('foto_equipamento', fileToSend, fileToSend.name);
+    formData.append('foto_contrato', fileToSend, fileToSend.name);
 
     this._equipamentRental.send(formData)
       .pipe(finalize(() => this.isLoading = false))
