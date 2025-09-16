@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guard/auth.guard';
 
 import { LoginComponent } from './components/login/login.component';
+
+import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { authGuard } from './core/guard/auth.guard';
-import { NewTaskComponent } from './components/new-task/new-task.component';
-import { HomeComponent } from './components/home/home.component';
+
+import { NewTaskComponent } from './components/task/new-task/new-task.component';
+import { ManageTaskComponent } from './components/task/manage-task/manage-task.component';
+
 import { EquipmentRentalComponent } from './components/equipment-rental/equipment-rental.component';
 
 export const routes: Routes = [
@@ -25,6 +29,7 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'new-task', component: NewTaskComponent },
+      { path: 'manage-task', component: ManageTaskComponent },
       { path: 'equipment-rental', component: EquipmentRentalComponent }
     ]
   }

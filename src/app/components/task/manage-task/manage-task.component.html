@@ -1,0 +1,58 @@
+<div class="container">
+  <header class="container__header">
+    <mat-icon routerLink="/dashboard" class="section__icon">
+      close
+    </mat-icon>
+  </header>
+
+  <div class="container__section">
+    <h3 class="section__subtitle">Tarefas</h3>
+    <div class="section__group">
+      <mat-icon>diamond</mat-icon>
+      <span>{{ taskLength }}</span>
+    </div>
+  </div>
+
+  <div class="container__section">
+    <div class="section__group--flex">
+      <div class="section__item" routerLink="/dashboard/new-task">
+        <mat-icon class="section__icon section__icon--sm">add</mat-icon>
+        <p class="section__subtitle section__subtitle--sm">Cadastrar tarefa</p>
+      </div>
+      <div class="section__item" routerLink="/dashboard/new-task">
+        <mat-icon class="section__icon section__icon--sm">home</mat-icon>
+        <p class="section__subtitle section__subtitle--sm">Voltar ao dashboard</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container__section">
+    <h3 class="section__title">Histórico</h3>
+    <div *ngFor="let item of taskData" class="section__card">
+      @if (item.status === 'REPROVADO') {
+      <mat-icon class="card__icon card__icon--red">
+        close
+      </mat-icon>
+      } @else if (item.status === 'APROVADO') {
+      <mat-icon class="card__icon card__icon--green">
+        check
+      </mat-icon>
+      } @else {
+      <mat-icon class="card__icon card__icon--gray">
+        av_timer
+      </mat-icon>
+      }
+      <div>
+        <div class="card__title card__title--bold">{{ item.descricao }}</div>
+        <div class="card__subtitle">{{ item.centro_custo }}</div>
+      </div>
+      <div class="card__title card__title--bold">{{ formateDate(item.data_criacao) }}</div>
+    </div>
+
+    @if (isLoading) {
+    <div class="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+    }
+  </div>
+</div>

@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
-import { TaskService } from '../../core/services/task.service';
-import { EmployeeService } from '../../core/services/employee.service';
-import { EmployeesService } from '../../core/services/employees.service';
+import { TaskService } from '../../../core/services/task.service';
+import { EmployeeService } from '../../../core/services/employee.service';
+import { EmployeesService } from '../../../core/services/employees.service';
 
 @Component({
   selector: 'app-new-task',
@@ -119,7 +119,7 @@ export class NewTaskComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('criador', this.employeeInfo?.name);
+    formData.append('criador', this.employeeInfo?.email);
     formData.append('centro_custo', this.createForm.value.centroCusto ?? '');
     formData.append('descricao', this.createForm.value.descricao ?? '');
     formData.append('data_inicial', this.createForm.value.dataInicial ?? '');

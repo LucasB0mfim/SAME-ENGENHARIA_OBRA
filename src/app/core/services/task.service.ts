@@ -15,7 +15,12 @@ export class TaskService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  create(formData: any): Observable<any> {
+  findTaskByUser(user: any) {
+    const headers = this._createHeaders();
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/my-tasks/${user}`, { headers });
+  }
+
+  create(formData: any) {
     const headers = this._createHeaders();
     return this._httpClient.post<any>('https://sameengenharia.com.br/api/task', formData, { headers });
   }
