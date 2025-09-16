@@ -63,13 +63,13 @@ $light-black: #303030;
     display: flex;
     align-items: center;
 
-    font-size: 30px;
+    font-size: 40px;
     line-height: 20px;
 
     mat-icon {
       width: auto;
       height: auto;
-      font-size: 30px;
+      font-size: 40px;
     }
 
     &--flex {
@@ -80,14 +80,14 @@ $light-black: #303030;
 
   &__title {
     font-weight: 500;
-    font-size: $fs-md;
+    font-size: $fs-xl;
   }
 
   &__subtitle {
     color: $dark-gray;
 
     font-weight: 500;
-    font-size: $fs-sm;
+    font-size: $fs-lg;
 
     &--sm {
       color: $dark-black;
@@ -122,43 +122,48 @@ $light-black: #303030;
     background-color: $dark-white;
   }
 
-  &__card {
-    gap: $gp-md;
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto 1fr auto;
-    padding: $pd-md 0;
+  &__cards {
+    width: 100%;
+    height: 100%;
 
-    border-bottom: 1px solid $light-gray;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
 
 .card {
+  width: 100%;
+  height: auto;
+
+  gap: $gp-md;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
+  padding: $pd-xl 0;
+
+  border-bottom: 1px solid $light-gray;
 
   &__icon {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     border-radius: 50%;
-    font-size: $fs-xl;
+    font-size: 28px;
 
-    color: $light-black;
-    background-color: $light-gray;
-
-    &--red {
-      color: #d63031;
-      background-color: #f19191;
-    }
-
-    &--green {
-      color: #6ccc58;
-      background-color: #a6f191d0;
-    }
+    color: $dark-gray;
+    background-color: $dark-white;
   }
 
   &__title {
@@ -168,7 +173,6 @@ $light-black: #303030;
     text-overflow: ellipsis;
 
     font-size: $fs-xs;
-    line-height: 14px;
     font-weight: 600;
     color: $light-black;
   }

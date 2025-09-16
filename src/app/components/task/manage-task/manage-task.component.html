@@ -19,7 +19,7 @@
         <mat-icon class="section__icon section__icon--sm">add</mat-icon>
         <p class="section__subtitle section__subtitle--sm">Cadastrar tarefa</p>
       </div>
-      <div class="section__item" routerLink="/dashboard/new-task">
+      <div class="section__item" routerLink="/dashboard">
         <mat-icon class="section__icon section__icon--sm">home</mat-icon>
         <p class="section__subtitle section__subtitle--sm">Voltar ao dashboard</p>
       </div>
@@ -28,25 +28,27 @@
 
   <div class="container__section">
     <h3 class="section__title">Histórico</h3>
-    <div *ngFor="let item of taskData" class="section__card">
-      @if (item.status === 'REPROVADO') {
-      <mat-icon class="card__icon card__icon--red">
-        close
-      </mat-icon>
-      } @else if (item.status === 'APROVADO') {
-      <mat-icon class="card__icon card__icon--green">
-        check
-      </mat-icon>
-      } @else {
-      <mat-icon class="card__icon card__icon--gray">
-        av_timer
-      </mat-icon>
-      }
-      <div>
-        <div class="card__title card__title--bold">{{ item.descricao }}</div>
-        <div class="card__subtitle">{{ item.centro_custo }}</div>
+    <div class="sectio__cards">
+      <div *ngFor="let item of taskData" class="card">
+        @if (item.status === 'REPROVADO') {
+        <mat-icon class="card__icon">
+          close
+        </mat-icon>
+        } @else if (item.status === 'APROVADO') {
+        <mat-icon class="card__icon">
+          check
+        </mat-icon>
+        } @else {
+        <mat-icon class="card__icon">
+          av_timer
+        </mat-icon>
+        }
+        <div>
+          <div class="card__title card__title--bold">{{ item.descricao }}</div>
+          <div class="card__subtitle">{{ item.centro_custo }}</div>
+        </div>
+        <div class="card__title card__title--bold">{{ formateDate(item.data_criacao) }}</div>
       </div>
-      <div class="card__title card__title--bold">{{ formateDate(item.data_criacao) }}</div>
     </div>
 
     @if (isLoading) {
