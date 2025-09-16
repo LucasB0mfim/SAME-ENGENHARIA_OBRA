@@ -37,6 +37,7 @@ export class NewTaskComponent implements OnInit {
   totalSteps = 7;
 
   uploadedFile: File | null = null;
+  compressedFile: File | null = null;
   selectedEmployeeFunctions: string[] = [];
 
   isLoading: boolean = false;
@@ -45,6 +46,11 @@ export class NewTaskComponent implements OnInit {
 
   successIllustration: string = 'assets/images/task.png';
   serverErrorIllustration: string = 'assets/images/serverError.png';
+
+  // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
+  private readonly MAX_WIDTH = 800;
+  private readonly MAX_HEIGHT = 600;
+  private readonly QUALITY = 0.3;
 
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
@@ -126,7 +132,9 @@ export class NewTaskComponent implements OnInit {
 
     formData.append('valores_funcoes', JSON.stringify(valoresFuncoes));
     formData.append('bonificados', JSON.stringify(bonificados));
-    formData.append('foto_prancheta', this.uploadedFile, this.uploadedFile.name);
+
+    const fileToSend = this.compressedFile || this.uploadedFile!;
+    formData.append('foto_prancheta', fileToSend, fileToSend.name);
 
     this._taskService.create(formData).pipe(finalize(() => this.isLoading = false)).subscribe({
       next: () => {
@@ -158,10 +166,96 @@ export class NewTaskComponent implements OnInit {
     if (this.currentStep > 1) this.currentStep--;
   }
 
-  // ===== CAPTURAR IMAGEM ===== //
+  // ===== CAPTURAR E COMPRIMIR IMAGEM ===== //
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files?.length) this.uploadedFile = input.files[0];
+    if (input.files?.length) {
+      this.uploadedFile = input.files[0];
+
+      // Comprimir a imagem automaticamente
+      this.compressImage(this.uploadedFile)
+        .then(compressedFile => {
+          this.compressedFile = compressedFile;
+          console.log(`Imagem comprimida: ${(this.uploadedFile!.size / 1024).toFixed(0)}KB -> ${(compressedFile.size / 1024).toFixed(0)}KB`);
+        })
+        .catch(error => {
+          console.error('Erro ao comprimir imagem:', error);
+          // Em caso de erro na compressão, usa a imagem original
+          this.compressedFile = null;
+        });
+    }
+  }
+
+  // ===== FUNÇÃO SIMPLES DE COMPRESSÃO DE IMAGEM ===== //
+  private compressImage(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('Arquivo não é uma imagem'));
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        // Calcula as novas dimensões mantendo a proporção
+        let { width, height } = this.calculateNewDimensions(img.width, img.height);
+
+        // Define o tamanho do canvas
+        canvas.width = width;
+        canvas.height = height;
+
+        // Desenha a imagem redimensionada no canvas
+        ctx!.drawImage(img, 0, 0, width, height);
+
+        // Converte para JPEG com qualidade baixa
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const compressedFile = new File(
+                [blob],
+                file.name.replace(/\.[^/.]+$/, '_compressed.jpg'),
+                {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                }
+              );
+              resolve(compressedFile);
+            } else {
+              reject(new Error('Erro ao comprimir imagem'));
+            }
+          },
+          'image/jpeg',
+          this.QUALITY
+        );
+      };
+
+      img.onerror = () => {
+        reject(new Error('Erro ao carregar imagem'));
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  // ===== CALCULAR NOVAS DIMENSÕES ===== //
+  private calculateNewDimensions(originalWidth: number, originalHeight: number): { width: number, height: number } {
+    let width = originalWidth;
+    let height = originalHeight;
+
+    // Redimensiona se exceder os limites máximos
+    if (width > this.MAX_WIDTH) {
+      height = (height * this.MAX_WIDTH) / width;
+      width = this.MAX_WIDTH;
+    }
+
+    if (height > this.MAX_HEIGHT) {
+      width = (width * this.MAX_HEIGHT) / height;
+      height = this.MAX_HEIGHT;
+    }
+
+    return { width: Math.round(width), height: Math.round(height) };
   }
 
   // ===== MÉTODO PARA CAPTURAR FUNÇÃO E VALOR DO COLABORADOR ===== //

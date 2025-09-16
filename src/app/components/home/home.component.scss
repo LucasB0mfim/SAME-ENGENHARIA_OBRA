@@ -102,6 +102,10 @@ $img-large: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
   &__subtitle {
     font-weight: 500;
     font-size: $fs-small;
+
+    &--bold {
+      font-weight: 600;
+    }
   }
 
   &__content {
@@ -149,6 +153,22 @@ $img-large: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
     &--disabled {
       color: #cccccc;
     }
+  }
+
+  &__span {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    gap: $gap-small;
+    padding: $padding-small;
+
+    border-radius: $border--small;
+    background-color: $dark-white;
   }
 
   &__icon {

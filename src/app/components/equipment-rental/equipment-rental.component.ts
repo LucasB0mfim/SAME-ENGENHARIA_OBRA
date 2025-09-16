@@ -47,7 +47,7 @@ export class EquipmentRentalComponent implements OnInit {
   // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
   private readonly MAX_WIDTH = 800;
   private readonly MAX_HEIGHT = 600;
-  private readonly QUALITY = 0.3; // 30% de qualidade - baixa mas legível
+  private readonly QUALITY = 0.3;
 
   // ===== HOOK ===== //
   ngOnInit(): void {

@@ -35,6 +35,10 @@ export class HomeComponent implements OnInit {
     });
   };
 
+  openForm(): void {
+    window.open('https://docs.google.com/forms/d/1h_UFcDfnbMmu710rZQ4pqF8_B-RnQUFs_7FsP_AREPc/edit', "_blank", "noopener,noreferrer");
+  };
+
   onLogout(): void {
     this._login.logout();
   }
