@@ -48,14 +48,8 @@ export class LoginComponent {
           this._router.navigate(['dashboard/home']);
         },
         error: (err) => {
+          this.setMessage(err.error.message, 'error');
           console.error('Erro ao solicitar acesso: ', err);
-          if (err.status === 400) {
-            this.setMessage('Preencha todos os campos!', 'error');
-          } else if (err.status === 401) {
-            this.setMessage('Dados inválidos. Verifique seu e-mail e senha!', 'error');
-          } else {
-            this.setMessage('Erro no servidor. Tente outra hora!', 'error');
-          }
         }
       });
   }

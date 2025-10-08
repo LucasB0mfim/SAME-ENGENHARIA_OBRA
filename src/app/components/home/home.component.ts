@@ -18,18 +18,18 @@ export class HomeComponent implements OnInit {
 
   employeeInfo: any = null;
 
-  avatar: string = '';
+  avatar: string = 'assets/images/avatar.png';
   username: string = '';
-  avatarDefault: string = 'assets/images/avatar.png';
 
   ngOnInit(): void {
     this._employeeService.getInfo().subscribe({
       next: (res) => {
         this.employeeInfo = res.employee;
         this.username = this.employeeInfo.username || 'Usuário';
-        this.avatar = this.employeeInfo.avatar || this.avatarDefault;
+        this.avatar = this.employeeInfo.avatar || 'assets/images/avatar.png';
       },
       error: (err) => {
+        this.avatar = 'assets/images/avatar.png';
         console.error('Erro ao carregar dados do colaborador: ', err);
       }
     });
