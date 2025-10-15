@@ -90,15 +90,24 @@
     </div>
   </section>
 
+  <section class="section">
+    <h2 class="section__title">Meu Transporte</h2>
+    <div class="section__content">
+      <div class="section__item" routerLink="/dashboard/request-transport">
+        <mat-icon class="section__icon section__icon--small">directions_bus</mat-icon>
+        <p class="section__subtitle">Solicitar VT</p>
+      </div>
+
+      <div class="section__item" routerLink="/dashboard/cancel-transport">
+        <mat-icon class="section__icon section__icon--small">no_transfer</mat-icon>
+        <p class="section__subtitle">Cancelar VT</p>
+      </div>
+    </div>
+  </section>
+
   <footer class="section">
     <h2 class="section__title">Mais opções</h2>
     <div class="section__content">
-
-      <div class="section__item" routerLink="/dashboard/cancel-transport">
-        <mat-icon class="section__icon section__icon--small">directions_bus</mat-icon>
-        <p class="section__subtitle">Cancelar VR</p>
-      </div>
-
       <div class="section__item section__item--disabled">
         <mat-icon class="section__icon section__icon--small">settings</mat-icon>
         <p class="section__subtitle">Configuração</p>

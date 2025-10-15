@@ -41,8 +41,8 @@ export class EquipmentRentalComponent implements OnInit {
   compressedFile: File | null = null;
 
   successIllustration: string = 'assets/images/success.png';
-  notFoundIllustration: string = 'assets/images/notFound.png';
-  serverErrorIllustration: string = 'assets/images/serverError.png';
+  notFoundIllustration: string = 'assets/images/not-found.png';
+  serverErrorIllustration: string = 'assets/images/error.png';
 
   // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
   private readonly MAX_WIDTH = 800;

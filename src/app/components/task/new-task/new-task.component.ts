@@ -44,8 +44,8 @@ export class NewTaskComponent implements OnInit {
   isSuccess: boolean = false;
   isServerError: boolean = false;
 
-  successIllustration: string = 'assets/images/task.png';
-  serverErrorIllustration: string = 'assets/images/serverError.png';
+  successIllustration: string = 'assets/images/success.png';
+  serverErrorIllustration: string = 'assets/images/error.png';
 
   // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
   private readonly MAX_WIDTH = 800;

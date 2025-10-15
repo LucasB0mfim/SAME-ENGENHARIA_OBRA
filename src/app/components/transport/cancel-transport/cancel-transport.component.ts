@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { UserService } from '../../core/services/user.service';
-import { CancelTransportService } from '../../core/services/cancel-transport.service';
+import { UserService } from '../../../core/services/user.service';
+import { CancelTransportService } from '../../../core/services/cancel-transport.service';
 
 @Component({
   selector: 'app-cancel-transport',
@@ -47,8 +47,8 @@ export class CancelTransportComponent implements OnInit {
   isSuccess: boolean = false;
   isServerError: boolean = false;
 
-  successIllustration: string = 'assets/images/task.png';
-  serverErrorIllustration: string = 'assets/images/serverError.png';
+  successIllustration: string = 'assets/images/success.png';
+  serverErrorIllustration: string = 'assets/images/error.png';
 
   createForm = new FormGroup({
     motivo: new FormControl('', Validators.required),
@@ -71,6 +71,7 @@ export class CancelTransportComponent implements OnInit {
 
     const request = {
       chapa: this.userData.chapa,
+      tipo: 'CANCELAMENTO',
       motivo: this.createForm.value.motivo,
       endereco: this.createForm.value.endereco
     };

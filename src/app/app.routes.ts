@@ -6,12 +6,12 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-
 import { NewTaskComponent } from './components/task/new-task/new-task.component';
 import { ManageTaskComponent } from './components/task/manage-task/manage-task.component';
 
 import { EquipmentRentalComponent } from './components/equipment-rental/equipment-rental.component';
-import { CancelTransportComponent } from './components/cancel-transport/cancel-transport.component';
+import { CancelTransportComponent } from './components/transport/cancel-transport/cancel-transport.component';
+import { RequestTransportComponent } from './components/transport/request-transport/request-transport.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +32,7 @@ export const routes: Routes = [
       { path: 'new-task', component: NewTaskComponent },
       { path: 'manage-task', component: ManageTaskComponent },
       { path: 'equipment-rental', component: EquipmentRentalComponent },
+      { path: 'request-transport', component: RequestTransportComponent },
       { path: 'cancel-transport', component: CancelTransportComponent }
     ]
   }

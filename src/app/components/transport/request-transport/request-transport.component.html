@@ -10,8 +10,13 @@
       <label class="section__label">
         Insira o endereço
 
-        <input type="text" formControlName="endereco" placeholder="Rua Arthur Lopes, 218" enterkeyhint="next"
-          (keydown.enter)="$event.preventDefault(); nextStep()" class="section__input">
+        <input
+          type="text"
+          formControlName="endereco"
+          placeholder="Rua Arthur Lopes, 218"
+          enterkeyhint="next"
+          (keydown.enter)="$event.preventDefault(); nextStep()"
+          class="section__input">
       </label>
     </div>
 
@@ -24,28 +29,96 @@
   <section class="section" *ngIf="currentStep === 2 && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
-      <h1 class="section__title">Nos diga o <strong>motivo</strong> do cancelamento</h1>
+      <h1 class="section__title">Nos diga o <strong>motivo</strong> da solicitação</h1>
     </header>
 
     <div class="section__content">
-      <span class="section__label">Selecione uma opção</span>
-      <label *ngFor="let reason of reasons" class="section__label section__label--list">
+      <label class="section__label">Selecione uma opção</label>
+
+      <label
+        *ngFor="let reason of reasons"
+        class="section__label section__label--list">
         {{ reason }}
 
-        <input type="radio" formControlName="motivo" [value]="reason">
+        <input
+        type="radio"
+        formControlName="motivo"
+        [value]="reason">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('motivo')?.valid"
-        class="section__button">Continuar</button>
+      <button
+        type="button"
+        (click)="nextStep()"
+        [disabled]="!createForm.get('motivo')?.valid"
+        class="section__button">
+        Continuar
+      </button>
     </footer>
   </section>
 
   <section class="section" *ngIf="currentStep === 3 && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
-      <h1 class="section__title"><strong>Termos e condições</strong> do cancelamento</h1>
+      <h1 class="section__title">Que tipo de <strong>transporte</strong> você vai usar?</h1>
+    </header>
+
+    <div class="section__content">
+      <span class="section__label">Selecione uma opção</span>
+
+      <label
+        *ngFor="let option of options"
+        class="section__label section__label--list">
+        {{ option }}
+
+        <input
+          type="radio"
+          formControlName="transporte"
+          [value]="option">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('transporte')?.valid"
+        class="section__button">Continuar</button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 4  && !isLoading && !isSuccess && !isServerError">
+    <header class="section__header">
+      <mat-icon routerLink="/dashboard" class="section__icon">close</mat-icon>
+      <h1 class="section__title"><strong>Quantos</strong> vales você precisa por dia?</h1>
+    </header>
+
+    <div>
+      <label class="section__label">
+        Insira uma quantidade
+
+        <input
+          type="number"
+          formControlName="quantidade"
+          placeholder="2" enterkeyhint="next"
+          (keydown.enter)="$event.preventDefault(); nextStep()"
+          class="section__input">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button
+        type="button"
+        (click)="nextStep()"
+        [disabled]="!createForm.get('quantidade')?.valid"
+        class="section__button">
+        Continuar
+      </button>
+    </footer>
+  </section>
+
+  <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSuccess && !isServerError">
+    <header class="section__header">
+      <mat-icon (click)="prevStep()" class="section__icon">arrow_back_ios_new</mat-icon>
+      <h1 class="section__title"><strong>Termos e condições</strong> da solicitação</h1>
     </header>
 
     <div>
@@ -58,8 +131,8 @@
 
     <footer class="section__footer">
       <button
-      type="submit"
-      class="section__button">
+        type="submit"
+        class="section__button">
         Eu Aceito
       </button>
     </footer>
@@ -82,7 +155,7 @@
       <img [src]="successIllustration" class="section__image">
       <h3 class="section__title">Show de bola!</h3>
       <p class="section__subtitle">
-        Sua tarefa foi cadastrada com sucesso e será analisada pelo setor responsável. Missão quase completa!
+        Sua solicitação foi enviado com sucesso e será analisada pelo setor responsável. Missão quase completa!
       </p>
     </div>
 
