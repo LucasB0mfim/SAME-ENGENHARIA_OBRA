@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class CancelTransportService {
 
   private readonly _httpClient = inject(HttpClient);
 
@@ -15,8 +15,8 @@ export class EmployeeService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getInfo(): Observable<any> {
+  create(request: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/user', { headers });
-  }
+    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/cancel-transport`, request, { headers });
+  };
 }

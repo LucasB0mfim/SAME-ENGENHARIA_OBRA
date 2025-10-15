@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginService } from '../../core/services/login.service';
-import { EmployeeService } from '../../core/services/employee.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -14,18 +14,15 @@ import { EmployeeService } from '../../core/services/employee.service';
 export class HomeComponent implements OnInit {
 
   private readonly _login = inject(LoginService);
-  private readonly _employeeService = inject(EmployeeService);
+  private readonly _userService = inject(UserService);
 
   employeeInfo: any = null;
-
   avatar: string = 'assets/images/avatar.png';
-  username: string = '';
 
   ngOnInit(): void {
-    this._employeeService.getInfo().subscribe({
+    this._userService.getInfo().subscribe({
       next: (res) => {
-        this.employeeInfo = res.employee;
-        this.username = this.employeeInfo.username || 'Usuário';
+        this.employeeInfo = res.result;
         this.avatar = this.employeeInfo.avatar || 'assets/images/avatar.png';
       },
       error: (err) => {

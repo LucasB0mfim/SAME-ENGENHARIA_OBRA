@@ -6,7 +6,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { EquipmentRentalService } from '../../core/services/equipment-rental.service';
-import { EmployeeService } from '../../core/services/employee.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-equipment-rental',
@@ -18,7 +18,7 @@ export class EquipmentRentalComponent implements OnInit {
 
   // ===== INJEÇÃO DE DEPENDÊNCIA ===== //
   private readonly _equipamentRental = inject(EquipmentRentalService);
-  private readonly _employeeService = inject(EmployeeService);
+  private readonly _userService = inject(UserService);
 
   // ===== FORMULÁRIO ===== //
   createForm = new FormGroup({
@@ -51,7 +51,7 @@ export class EquipmentRentalComponent implements OnInit {
 
   // ===== HOOK ===== //
   ngOnInit(): void {
-    this._employeeService.getInfo().subscribe({
+    this._userService.getInfo().subscribe({
       next: (res) => {
         this.employeeInfo = res.employee;
       },

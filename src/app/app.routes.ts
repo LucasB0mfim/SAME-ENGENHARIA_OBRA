@@ -11,6 +11,7 @@ import { NewTaskComponent } from './components/task/new-task/new-task.component'
 import { ManageTaskComponent } from './components/task/manage-task/manage-task.component';
 
 import { EquipmentRentalComponent } from './components/equipment-rental/equipment-rental.component';
+import { CancelTransportComponent } from './components/cancel-transport/cancel-transport.component';
 
 export const routes: Routes = [
   {
@@ -30,7 +31,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'new-task', component: NewTaskComponent },
       { path: 'manage-task', component: ManageTaskComponent },
-      { path: 'equipment-rental', component: EquipmentRentalComponent }
+      { path: 'equipment-rental', component: EquipmentRentalComponent },
+      { path: 'cancel-transport', component: CancelTransportComponent }
     ]
   }
 ];

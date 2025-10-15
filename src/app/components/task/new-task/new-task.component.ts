@@ -6,7 +6,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { TaskService } from '../../../core/services/task.service';
-import { EmployeeService } from '../../../core/services/employee.service';
+import { UserService } from '../../../core/services/user.service';
 import { EmployeesService } from '../../../core/services/employees.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class NewTaskComponent implements OnInit {
 
   // ===== INJEÇÃO DE DEPENDÊNCIAS ===== //
   private readonly _taskService = inject(TaskService);
-  private readonly _employeeService = inject(EmployeeService);
+  private readonly _userService = inject(UserService);
   private readonly _employeesService = inject(EmployeesService);
 
   // ===== ESTADOS ===== //
@@ -91,7 +91,7 @@ export class NewTaskComponent implements OnInit {
 
   // ===== BUSCAR INFORMAÇÕES DO USUÁRIO ===== //
   getUserInfo(): void {
-    this._employeeService.getInfo().subscribe({
+    this._userService.getInfo().subscribe({
       next: (res) => {
         this.employeeInfo = res.employee;
       },

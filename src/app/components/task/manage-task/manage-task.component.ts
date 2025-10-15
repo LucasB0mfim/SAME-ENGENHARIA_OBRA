@@ -6,7 +6,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { TaskService } from '../../../core/services/task.service';
-import { EmployeeService } from '../../../core/services/employee.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-manage-task',
@@ -21,7 +21,7 @@ import { EmployeeService } from '../../../core/services/employee.service';
 })
 export class ManageTaskComponent implements OnInit {
   private readonly _taskService = inject(TaskService);
-  private readonly _userService = inject(EmployeeService);
+  private readonly _userService = inject(UserService);
 
   userData: any = [];
   taskData: any = [];
