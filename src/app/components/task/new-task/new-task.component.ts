@@ -93,7 +93,7 @@ export class NewTaskComponent implements OnInit {
   getUserInfo(): void {
     this._userService.getInfo().subscribe({
       next: (res) => {
-        this.employeeInfo = res.employee;
+        this.employeeInfo = res.result;
       },
       error: (err) => {
         console.error('Erro ao carregar dados do colaborador: ', err);
