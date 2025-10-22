@@ -7,7 +7,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { UserService } from '../../../core/services/user.service';
-import { CancelTransportService } from '../../../core/services/cancel-transport.service';
+import { TransportService } from '../../../core/services/transport.service';
 
 @Component({
   selector: 'app-request-transport',
@@ -24,7 +24,7 @@ import { CancelTransportService } from '../../../core/services/cancel-transport.
 export class RequestTransportComponent implements OnInit {
 
   private readonly _userService = inject(UserService);
-  private readonly _cancelService = inject(CancelTransportService);
+  private readonly _transportService = inject(TransportService);
 
   options: any = [
     'ÔNIBUS',
@@ -78,14 +78,14 @@ export class RequestTransportComponent implements OnInit {
 
     const request = {
       chapa: this.userData.chapa,
-      tipo: 'SOLICITAÇÃO',
+      tipo: 'SOLICITACAO',
       motivo: this.createForm.value.motivo,
       endereco: this.createForm.value.endereco,
       transporte: this.createForm.value.transporte,
       quantidade: this.createForm.value.quantidade
     };
 
-    this._cancelService.create(request)
+    this._transportService.create(request)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: () => {

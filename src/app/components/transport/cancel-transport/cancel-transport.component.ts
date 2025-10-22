@@ -7,7 +7,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { UserService } from '../../../core/services/user.service';
-import { CancelTransportService } from '../../../core/services/cancel-transport.service';
+import { TransportService } from '../../../core/services/transport.service';
 
 @Component({
   selector: 'app-cancel-transport',
@@ -23,7 +23,7 @@ import { CancelTransportService } from '../../../core/services/cancel-transport.
 })
 export class CancelTransportComponent implements OnInit {
 
-  private readonly _cancelService = inject(CancelTransportService);
+  private readonly _transportService = inject(TransportService);
   private readonly _userService = inject(UserService);
 
   reasons: any = [
@@ -76,7 +76,7 @@ export class CancelTransportComponent implements OnInit {
       endereco: this.createForm.value.endereco
     };
 
-    this._cancelService.create(request)
+    this._transportService.create(request)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: () => {

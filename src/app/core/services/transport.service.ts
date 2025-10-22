@@ -5,7 +5,7 @@ import { inject, Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class CancelTransportService {
+export class TransportService {
 
   private readonly _httpClient = inject(HttpClient);
 
@@ -17,6 +17,6 @@ export class CancelTransportService {
 
   create(request: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/cancel-transport`, request, { headers });
+    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/transport`, request, { headers });
   };
 }
