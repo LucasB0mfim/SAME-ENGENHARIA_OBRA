@@ -12,6 +12,7 @@ import { ManageTaskComponent } from './components/task/manage-task/manage-task.c
 import { EquipmentRentalComponent } from './components/equipment-rental/equipment-rental.component';
 import { CancelTransportComponent } from './components/transport/cancel-transport/cancel-transport.component';
 import { RequestTransportComponent } from './components/transport/request-transport/request-transport.component';
+import { DisciplinaryMeasureComponent } from './components/operational/disciplinary-measure/disciplinary-measure.component';
 
 export const routes: Routes = [
   {
@@ -33,7 +34,8 @@ export const routes: Routes = [
       { path: 'manage-task', component: ManageTaskComponent },
       { path: 'equipment-rental', component: EquipmentRentalComponent },
       { path: 'request-transport', component: RequestTransportComponent },
-      { path: 'cancel-transport', component: CancelTransportComponent }
+      { path: 'cancel-transport', component: CancelTransportComponent },
+      { path: 'disciplinary-measure', component: DisciplinaryMeasureComponent }
     ]
   }
 ];

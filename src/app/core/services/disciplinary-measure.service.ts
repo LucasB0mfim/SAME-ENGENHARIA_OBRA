@@ -5,8 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesService {
-
+export class DisciplinaryMeasureService {
   private readonly _httpClient = inject(HttpClient);
 
   private _createHeaders(): HttpHeaders {
@@ -15,13 +14,8 @@ export class EmployeesService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  findBasicInfo(): Observable<any> {
+  create(request: any) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee', { headers });
-  }
-
-  findActiveNames(): Observable<any> {
-    const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee/active-names', { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/disciplinary-measure', request, { headers });
   }
 }
