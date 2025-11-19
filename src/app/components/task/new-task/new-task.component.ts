@@ -31,7 +31,7 @@ export class NewTaskComponent implements OnInit {
   // ===== ESTADOS ===== //
   employees: any[] = [];
   costCenter: any = null;
-  employeeInfo: any = null;
+  userData: any = null;
 
   currentStep = 1;
   totalSteps = 7;
@@ -93,10 +93,10 @@ export class NewTaskComponent implements OnInit {
   getUserInfo(): void {
     this._userService.getInfo().subscribe({
       next: (res) => {
-        this.employeeInfo = res.result;
+        this.userData = res.result;
       },
       error: (err) => {
-        console.error('Erro ao carregar dados do colaborador: ', err);
+        console.error(err.error.message, err);
       }
     });
   }
@@ -119,7 +119,7 @@ export class NewTaskComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('criador', this.employeeInfo?.email);
+    formData.append('chapa', this.userData.chapa);
     formData.append('centro_custo', this.createForm.value.centroCusto ?? '');
     formData.append('descricao', this.createForm.value.descricao ?? '');
     formData.append('data_inicial', this.createForm.value.dataInicial ?? '');
