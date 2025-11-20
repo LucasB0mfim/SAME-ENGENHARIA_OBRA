@@ -30,6 +30,7 @@ export class NewTaskComponent implements OnInit {
 
   // ===== ESTADOS ===== //
   employees: any[] = [];
+  filteredEmployees: any[] = [];
   costCenter: any = null;
   userData: any = null;
 
@@ -46,6 +47,8 @@ export class NewTaskComponent implements OnInit {
 
   successIllustration: string = 'assets/images/success.png';
   serverErrorIllustration: string = 'assets/images/error.png';
+
+  searchEmployee: string = '';
 
   // ===== CONFIGURAÇÕES FIXAS DE COMPRESSÃO ===== //
   private readonly MAX_WIDTH = 800;
@@ -73,6 +76,7 @@ export class NewTaskComponent implements OnInit {
     this._employeesService.findBasicInfo().subscribe({
       next: (res) => {
         this.employees = res.result;
+        this.filteredEmployees = [...this.employees];
 
         this.costCenter = [
           ...new Set(this.employees.map((emp) => emp.centro_custo))
@@ -99,6 +103,31 @@ export class NewTaskComponent implements OnInit {
         console.error(err.error.message, err);
       }
     });
+  }
+
+  // ===== FILTRAR COLABORADORES ===== //
+  applyFilters(): void {
+    let data = [...this.employees];
+
+    if (this.searchEmployee) {
+      const inputValue = this.searchEmployee
+        .toUpperCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
+      data = data.filter(emp => {
+        if (!emp.nome) return false;
+
+        const nome = emp.nome
+          .toUpperCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+
+        return nome.includes(inputValue);
+      });
+    }
+
+    this.filteredEmployees = data;
   }
 
   // ===== ENVIAR FORMULÁRIO ===== //

@@ -10,22 +10,14 @@
       <label class="section__label">
         Insira a descrição da atividade
 
-        <input
-        type="text"
-        formControlName="descricao"
-        placeholder="Digite a descrição"
-        enterkeyhint="next"
-        (keydown.enter)="$event.preventDefault(); nextStep()"
-        class="section__input">
+        <input type="text" formControlName="descricao" placeholder="Digite a descrição" enterkeyhint="next"
+          (keydown.enter)="$event.preventDefault(); nextStep()" class="section__input">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button
-      type="button"
-      (click)="nextStep()"
-      [disabled]="!createForm.get('descricao')?.valid"
-      class="section__button">Continuar</button>
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('descricao')?.valid"
+        class="section__button">Continuar</button>
     </footer>
   </section>
 
@@ -37,24 +29,16 @@
 
     <div class="section__content">
       <span class="section__label">Centros de custo cadastrados</span>
-      <label
-        *ngFor="let cc of costCenter"
-        class="section__label section__label--list">
+      <label *ngFor="let cc of costCenter" class="section__label section__label--list">
         {{ cc }}
 
-        <input
-        type="radio"
-        formControlName="centroCusto"
-        [value]="cc">
+        <input type="radio" formControlName="centroCusto" [value]="cc">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button
-      type="button"
-      (click)="nextStep()"
-      [disabled]="!createForm.get('centroCusto')?.valid"
-      class="section__button">Continuar</button>
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('centroCusto')?.valid"
+        class="section__button">Continuar</button>
     </footer>
   </section>
 
@@ -68,19 +52,13 @@
       <label class="section__label">
         Insira a data inicial
 
-        <input
-        type="date"
-        formControlName="dataInicial"
-        class="section__input">
+        <input type="date" formControlName="dataInicial" class="section__input">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button
-      type="button"
-      (click)="nextStep()"
-      [disabled]="!createForm.get('dataInicial')?.valid"
-      class="section__button">Continuar</button>
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('dataInicial')?.valid"
+        class="section__button">Continuar</button>
     </footer>
   </section>
 
@@ -94,51 +72,53 @@
       <label class="section__label">
         Insira a data final
 
-        <input
-        type="date"
-        formControlName="dataFinal"
-        class="section__input">
+        <input type="date" formControlName="dataFinal" class="section__input">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button
-      type="button"
-      (click)="nextStep()"
-      [disabled]="!createForm.get('dataFinal')?.valid"
-      class="section__button">Continuar</button>
+      <button type="button" (click)="nextStep()" [disabled]="!createForm.get('dataFinal')?.valid"
+        class="section__button">Continuar</button>
     </footer>
   </section>
 
   <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSuccess && !isServerError">
-    <header (click)="prevStep()" class="section__header">
-      <mat-icon class="section__icon section__icon--header">arrow_back_ios_new</mat-icon>
-      <h1 class="section__title">Selecione quem será bonificado</h1>
-    </header>
+  <header (click)="prevStep()" class="section__header">
+    <mat-icon class="section__icon section__icon--header">arrow_back_ios_new</mat-icon>
+    <h1 class="section__title">Selecione quem será bonificado</h1>
+  </header>
 
-    <div class="section__content">
-      <span class="section__label">
-        Lista de colaboradores
-      </span>
+  <div class="section__content">
+    <input
+        type="text"
+        [(ngModel)]="searchEmployee"
+        [ngModelOptions]="{standalone: true}"
+        (input)="applyFilters()"
+        placeholder="Buscar Colaborador"
+        class="section__input">
 
-      <label
-        *ngFor="let emp of employees; let i = index"
-        class="section__label section__label--list">
-        {{ emp.nome }}
+    <span class="section__label">
+      Lista de colaboradores
+    </span>
 
-        <input
+    <label
+      *ngFor="let emp of filteredEmployees; let i = index"
+      class="section__label section__label--list">
+      {{ emp.nome }}
+
+      <input
         type="checkbox"
-        [formControl]="getBonificadoControl(i)">
-      </label>
-    </div>
+        [formControl]="getBonificadoControl(employees.indexOf(emp))">
+    </label>
+  </div>
 
-    <footer class="section__footer">
-      <button
+  <footer class="section__footer">
+    <button
       type="button"
       (click)="nextStep()"
       class="section__button">Continuar</button>
-    </footer>
-  </section>
+  </footer>
+</section>
 
   <ng-container *ngFor="let funcao of selectedEmployeeFunctions; let i = index">
     <section class="section" *ngIf="currentStep === 6 + i && !isLoading && !isSuccess && !isServerError">
@@ -151,26 +131,19 @@
         <label class="section__label">
           Insira o valor
 
-          <input
-          type="number"
-          placeholder="Digite o valor"
-          [formControl]="getValorFuncaoControl(i)"
-          enterkeyhint="next"
-          (keydown.enter)="$event.preventDefault(); nextStep()"
-          class="section__input">
+          <input type="number" placeholder="Digite o valor" [formControl]="getValorFuncaoControl(i)" enterkeyhint="next"
+            (keydown.enter)="$event.preventDefault(); nextStep()" class="section__input">
         </label>
       </div>
 
       <footer class="section__footer">
-        <button
-        type="button"
-        (click)="nextStep()"
-        class="section__button">Continuar</button>
+        <button type="button" (click)="nextStep()" class="section__button">Continuar</button>
       </footer>
     </section>
   </ng-container>
 
-  <section class="section" *ngIf="currentStep === 6 + selectedEmployeeFunctions.length && !isLoading && !isSuccess && !isServerError">
+  <section class="section"
+    *ngIf="currentStep === 6 + selectedEmployeeFunctions.length && !isLoading && !isSuccess && !isServerError">
     <header class="section__header">
       <mat-icon class="section__icon" (click)="prevStep()">arrow_back_ios_new</mat-icon>
       <h1 class="section__title">Anexe a foto da sua prancheta</h1>
@@ -186,19 +159,12 @@
           {{ uploadedFile ? uploadedFile.name : 'Clique aqui para anexar a imagem' }}
         </span>
 
-        <input
-        type="file"
-        accept="image/*"
-        (change)="onFileChange($event)"
-        class="section__input--file">
+        <input type="file" accept="image/*" (change)="onFileChange($event)" class="section__input--file">
       </label>
     </div>
 
     <footer class="section__footer">
-      <button
-      type="submit"
-      [disabled]="!uploadedFile"
-      class="section__button">Enviar</button>
+      <button type="submit" [disabled]="!uploadedFile" class="section__button">Enviar</button>
     </footer>
   </section>
 

@@ -65,6 +65,10 @@ $light-black: #303030;
     flex-direction: column;
     overflow: auto;
 
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
     &--status {
       text-align: center;
 
