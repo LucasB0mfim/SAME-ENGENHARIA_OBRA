@@ -1,127 +1,160 @@
-<div class="container">
-  <header class="section__header">
-    <div class="section__content section__content--header">
-      <div class="section__header--top">
-        <img [src]="avatar" class="section__header--avatar">
+<div class="home">
+  <header class="home__header">
+    <div class="home__header-content">
+      <!-- User Info Section -->
+      <div class="home__header-user">
+        <div class="home__header-avatar-container">
+          <img [src]="avatar" class="home__header-avatar" alt="Avatar do usuário">
+        </div>
+        <div class="home__header-info">
+          <h1 class="home__header-name">{{ employeeInfo?.nome || 'Carregando...' }}</h1>
+          <div class="home__header-details">
+            <div class="home__header-badge">
+              <mat-icon class="home__header-badge-icon">badge</mat-icon>
+              <span>{{ employeeInfo?.setor || employeeInfo?.funcao }}</span>
+            </div>
+            <div class="home__header-badge" *ngIf="employeeInfo?.chapa">
+              <mat-icon class="home__header-badge-icon">tag</mat-icon>
+              <span>{{ employeeInfo?.chapa }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="section__header--bottom">
-        <mat-icon class="section__icon section__icon--large">flag</mat-icon>
-        <h3 class="section__subtitle">Confira o status da obra!</h3>
+      <!-- Quick Actions -->
+      <div class="home__header-actions">
+        <button class="home__header-action" routerLink="/dashboard/new-task" title="Nova Tarefa">
+          <mat-icon class="home__icon">add_task</mat-icon>
+          <span class="home__header-action-label">Nova Tarefa</span>
+        </button>
+
+        <button class="home__header-action" routerLink="/dashboard/request-transport" title="Solicitar VT">
+          <mat-icon class="home__icon">directions_bus</mat-icon>
+          <span class="home__header-action-label">Solicitar VT</span>
+        </button>
+
+        <button class="home__header-action" (click)="openForm()" title="Canal de Ética">
+          <mat-icon class="home__icon">campaign</mat-icon>
+          <span class="home__header-action-label">Fala aí!</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <section class="section">
-    <h2 class="section__title">Tarefa</h2>
-    <div class="section__content">
-      <div class="section__item" routerLink="/dashboard/new-task">
-        <mat-icon class="section__icon section__icon--small">add</mat-icon>
-        <p class="section__subtitle">Cadastrar tarefa</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">folder</mat-icon>
-        <p class="section__subtitle">Gerenciar tarefas</p>
-      </div>
-    </div>
-    <div class="section__content">
-      <div class="section__span" (click)="openForm()">
-        <mat-icon class="section__icon section__icon">campaign</mat-icon>
-        <div class="section__text">
-          <p class="section__subtitle section__subtitle--bold">Fala aí!</p>
-          <p class="section__subtitle">Sua voz a favor da ética. 100% Anônimo!</p>
+  <div class="home__container">
+    <section class="home__section">
+      <h2 class="home__section-title">Tarefa</h2>
+      <div class="home__section-grid">
+        <div class="home__card" routerLink="/dashboard/new-task">
+          <mat-icon class="home__icon home__icon--small">add</mat-icon>
+          <p class="home__card-text">Cadastrar tarefa</p>
         </div>
-        <mat-icon class="section__icon section__icon--small">chevron_right</mat-icon>
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">folder</mat-icon>
+          <p class="home__card-text">Gerenciar tarefas</p>
+        </div>
       </div>
-    </div>
-  </section>
+      <div class="home__section-featured">
+        <div class="home__card-wide" (click)="openForm()">
+          <mat-icon class="home__icon home__icon--medium">campaign</mat-icon>
+          <div class="home__card-wide-content">
+            <p class="home__card-text home__card-text--bold">Fala aí!</p>
+            <p class="home__card-text">Sua voz a favor da ética. 100% Anônimo!</p>
+          </div>
+          <mat-icon class="home__icon home__icon--small">chevron_right</mat-icon>
+        </div>
+      </div>
+    </section>
 
-  <section class="section">
-    <h2 class="section__title">Equipamento</h2>
-    <div class="section__content">
-      <div class="section__item section__item" routerLink="/dashboard/equipment-rental">
-        <mat-icon class="section__icon section__icon--small">construction</mat-icon>
-        <p class="section__subtitle">Cadastrar locação</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">send</mat-icon>
-        <p class="section__subtitle">Enviar equipamento</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">download</mat-icon>
-        <p class="section__subtitle">Receber equipamento</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">local_shipping</mat-icon>
-        <p class="section__subtitle">Meus envios</p>
-      </div>
-    </div>
-  </section>
+    <section class="home__section">
+      <h2 class="home__section-title">Equipamento</h2>
+      <div class="home__section-grid">
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">construction</mat-icon>
+          <p class="home__card-text">Cadastrar locação</p>
+        </div>
 
-  <section class="section">
-    <h2 class="section__title">Material</h2>
-    <div class="section__content">
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">list_alt</mat-icon>
-        <p class="section__subtitle">Lista de pedidos</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">download</mat-icon>
-        <p class="section__subtitle">Receber pedido</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">inventory</mat-icon>
-        <p class="section__subtitle">Estoque</p>
-      </div>
-    </div>
-  </section>
+        <div class="home__card">
+          <mat-icon class="home__icon home__icon--small">app_registration</mat-icon>
+          <p class="home__card-text">Cadastrar Equipamento</p>
+        </div>
 
-  <section class="section">
-    <h2 class="section__title">Operacional</h2>
-    <div class="section__content">
-      <div class="section__item" routerLink="/dashboard/disciplinary-measure">
-        <mat-icon class="section__icon section__icon--small">gavel</mat-icon>
-        <p class="section__subtitle">Medida disciplinar</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">group</mat-icon>
-        <p class="section__subtitle">Equipes</p>
-      </div>
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">assignment</mat-icon>
-        <p class="section__subtitle">Folha de ponto</p>
-      </div>
-    </div>
-  </section>
+        <div class="home__card">
+          <mat-icon class="home__icon home__icon--small">login</mat-icon>
+          <p class="home__card-text">Checkin</p>
+        </div>
 
-  <section class="section">
-    <h2 class="section__title">Meu Transporte</h2>
-    <div class="section__content">
-      <div class="section__item" routerLink="/dashboard/request-transport">
-        <mat-icon class="section__icon section__icon--small">directions_bus</mat-icon>
-        <p class="section__subtitle">Solicitar VT</p>
+        <div class="home__card">
+          <mat-icon class="home__icon home__icon--small">logout</mat-icon>
+          <p class="home__card-text">Checkout</p>
+        </div>
       </div>
+    </section>
 
-      <div class="section__item" routerLink="/dashboard/cancel-transport">
-        <mat-icon class="section__icon section__icon--small">no_transfer</mat-icon>
-        <p class="section__subtitle">Cancelar VT</p>
+    <section class="home__section">
+      <h2 class="home__section-title">Material</h2>
+      <div class="home__section-grid">
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">list_alt</mat-icon>
+          <p class="home__card-text">Lista de pedidos</p>
+        </div>
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">download</mat-icon>
+          <p class="home__card-text">Receber pedido</p>
+        </div>
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">inventory</mat-icon>
+          <p class="home__card-text">Estoque</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="section">
-    <h2 class="section__title">Mais opções</h2>
-    <div class="section__content">
-      <div class="section__item section__item--disabled">
-        <mat-icon class="section__icon section__icon--small">settings</mat-icon>
-        <p class="section__subtitle">Configuração</p>
+    <section class="home__section">
+      <h2 class="home__section-title">Operacional</h2>
+      <div class="home__section-grid">
+        <div class="home__card" routerLink="/dashboard/disciplinary-measure">
+          <mat-icon class="home__icon home__icon--small">gavel</mat-icon>
+          <p class="home__card-text">Medida disciplinar</p>
+        </div>
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">group</mat-icon>
+          <p class="home__card-text">Equipes</p>
+        </div>
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">assignment</mat-icon>
+          <p class="home__card-text">Folha de ponto</p>
+        </div>
       </div>
+    </section>
 
-      <div class="section__item section__item--logout" (click)="onLogout()">
-        <mat-icon class="section__icon section__icon--small section__icon section__icon--small">logout</mat-icon>
-        <p class="section__subtitle section__subtitle">Sair</p>
+    <section class="home__section">
+      <h2 class="home__section-title">Meu Transporte</h2>
+      <div class="home__section-grid">
+        <div class="home__card" routerLink="/dashboard/request-transport">
+          <mat-icon class="home__icon home__icon--small">directions_bus</mat-icon>
+          <p class="home__card-text">Solicitar VT</p>
+        </div>
+
+        <div class="home__card" routerLink="/dashboard/cancel-transport">
+          <mat-icon class="home__icon home__icon--small">no_transfer</mat-icon>
+          <p class="home__card-text">Cancelar VT</p>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </footer>
+    <footer class="home__section home__section--footer">
+      <h2 class="home__section-title">Mais opções</h2>
+      <div class="home__section-grid">
+        <div class="home__card home__card--disabled">
+          <mat-icon class="home__icon home__icon--small">settings</mat-icon>
+          <p class="home__card-text">Configuração</p>
+        </div>
+
+        <div class="home__card home__card--logout" (click)="onLogout()">
+          <mat-icon class="home__icon home__icon--small">logout</mat-icon>
+          <p class="home__card-text">Sair</p>
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>

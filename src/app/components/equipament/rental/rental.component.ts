@@ -5,16 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { EquipmentRentalService } from '../../core/services/equipment-rental.service';
-import { UserService } from '../../core/services/user.service';
+import { EquipmentRentalService } from '../../../core/services/equipment.service.js';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
-  selector: 'app-equipment-rental',
+  selector: 'app-rental',
   imports: [CommonModule, RouterModule, ReactiveFormsModule, MatIconModule],
-  templateUrl: './equipment-rental.component.html',
-  styleUrl: './equipment-rental.component.scss'
+  templateUrl: './rental.component.html',
+  styleUrl: './rental.component.scss'
 })
-export class EquipmentRentalComponent implements OnInit {
+export class RentalComponent implements OnInit {
 
   // ===== INJEÇÃO DE DEPENDÊNCIA ===== //
   private readonly _equipamentRental = inject(EquipmentRentalService);
