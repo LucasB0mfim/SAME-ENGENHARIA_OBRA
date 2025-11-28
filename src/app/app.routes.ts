@@ -13,6 +13,8 @@ import { RentalComponent } from './components/equipament/rental/rental.component
 import { CancelTransportComponent } from './components/transport/cancel-transport/cancel-transport.component';
 import { RequestTransportComponent } from './components/transport/request-transport/request-transport.component';
 import { DisciplinaryMeasureComponent } from './components/operational/disciplinary-measure/disciplinary-measure.component';
+import { CheckinComponent } from './components/equipament/checkin/checkin.component';
+import { RegisterEquipamentComponent } from './components/equipament/register/register.component';
 
 export const routes: Routes = [
   {
@@ -35,7 +37,9 @@ export const routes: Routes = [
       { path: 'rental', component: RentalComponent },
       { path: 'request-transport', component: RequestTransportComponent },
       { path: 'cancel-transport', component: CancelTransportComponent },
-      { path: 'disciplinary-measure', component: DisciplinaryMeasureComponent }
+      { path: 'disciplinary-measure', component: DisciplinaryMeasureComponent },
+      { path: 'equipament/register', component: RegisterEquipamentComponent },
+      { path: 'equipament/checkin', component: CheckinComponent },
     ]
   }
 ];

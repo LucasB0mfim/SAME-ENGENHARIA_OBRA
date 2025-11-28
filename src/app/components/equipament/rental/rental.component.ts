@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { EquipmentRentalService } from '../../../core/services/equipment.service.js';
+import { EquipmentService } from '../../../core/services/equipment.service.js';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { UserService } from '../../../core/services/user.service';
 export class RentalComponent implements OnInit {
 
   // ===== INJEÇÃO DE DEPENDÊNCIA ===== //
-  private readonly _equipamentRental = inject(EquipmentRentalService);
+  private readonly _equipamentRental = inject(EquipmentService);
   private readonly _userService = inject(UserService);
 
   // ===== FORMULÁRIO ===== //
