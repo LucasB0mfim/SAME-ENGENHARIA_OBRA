@@ -1,0 +1,630 @@
+// Variables
+$primary-color: #2563eb;
+$primary-hover: #1d4ed8;
+$success-color: #10b981;
+$error-color: #ef4444;
+$bg-white: #ffffff;
+$text-dark: #1f2937;
+$text-gray: #6b7280;
+$border-color: #e5e7eb;
+$border-focus: #3b82f6;
+
+// Dynamic Form Container
+.dynamic-form {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+
+  &__wrapper {
+    display: flex;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
+  }
+
+  &__main {
+    flex: 0 0 70%;
+    background: $bg-white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 1024px) {
+      flex: 1;
+    }
+  }
+
+  &__aside {
+    flex: 0 0 calc(30% - 24px);
+    background: $bg-white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+
+    @media (max-width: 1024px) {
+      flex: 1;
+      position: static;
+    }
+  }
+
+  &__aside-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__aside-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $primary-color;
+  }
+
+  &__aside-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: $text-gray;
+    margin: 0;
+  }
+
+  // Section
+  &__section {
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $primary-color;
+  }
+
+  // Fields Grid
+  &__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Field
+  &__field {
+    display: flex;
+    flex-direction: column;
+
+    &--wide {
+      grid-column: 1 / -1;
+    }
+
+    &--error {
+      .dynamic-form__input,
+      .dynamic-form__file-label {
+        border-color: $error-color;
+      }
+    }
+  }
+
+  // Label
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-dark;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  &__required {
+    color: $error-color;
+    margin-left: 2px;
+  }
+
+  // Input Base
+  &__input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: $text-dark;
+    background: $bg-white;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    outline: none;
+
+    &::placeholder {
+      color: $text-gray;
+    }
+
+    &:focus {
+      border-color: $border-focus;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    &:disabled {
+      background: #f9fafb;
+      cursor: not-allowed;
+    }
+
+    &--select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+      padding-right: 40px;
+    }
+
+    &--textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+    }
+  }
+
+  // File Input
+  &__file {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  &__file-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: $bg-white;
+    border: 2px dashed $border-color;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $primary-color;
+      background: #f9fafb;
+    }
+  }
+
+  &__file-icon {
+    width: 24px;
+    height: 24px;
+    color: $primary-color;
+    flex-shrink: 0;
+  }
+
+  &__file-text {
+    font-size: 14px;
+    color: $text-gray;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__file-remove {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $error-color;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
+
+  // Error Message
+  &__error {
+    display: block;
+    font-size: 12px;
+    color: $error-color;
+    margin-top: 6px;
+  }
+
+  // QR Code Scanner
+  &__qrcode {
+    width: 100%;
+  }
+
+  &__qrcode-preview {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+
+    input {
+      flex: 1;
+    }
+  }
+
+  &__qrcode-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+      background: $primary-hover;
+    }
+  }
+
+  &__qrcode-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__qrcode-scanner {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &__qrcode-video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  &__qrcode-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    color: $text-dark;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+  }
+
+  &__qrcode-hint {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  // Geolocation
+  &__geolocation {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    width: 100%;
+
+    input {
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  &__geolocation-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: $success-color;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+      background: #059669;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__geolocation-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__geolocation-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  // Actions
+  &__actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__submit {
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: $primary-color;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: $primary-hover;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  // Loading Overlay
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  &__spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  &__overlay-text {
+    color: white;
+    font-size: 16px;
+    margin-top: 16px;
+  }
+
+  // Modal
+  &__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  &__modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+  }
+
+  &__modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    color: $text-gray;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $text-dark;
+    }
+  }
+
+  &__modal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  &__modal--success &__modal-icon {
+    background: rgba(16, 185, 129, 0.1);
+    color: $success-color;
+  }
+
+  &__modal--error &__modal-icon {
+    background: rgba(239, 68, 68, 0.1);
+    color: $error-color;
+  }
+
+  &__modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 12px 0;
+  }
+
+  &__modal-text {
+    font-size: 14px;
+    color: $text-gray;
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+  }
+
+  &__modal-button {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: $primary-color;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $primary-hover;
+    }
+  }
+
+  &__modal--error &__modal-button {
+    background: $error-color;
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile Responsive
+@media (max-width: 768px) {
+  .dynamic-form {
+    padding: 12px;
+
+    &__main {
+      padding: 20px;
+    }
+
+    &__aside {
+      padding: 20px;
+    }
+
+    &__section-title {
+      font-size: 18px;
+    }
+
+    &__fields {
+      gap: 16px;
+    }
+
+    &__submit {
+      width: 100%;
+    }
+  }
+}
