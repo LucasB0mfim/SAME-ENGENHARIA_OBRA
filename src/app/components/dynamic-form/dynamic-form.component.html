@@ -1,228 +1,155 @@
-<div class="dynamic-form">
-  <div class="dynamic-form__wrapper">
-    <!-- Main Form Section -->
-    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="dynamic-form__main">
+<div class="container">
 
-      <div *ngFor="let section of sections; let idx = index" class="dynamic-form__section">
-        <h2 class="dynamic-form__section-title">{{ section.title }}</h2>
+  <header class="header">
+    <mat-icon class="header__button" routerLink="/dashboard">exit_to_app</mat-icon>
+    <h2 class="header__title">{{ titleForm }}</h2>
+  </header>
 
-        <div class="dynamic-form__fields">
-          <div *ngFor="let field of section.fields"
-               class="dynamic-form__field"
-               [class.dynamic-form__field--wide]="field.type === 'textarea' || field.type === 'file' || field.type === 'qrcode' || field.type === 'geolocation'"
-               [class.dynamic-form__field--error]="isFieldInvalid(field.name)">
+  <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="form">
+    <div *ngFor="let section of sections; let idx = index" class="form__section">
 
-            <label class="dynamic-form__label" [for]="field.name">
-              {{ field.label }}
-              <span *ngIf="field.required" class="dynamic-form__required">*</span>
-            </label>
+      <div *ngFor="let field of section.fields" class=""
+        [class.dynamic-form__field--wide]="field.type === 'textarea' || field.type === 'file' || field.type === 'qrcode' || field.type === 'geolocation'"
+        [class.dynamic-form__field--error]="isFieldInvalid(field.name)">
 
-            <!-- Text Input -->
-            <input *ngIf="field.type === 'text' && !field.mask"
-                   [id]="field.name"
-                   type="text"
-                   [formControlName]="field.name"
-                   class="dynamic-form__input"
-                   [placeholder]="field.placeholder || ''">
+        <div class="form__field">
+          <label class="form__label" [for]="field.name">
+            {{ field.label }}
+            <span *ngIf="field.required" class="required-asterisk">*</span>
+          </label>
 
-            <!-- Text Input with Mask -->
-            <input *ngIf="field.type === 'text' && field.mask"
-                   [id]="field.name"
-                   type="text"
-                   [formControlName]="field.name"
-                   [mask]="field.mask"
-                   class="dynamic-form__input"
-                   [placeholder]="field.placeholder || ''">
+          <!-- Text Input -->
+          <input *ngIf="field.type === 'text' && !field.mask" [id]="field.name" type="text"
+            [formControlName]="field.name" class="form__input" [placeholder]="field.placeholder">
 
-            <!-- Email Input -->
-            <input *ngIf="field.type === 'email'"
-                   [id]="field.name"
-                   type="email"
-                   [formControlName]="field.name"
-                   class="dynamic-form__input"
-                   [placeholder]="field.placeholder || ''">
+          <!-- Text Input with Mask -->
+          <input *ngIf="field.type === 'text' && field.mask" [id]="field.name" type="text"
+            [formControlName]="field.name" [mask]="field.mask" class="form__input" [placeholder]="field.placeholder">
 
-            <!-- Tel Input -->
-            <input *ngIf="field.type === 'tel'"
-                   [id]="field.name"
-                   type="tel"
-                   [formControlName]="field.name"
-                   [mask]="field.mask || ''"
-                   class="dynamic-form__input"
-                   [placeholder]="field.placeholder || ''">
+          <!-- Email Input -->
+          <input *ngIf="field.type === 'email'" [id]="field.name" type="email" [formControlName]="field.name"
+            class="form__input" [placeholder]="field.placeholder">
 
-            <!-- Date Input -->
-            <input *ngIf="field.type === 'date'"
-                   [id]="field.name"
-                   type="date"
-                   [formControlName]="field.name"
-                   class="dynamic-form__input">
+          <!-- Tel Input -->
+          <input *ngIf="field.type === 'tel'" [id]="field.name" type="tel" [formControlName]="field.name"
+            [mask]="field.mask || ''" class="form__input" [placeholder]="field.placeholder">
 
-            <!-- Number Input -->
-            <input *ngIf="field.type === 'number'"
-                   [id]="field.name"
-                   type="number"
-                   [formControlName]="field.name"
-                   [min]="field.min ?? null"
-                   [max]="field.max ?? null"
-                   class="dynamic-form__input"
-                   [placeholder]="field.placeholder || ''">
+          <!-- Date Input -->
+          <input *ngIf="field.type === 'date'" [id]="field.name" type="date" [formControlName]="field.name"
+            class="form__input">
 
-            <!-- Select -->
-            <select *ngIf="field.type === 'select'"
-                    [id]="field.name"
-                    [formControlName]="field.name"
-                    class="dynamic-form__input dynamic-form__input--select">
-              <option value="">Selecione...</option>
-              <option *ngFor="let option of field.options" [value]="option">
-                {{ option }}
-              </option>
-            </select>
+          <!-- Number Input -->
+          <input *ngIf="field.type === 'number'" [id]="field.name" type="number" [formControlName]="field.name"
+            [min]="field.min ?? null" [max]="field.max ?? null" class="form__input" [placeholder]="field.placeholder">
 
-            <!-- Textarea -->
-            <textarea *ngIf="field.type === 'textarea'"
-                      [id]="field.name"
-                      [formControlName]="field.name"
-                      rows="4"
-                      class="dynamic-form__input dynamic-form__input--textarea"
-                      [placeholder]="field.placeholder || ''">
+          <!-- Select -->
+          <select *ngIf="field.type === 'select'" [id]="field.name" [formControlName]="field.name" class="form__input">
+            <option value="">Selecione...</option>
+            <option *ngFor="let option of field.options" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+
+          <!-- Textarea -->
+          <textarea *ngIf="field.type === 'textarea'" [id]="field.name" [formControlName]="field.name" rows="4"
+            class="form__input" [placeholder]="field.placeholder">
             </textarea>
 
-            <!-- File Input -->
-            <div *ngIf="field.type === 'file'" class="dynamic-form__file">
-              <input [id]="field.name"
-                     type="file"
-                     [name]="field.name"
-                     [accept]="field.accept"
-                     (change)="handleFileChange($event, field.name)"
-                     class="dynamic-form__file-input">
-
-              <label [for]="field.name" class="dynamic-form__file-label">
-                <svg class="dynamic-form__file-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                <span class="dynamic-form__file-text">
-                  {{ uploadedFiles[field.name] ? uploadedFiles[field.name].name : 'Clique para selecionar arquivo' }}
-                </span>
-              </label>
-
-              <button *ngIf="uploadedFiles[field.name]"
-                      type="button"
-                      (click)="removeFile(field.name)"
-                      class="dynamic-form__file-remove"
-                      aria-label="Remover arquivo">
-                ×
-              </button>
-            </div>
-
-            <!-- QR Code Scanner -->
-            <div *ngIf="field.type === 'qrcode'" class="dynamic-form__qrcode">
-              <div *ngIf="!qrScannerActive[field.name]" class="dynamic-form__qrcode-preview">
-                <input [id]="field.name"
-                       type="text"
-                       [formControlName]="field.name"
-                       class="dynamic-form__input"
-                       [placeholder]="field.placeholder || 'Código escaneado aparecerá aqui'"
-                       readonly>
-                <button type="button"
-                        (click)="startQrScanner(field.name)"
-                        class="dynamic-form__qrcode-button">
-                  <svg class="dynamic-form__qrcode-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                  </svg>
-                  Escanear QR Code
-                </button>
-              </div>
-
-              <div *ngIf="qrScannerActive[field.name]" class="dynamic-form__qrcode-scanner">
-                <video [id]="'qr-video-' + field.name"
-                       class="dynamic-form__qrcode-video"
-                       playsinline>
-                </video>
-                <button type="button"
-                        (click)="stopQrScanner(field.name)"
-                        class="dynamic-form__qrcode-close">
-                  ×
-                </button>
-                <p class="dynamic-form__qrcode-hint">Posicione o QR Code na frente da câmera</p>
-              </div>
-            </div>
-
-            <!-- Geolocation -->
-            <div *ngIf="field.type === 'geolocation'" class="dynamic-form__geolocation">
-              <input [id]="field.name"
-                     type="text"
-                     [formControlName]="field.name"
-                     class="dynamic-form__input"
-                     [placeholder]="field.placeholder || 'Coordenadas aparecerão aqui'"
-                     readonly>
-              <button type="button"
-                      (click)="getGeolocation(field.name)"
-                      [disabled]="geoLocationLoading[field.name]"
-                      class="dynamic-form__geolocation-button">
-                <svg *ngIf="!geoLocationLoading[field.name]" class="dynamic-form__geolocation-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span *ngIf="geoLocationLoading[field.name]" class="dynamic-form__geolocation-spinner"></span>
-                {{ geoLocationLoading[field.name] ? 'Obtendo...' : 'Obter Localização' }}
-              </button>
-            </div>
-
-            <!-- Error Message -->
-            <span *ngIf="isFieldInvalid(field.name)" class="dynamic-form__error">
-              {{ getFieldError(field.name) }}
+          <!-- File Input -->
+          <div *ngIf="field.type === 'file'" class="form__field-flex">
+            <span class="form__input">
+              {{ uploadedFiles[field.name] ? uploadedFiles[field.name].name : 'Clique para selecionar arquivo' }}
             </span>
+            <label [for]="field.name" class="form__field-button">
+              <mat-icon>image</mat-icon>
+            </label>
+            <input [id]="field.name" type="file" [name]="field.name" [accept]="field.accept"
+              (change)="handleFileChange($event, field.name)" class="form__input-file">
+          </div>
+
+          <!-- QR Code Scanner -->
+          <div *ngIf="field.type === 'qrcode'" class="form__scanner">
+            <div class="form__field-flex">
+              <input [id]="field.name" type="text" [formControlName]="field.name" [placeholder]="field.placeholder"
+                class="form__input">
+              <button type="button" (click)="startQrScanner(field.name)" class="form__field-button">
+                <mat-icon>qr_code</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="qrScannerActive[field.name]" class="scanner">
+              <video [id]="'qr-video-' + field.name" class="scanner__cam" playsinline></video>
+              <button type="button" (click)="stopQrScanner(field.name)" class="scanner__close">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- Geolocation -->
+          <div *ngIf="field.type === 'geolocation'" class="form__field-flex">
+            <input [id]="field.name" type="text" [formControlName]="field.name" class="form__input"
+              [placeholder]="field.placeholder" readonly>
+            <button type="button" (click)="getGeolocation(field.name)" [disabled]="geoLocationLoading[field.name]"
+              class="form__field-button">
+              <mat-icon>{{ geoLocationLoading[field.name] ? 'hourglass_empty' : 'my_location' }}</mat-icon>
+            </button>
           </div>
         </div>
-      </div>
 
-      <!-- Submit Button -->
-      <div class="dynamic-form__actions">
-        <button type="submit"
-                class="dynamic-form__submit"
-                [disabled]="submissionState === FormSubmissionState.LOADING">
-          <span *ngIf="submissionState !== FormSubmissionState.LOADING">{{ submitButtonText }}</span>
-          <span *ngIf="submissionState === FormSubmissionState.LOADING">Enviando...</span>
-        </button>
+        <!-- Error Message -->
+        <span *ngIf="isFieldInvalid(field.name)" class="form__field-error">
+          {{ getFieldError(field.name) }}
+        </span>
       </div>
-    </form>
+    </div>
 
-    <!-- Aside Section -->
-    <aside *ngIf="asideTitle || asideContent" class="dynamic-form__aside">
-      <div class="dynamic-form__aside-content">
-        <h3 *ngIf="asideTitle" class="dynamic-form__aside-title">{{ asideTitle }}</h3>
-        <p *ngIf="asideContent" class="dynamic-form__aside-text">{{ asideContent }}</p>
-      </div>
-    </aside>
-  </div>
+    <!-- Submit Button -->
+    <button type="submit" class="form__button" [disabled]="submissionState === FormSubmissionState.LOADING">
+      <span *ngIf="submissionState !== FormSubmissionState.LOADING">{{ submitButtonText }}</span>
+      <span *ngIf="submissionState === FormSubmissionState.LOADING">Aguarde...</span>
+    </button>
+  </form>
 
   <!-- Loading Overlay -->
-  <div *ngIf="submissionState === FormSubmissionState.LOADING" class="dynamic-form__overlay">
-    <div class="dynamic-form__spinner"></div>
-    <p class="dynamic-form__overlay-text">Processando...</p>
+  <div *ngIf="submissionState === FormSubmissionState.LOADING" class="overlay">
+    <div class="loading__spinner"></div>
+    <p class="loading__title">Processando...</p>
   </div>
 
   <!-- Success Modal -->
-  <div *ngIf="submissionState === FormSubmissionState.SUCCESS" class="dynamic-form__modal dynamic-form__modal--success">
-    <div class="dynamic-form__modal-content">
-      <div class="dynamic-form__modal-icon">✓</div>
-      <h3 class="dynamic-form__modal-title">Sucesso!</h3>
-      <p class="dynamic-form__modal-text">{{ successMessage }}</p>
-      <button type="button" (click)="closeMessage()" class="dynamic-form__modal-button">
-        Fechar
+  <div *ngIf="submissionState === FormSubmissionState.SUCCESS" class="overlay">
+    <div class="modal">
+      <div class="modal__icon modal__icon-success">
+        <mat-icon>check</mat-icon>
+      </div>
+      <h3 class="modal__title">{{ successMessage }}</h3>
+
+      <!-- QR Code Actions -->
+      <div *ngIf="qrCode" class="modal__qrcode-actions">
+        <button type="button" (click)="downloadQRCode()" class="modal__button modal__button-success">
+          <mat-icon>download</mat-icon>
+          Baixar QR Code
+        </button>
+
+        <button type="button" (click)="shareQRCode()" class="modal__button modal__button-success">
+          <mat-icon>share</mat-icon>
+          Compartilhar
+        </button>
+      </div>
+
+      <button type="button" class="modal__button modal__button-success" routerLink="/dashboard">
+        Início
       </button>
     </div>
   </div>
 
   <!-- Error Modal -->
-  <div *ngIf="submissionState === FormSubmissionState.ERROR" class="dynamic-form__modal dynamic-form__modal--error">
-    <div class="dynamic-form__modal-content">
-      <button type="button" (click)="closeMessage()" class="dynamic-form__modal-close">×</button>
-      <div class="dynamic-form__modal-icon">✕</div>
-      <h3 class="dynamic-form__modal-title">Erro</h3>
-      <p class="dynamic-form__modal-text">{{ errorMessage }}</p>
-      <button type="button" (click)="closeMessage()" class="dynamic-form__modal-button">
+  <div *ngIf="submissionState === FormSubmissionState.ERROR" class="overlay">
+    <div class="modal">
+      <div class="modal__icon modal__icon-error">
+        <mat-icon>block</mat-icon>
+      </div>
+      <h3 class="modal__title">{{ errorMessage }}</h3>
+      <button type="button" (click)="closeMessage()" class="modal__button modal__button-error">
         Tentar Novamente
       </button>
     </div>

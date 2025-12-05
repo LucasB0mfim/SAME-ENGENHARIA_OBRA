@@ -24,8 +24,6 @@ export class RequestTransportComponent implements OnInit {
   // Configuração do formulário de check-in
   formSections: DynamicFormSection[] = [
     {
-      icon: 'home',
-      title: 'Residência',
       fields: [
         {
           label: 'Seu endereço',
@@ -37,8 +35,6 @@ export class RequestTransportComponent implements OnInit {
       ]
     },
     {
-      icon: 'article',
-      title: 'Motivo',
       fields: [
         {
           label: 'Motivo da solicitação',
@@ -50,8 +46,6 @@ export class RequestTransportComponent implements OnInit {
       ]
     },
     {
-      icon: 'directions_bus',
-      title: 'Vale Transporte',
       fields: [
         {
           label: 'Ônibus por dia',

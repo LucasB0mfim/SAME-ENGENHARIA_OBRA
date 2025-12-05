@@ -18,56 +18,21 @@ export class EquipmentService {
 
   send(formData: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental/register', formData, { headers });
+    return this._httpClient.post<any>('http://localhost:3000/equipment-rental/register', formData, { headers });
   }
 
-  create(formData: any) {
+  register(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipament/register', formData, { headers });
+    return this._httpClient.post<any>('http://localhost:3000/equipament/register', formData, { headers });
   }
 
-  checkin(request: any) {
+  checkin(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipament/checkin', request, { headers });
+    return this._httpClient.put<any>('http://localhost:3000/equipament/checkin', formData, { headers });
   }
 
-  getLocationService(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (!('geolocation' in navigator)) {
-        reject(new Error('Geolocalização não é suportada neste navegador.'));
-        return;
-      }
-
-      const options: PositionOptions = {
-        enableHighAccuracy: true,
-        timeout: 10000, // 10 segundos
-        maximumAge: 0 // Não usar cache
-      };
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve({
-            latitude: position.coords.latitude.toString(),
-            longitude: position.coords.longitude.toString(),
-          });
-        },
-        (error) => {
-          let errorMessage = 'Erro desconhecido ao obter localização.';
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              errorMessage = 'Permissão negada para acessar a localização. Verifique as configurações do seu dispositivo e navegador.';
-              break;
-            case error.POSITION_UNAVAILABLE:
-              errorMessage = 'Informação de localização indisponível. Verifique sua conexão ou sinal de GPS.';
-              break;
-            case error.TIMEOUT:
-              errorMessage = 'Tempo limite excedido ao tentar obter a localização. Tente novamente.';
-              break;
-          }
-          reject(new Error(errorMessage));
-        },
-        options
-      );
-    });
+  checkout(formData: any) {
+    const headers = this._createHeaders();
+    return this._httpClient.put<any>('http://localhost:3000/equipament/checkout', formData, { headers });
   }
 }

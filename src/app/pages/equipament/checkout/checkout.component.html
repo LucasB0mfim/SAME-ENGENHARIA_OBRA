@@ -1,0 +1,11 @@
+<div class="container">
+  <app-dynamic-form
+    [sections]="formSections"
+    [titleForm]="'Checkout'"
+    [submitButtonText]="'Registrar Checkout'"
+    [submissionState]="submissionState"
+    [errorMessage]="errorMessage"
+    [successMessage]="successMessage"
+    (formSubmit)="onSubmit($event)">
+  </app-dynamic-form>
+</div>

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from "@angular/router";
 
 export interface DynamicFormField {
   label: string;
@@ -17,8 +19,7 @@ export interface DynamicFormField {
 }
 
 export interface DynamicFormSection {
-  icon: string;
-  title: string;
+  // title: string;
   fields: DynamicFormField[];
 }
 
@@ -35,7 +36,9 @@ export enum FormSubmissionState {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatIconModule,
+    RouterLink
   ],
   providers: [provideNgxMask()],
   templateUrl: './dynamic-form.component.html',
@@ -44,11 +47,13 @@ export enum FormSubmissionState {
 export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input() sections: DynamicFormSection[] = [];
   @Input() submitButtonText: string = 'Enviar';
+  @Input() titleForm: string = '';
   @Input() submissionState: FormSubmissionState = FormSubmissionState.IDLE;
   @Input() errorMessage: string = '';
   @Input() successMessage: string = 'Formulário enviado com sucesso!';
   @Input() asideTitle: string = '';
   @Input() asideContent: string = '';
+  @Input() qrCode: string = ''; // Base64 do QR Code
 
   @Output() formSubmit = new EventEmitter<FormData>();
   @Output() formStateChange = new EventEmitter<FormSubmissionState>();
@@ -65,7 +70,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   // Geolocation properties
   geoLocationLoading: { [key: string]: boolean } = {};
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -290,7 +295,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         console.error('Erro ao obter localização:', error);
         let errorMessage = 'Não foi possível obter sua localização.';
 
-        switch(error.code) {
+        switch (error.code) {
           case error.PERMISSION_DENIED:
             errorMessage = 'Permissão de localização negada. Verifique as configurações do navegador.';
             break;
@@ -311,5 +316,63 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         maximumAge: 0
       }
     );
+  }
+
+  // QR Code Download and Share Methods
+  downloadQRCode(): void {
+    if (!this.qrCode) return;
+
+    const fileName = this.getQRCodeFileName();
+    const link = document.createElement('a');
+    link.href = this.qrCode;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  async shareQRCode(): Promise<void> {
+    if (!this.qrCode) return;
+
+    try {
+      const response = await fetch(this.qrCode);
+      const blob = await response.blob();
+      const fileName = this.getQRCodeFileName();
+      const file = new File([blob], fileName, { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: 'QR Code do Equipamento',
+          text: this.getShareText(),
+          files: [file]
+        });
+      } else {
+        alert('Compartilhamento não disponível neste dispositivo. Fazendo download do QR Code...');
+        this.downloadQRCode();
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Erro ao compartilhar:', error);
+        alert('Não foi possível compartilhar. Tente fazer o download.');
+      }
+    }
+  }
+
+  private getQRCodeFileName(): string {
+    const nomeField = this.sections
+      .flatMap(s => s.fields)
+      .find(f => f.name === 'nome');
+
+    const nomeValue = nomeField ? this.dynamicForm.get('nome')?.value : null;
+    return `qrcode-${nomeValue || 'equipamento'}.png`;
+  }
+
+  private getShareText(): string {
+    const nomeField = this.sections
+      .flatMap(s => s.fields)
+      .find(f => f.name === 'nome');
+
+    const nomeValue = nomeField ? this.dynamicForm.get('nome')?.value : 'equipamento';
+    return `QR Code do equipamento: ${nomeValue}`;
   }
 }

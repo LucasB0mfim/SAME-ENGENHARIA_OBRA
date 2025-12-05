@@ -13,8 +13,9 @@ import { RentalComponent } from './components/equipament/rental/rental.component
 import { CancelTransportComponent } from './pages/transport/cancel-transport/cancel-transport.component';
 import { RequestTransportComponent } from './pages/transport/request-transport/request-transport.component';
 import { DisciplinaryMeasureComponent } from './components/operational/disciplinary-measure/disciplinary-measure.component';
-import { CheckinComponent } from './components/equipament/checkin/checkin.component';
-import { RegisterEquipamentComponent } from './components/equipament/register/register.component';
+import { CheckinComponent } from './pages/equipament/checkin/checkin.component';
+import { RegisterEquipamentComponent } from './pages/equipament/register/register.component';
+import { CheckoutComponent } from './pages/equipament/checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'disciplinary-measure', component: DisciplinaryMeasureComponent },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },
+      { path: 'equipament/checkout', component: CheckoutComponent },
     ]
   }
 ];

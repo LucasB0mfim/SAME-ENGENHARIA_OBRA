@@ -22,8 +22,6 @@ submissionState: FormSubmissionState = FormSubmissionState.IDLE;
 
   formSections: DynamicFormSection[] = [
     {
-      icon: 'home',
-      title: 'Residência',
       fields: [
         {
           label: 'Seu endereço',
@@ -35,8 +33,6 @@ submissionState: FormSubmissionState = FormSubmissionState.IDLE;
       ]
     },
     {
-      icon: 'article',
-      title: 'Motivo',
       fields: [
         {
           label: 'Motivo da solicitação',
