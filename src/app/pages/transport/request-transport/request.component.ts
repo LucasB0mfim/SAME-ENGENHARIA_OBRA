@@ -6,30 +6,31 @@ import { UserService } from '../../../core/services/user.service';
 import { TransportService } from '../../../core/services/transport.service';
 
 @Component({
-  selector: 'app-request-transport',
+  selector: 'app-request',
   imports: [
     CommonModule,
     DynamicFormComponent
   ],
-  templateUrl: './request-transport.component.html',
-  styleUrl: './request-transport.component.scss'
+  templateUrl: './request.component.html',
+  styleUrl: './request.component.scss'
 })
-export class RequestTransportComponent implements OnInit {
+export class RequestComponent implements OnInit {
 
   submissionState: FormSubmissionState = FormSubmissionState.IDLE;
 
   userData: any = null;
   errorMessage: string = '';
+  successMessage: string = '';
 
   // Configuração do formulário de check-in
   formSections: DynamicFormSection[] = [
     {
       fields: [
         {
-          label: 'Seu endereço',
+          label: 'Endereço completo',
           name: 'endereco',
           type: 'text',
-          placeholder: 'Rua Arthur Lopes, 218',
+          placeholder: 'Ex: Rua Arthur Lopes, 218',
           required: true
         }
       ]
@@ -37,10 +38,10 @@ export class RequestTransportComponent implements OnInit {
     {
       fields: [
         {
-          label: 'Motivo da solicitação',
+          label: 'Motivo do pedido',
           name: 'motivo',
-          type: 'textarea',
-          placeholder: 'Informe o motivo da solicitação',
+          type: 'text',
+          placeholder: 'Ex: Não tenho veículo próprio',
           required: true
         }
       ]
@@ -48,21 +49,25 @@ export class RequestTransportComponent implements OnInit {
     {
       fields: [
         {
-          label: 'Ônibus por dia',
+          label: 'Viagens de ônibus por dia',
           name: 'qtd_onibus',
           type: 'number',
           min: 0,
           max: 10,
-          placeholder: '0',
+          placeholder: 'Ex: 2',
           required: true
-        },
+        }
+      ]
+    },
+    {
+      fields: [
         {
-          label: 'Metrô por dia',
+          label: 'Viagens de metrô por dia',
           name: 'qtd_metro',
           type: 'number',
           min: 0,
           max: 10,
-          placeholder: '0',
+          placeholder: 'Ex: 1',
           required: true
         }
       ]
@@ -72,7 +77,11 @@ export class RequestTransportComponent implements OnInit {
   constructor(
     private _transportService: TransportService,
     private _userService: UserService
-  ) {}
+  ) { }
+
+  onFormStateChange(newState: FormSubmissionState): void {
+    this.submissionState = newState;
+  }
 
   ngOnInit(): void {
     this._userService.getInfo().subscribe({
@@ -86,22 +95,19 @@ export class RequestTransportComponent implements OnInit {
   };
 
   onSubmit(formData: FormData): void {
-    this.submissionState = FormSubmissionState.LOADING;
-
     formData.append('chapa', this.userData.chapa);
     formData.append('tipo', 'SOLICITACAO');
 
-    this._transportService.create(formData)
-      .subscribe({
-        next: () => {
-          this.submissionState = FormSubmissionState.SUCCESS;
-          this.submissionState = FormSubmissionState.IDLE;
-        },
-        error: (error) => {
-          console.error('Erro ao realizar check-in:', error);
-          this.errorMessage = error.error?.message;
-          this.submissionState = FormSubmissionState.ERROR;
-        }
-      });
+    this.submissionState = FormSubmissionState.LOADING;
+    this._transportService.create(formData).subscribe({
+      next: (res) => {
+        this.successMessage = res.message;
+        this.submissionState = FormSubmissionState.SUCCESS;
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.message || 'Erro ao registrar medida disciplinar';
+        this.submissionState = FormSubmissionState.ERROR;
+      }
+    });
   }
 }

@@ -1,12 +1,10 @@
-<div class="container">
-  <app-dynamic-form
-    [sections]="formSections"
-    [titleForm]="'Cadastro'"
-    [submitButtonText]="'Cadastrar equipamento'"
-    [submissionState]="submissionState"
-    [errorMessage]="errorMessage"
-    [successMessage]="successMessage"
-    [qrCode]="qrCode"
-    (formSubmit)="onSubmit($event)">
-  </app-dynamic-form>
-</div>
+<app-dynamic-form
+  [sections]="formSections"
+  [titleForm]="'Cadastro'"
+  [submitButtonText]="'Cadastrar equipamento'"
+  [submissionState]="submissionState"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  [qrCode]="qrCode"
+  (formSubmit)="onSubmit($event)">
+</app-dynamic-form>

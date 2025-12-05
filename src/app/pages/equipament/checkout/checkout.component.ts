@@ -49,7 +49,7 @@ export class CheckoutComponent {
 
   onSubmit(formData: FormData): void {
     this.submissionState = FormSubmissionState.LOADING;
-    this._equipamentService.checkin(formData).subscribe({
+    this._equipamentService.checkout(formData).subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.submissionState = FormSubmissionState.SUCCESS;

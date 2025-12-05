@@ -83,42 +83,31 @@
   </section>
 
   <section class="section" *ngIf="currentStep === 5 && !isLoading && !isSuccess && !isServerError">
-  <header (click)="prevStep()" class="section__header">
-    <mat-icon class="section__icon section__icon--header">arrow_back_ios_new</mat-icon>
-    <h1 class="section__title">Selecione quem será bonificado</h1>
-  </header>
+    <header (click)="prevStep()" class="section__header">
+      <mat-icon class="section__icon section__icon--header">arrow_back_ios_new</mat-icon>
+      <h1 class="section__title">Selecione quem será bonificado</h1>
+    </header>
 
-  <div class="section__content">
-    <input
-        type="text"
-        [(ngModel)]="searchEmployee"
-        [ngModelOptions]="{standalone: true}"
-        (input)="applyFilters()"
-        placeholder="Buscar Colaborador"
-        class="section__input">
 
-    <span class="section__label">
-      Lista de colaboradores
-    </span>
+    <input type="text" [(ngModel)]="searchEmployee" [ngModelOptions]="{standalone: true}" (input)="applyFilters()"
+      placeholder="Buscar Colaborador" class="section__input">
 
-    <label
-      *ngFor="let emp of filteredEmployees; let i = index"
-      class="section__label section__label--list">
-      {{ emp.nome }}
+    <div class="section__content">
+      <span class="section__label">
+        Lista de colaboradores
+      </span>
 
-      <input
-        type="checkbox"
-        [formControl]="getBonificadoControl(employees.indexOf(emp))">
-    </label>
-  </div>
+      <label *ngFor="let emp of filteredEmployees; let i = index" class="section__label section__label--list">
+        {{ emp.nome }}
 
-  <footer class="section__footer">
-    <button
-      type="button"
-      (click)="nextStep()"
-      class="section__button">Continuar</button>
-  </footer>
-</section>
+        <input type="checkbox" [formControl]="getBonificadoControl(employees.indexOf(emp))">
+      </label>
+    </div>
+
+    <footer class="section__footer">
+      <button type="button" (click)="nextStep()" class="section__button">Continuar</button>
+    </footer>
+  </section>
 
   <ng-container *ngFor="let funcao of selectedEmployeeFunctions; let i = index">
     <section class="section" *ngIf="currentStep === 6 + i && !isLoading && !isSuccess && !isServerError">

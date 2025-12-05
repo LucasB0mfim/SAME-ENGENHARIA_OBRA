@@ -1,9 +1,10 @@
 <app-dynamic-form
   [sections]="formSections"
-  [titleForm]="'Checkin'"
-  [submitButtonText]="'Registrar Checkin'"
+  [titleForm]="'Solicitar VT'"
+  [submitButtonText]="'Registrar Solicitação'"
   [submissionState]="submissionState"
   [errorMessage]="errorMessage"
   [successMessage]="successMessage"
-  (formSubmit)="onSubmit($event)">
+  (formSubmit)="onSubmit($event)"
+  (formStateChange)="onFormStateChange($event)">
 </app-dynamic-form>

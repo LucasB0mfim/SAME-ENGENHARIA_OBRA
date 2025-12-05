@@ -6,28 +6,29 @@ import { UserService } from '../../../core/services/user.service';
 import { TransportService } from '../../../core/services/transport.service';
 
 @Component({
-  selector: 'app-cancel-transport',
+  selector: 'app-cancel',
   imports: [
     CommonModule,
     DynamicFormComponent
   ],
-  templateUrl: './cancel-transport.component.html',
-  styleUrl: './cancel-transport.component.scss'
+  templateUrl: './cancel.component.html',
+  styleUrl: './cancel.component.scss'
 })
-export class CancelTransportComponent implements OnInit {
-submissionState: FormSubmissionState = FormSubmissionState.IDLE;
+export class CancelComponent implements OnInit {
+  submissionState: FormSubmissionState = FormSubmissionState.IDLE;
 
   userData: any = null;
   errorMessage: string = '';
+  successMessage: string = '';
 
   formSections: DynamicFormSection[] = [
     {
       fields: [
         {
-          label: 'Seu endereço',
+          label: 'Endereço completo',
           name: 'endereco',
           type: 'text',
-          placeholder: 'Rua Arthur Lopes, 218',
+          placeholder: 'Ex: Rua Arthur Lopes, 218',
           required: true
         }
       ]
@@ -35,10 +36,10 @@ submissionState: FormSubmissionState = FormSubmissionState.IDLE;
     {
       fields: [
         {
-          label: 'Motivo da solicitação',
+          label: 'Motivo do pedido',
           name: 'motivo',
-          type: 'textarea',
-          placeholder: 'Informe o motivo da solicitação',
+          type: 'text',
+          placeholder: 'Ex: Venho de carona',
           required: true
         }
       ]
@@ -48,7 +49,11 @@ submissionState: FormSubmissionState = FormSubmissionState.IDLE;
   constructor(
     private _transportService: TransportService,
     private _userService: UserService
-  ) {}
+  ) { }
+
+  onFormStateChange(newState: FormSubmissionState): void {
+    this.submissionState = newState;
+  }
 
   ngOnInit(): void {
     this._userService.getInfo().subscribe({
@@ -62,22 +67,19 @@ submissionState: FormSubmissionState = FormSubmissionState.IDLE;
   };
 
   onSubmit(formData: FormData): void {
-    this.submissionState = FormSubmissionState.LOADING;
-
     formData.append('chapa', this.userData.chapa);
     formData.append('tipo', 'CANCELAMENTO');
 
-    this._transportService.create(formData)
-      .subscribe({
-        next: () => {
-          this.submissionState = FormSubmissionState.SUCCESS;
-          this.submissionState = FormSubmissionState.IDLE;
-        },
-        error: (error) => {
-          console.error('Erro ao realizar cancelamento:', error);
-          this.errorMessage = error.error?.message;
-          this.submissionState = FormSubmissionState.ERROR;
-        }
-      });
+    this.submissionState = FormSubmissionState.LOADING;
+    this._transportService.create(formData).subscribe({
+      next: (res) => {
+        this.successMessage = res.message;
+        this.submissionState = FormSubmissionState.SUCCESS;
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.message || 'Erro ao registrar medida disciplinar';
+        this.submissionState = FormSubmissionState.ERROR;
+      }
+    });
   }
 }

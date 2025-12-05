@@ -7,12 +7,12 @@ import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { NewTaskComponent } from './components/task/new-task/new-task.component';
-import { ManageTaskComponent } from './components/task/manage-task/manage-task.component';
 
 import { RentalComponent } from './components/equipament/rental/rental.component';
-import { CancelTransportComponent } from './pages/transport/cancel-transport/cancel-transport.component';
-import { RequestTransportComponent } from './pages/transport/request-transport/request-transport.component';
-import { DisciplinaryMeasureComponent } from './components/operational/disciplinary-measure/disciplinary-measure.component';
+import { CancelComponent } from './pages/transport/cancel-transport/cancel.component';
+import { RequestComponent } from './pages/transport/request-transport/request.component';
+
+import { DisciplinaryMeasureComponent } from './pages/operational/disciplinary-measure/disciplinary-measure.component';
 import { CheckinComponent } from './pages/equipament/checkin/checkin.component';
 import { RegisterEquipamentComponent } from './pages/equipament/register/register.component';
 import { CheckoutComponent } from './pages/equipament/checkout/checkout.component';
@@ -33,15 +33,14 @@ export const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'new-task', component: NewTaskComponent },
-      { path: 'manage-task', component: ManageTaskComponent },
-      { path: 'rental', component: RentalComponent },
-      { path: 'transport/request', component: RequestTransportComponent },
-      { path: 'transport/cancel', component: CancelTransportComponent },
-      { path: 'disciplinary-measure', component: DisciplinaryMeasureComponent },
+      { path: 'task/new', component: NewTaskComponent },
+      { path: 'transport/request', component: RequestComponent },
+      { path: 'transport/cancel', component: CancelComponent },
+      { path: 'operational/disciplinary-measure', component: DisciplinaryMeasureComponent },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },
+      { path: 'equipament/rental', component: RentalComponent },
     ]
   }
 ];
