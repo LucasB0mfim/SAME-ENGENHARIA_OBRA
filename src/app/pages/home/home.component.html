@@ -1,160 +1,18 @@
-<div class="home">
-  <header class="home__header">
-    <div class="home__header-content">
-      <!-- User Info Section -->
-      <div class="home__header-user">
-        <div class="home__header-avatar-container">
-          <img [src]="avatar" class="home__header-avatar" alt="Avatar do usuário">
-        </div>
-        <div class="home__header-info">
-          <h1 class="home__header-name">{{ employeeInfo?.nome || 'Carregando...' }}</h1>
-          <div class="home__header-details">
-            <div class="home__header-badge">
-              <mat-icon class="home__header-badge-icon">badge</mat-icon>
-              <span>{{ employeeInfo?.setor || employeeInfo?.funcao }}</span>
-            </div>
-            <div class="home__header-badge" *ngIf="employeeInfo?.chapa">
-              <mat-icon class="home__header-badge-icon">tag</mat-icon>
-              <span>{{ employeeInfo?.chapa }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="home__header-actions">
-        <button class="home__header-action" routerLink="/dashboard/task/new" title="Nova Tarefa">
-          <mat-icon class="home__icon">add_task</mat-icon>
-          <span class="home__header-action-label">Nova Tarefa</span>
-        </button>
-
-        <button class="home__header-action" routerLink="/dashboard/request-transport" title="Solicitar VT">
-          <mat-icon class="home__icon">directions_bus</mat-icon>
-          <span class="home__header-action-label">Solicitar VT</span>
-        </button>
-
-        <button class="home__header-action" (click)="openForm()" title="Canal de Ética">
-          <mat-icon class="home__icon">campaign</mat-icon>
-          <span class="home__header-action-label">Fala aí!</span>
-        </button>
-      </div>
-    </div>
+<div class="container">
+  <header class="header">
+    <h1 class="header__title">{{ getUser(userData.nome) }}</h1>
   </header>
-
-  <div class="home__container">
-    <section class="home__section">
-      <h2 class="home__section-title">Tarefa</h2>
-      <div class="home__section-grid">
-        <div class="home__card" routerLink="/dashboard/task/new">
-          <mat-icon class="home__icon home__icon--small">add</mat-icon>
-          <p class="home__card-text">Cadastrar tarefa</p>
-        </div>
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">folder</mat-icon>
-          <p class="home__card-text">Gerenciar tarefas</p>
-        </div>
+  @for (section of sections; track section.title; let index = $index) {
+  <section class="section" [class.section__banner]="index === 0">
+    <h2 class="section__title">{{ section.title }}</h2>
+    <div class="section__card">
+      @for (card of section.cards; track card.title) {
+      <div class="card" [routerLink]="card.route">
+        <mat-icon class="card__icon">{{ card.icon }}</mat-icon>
+        <h3 class="card__title">{{ card.title }}</h3>
       </div>
-      <div class="home__section-featured">
-        <div class="home__card-wide" (click)="openForm()">
-          <mat-icon class="home__icon home__icon--medium">campaign</mat-icon>
-          <div class="home__card-wide-content">
-            <p class="home__card-text home__card-text--bold">Fala aí!</p>
-            <p class="home__card-text">Sua voz a favor da ética. 100% Anônimo!</p>
-          </div>
-          <mat-icon class="home__icon home__icon--small">chevron_right</mat-icon>
-        </div>
-      </div>
-    </section>
-
-    <section class="home__section">
-      <h2 class="home__section-title">Equipamento</h2>
-      <div class="home__section-grid">
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">construction</mat-icon>
-          <p class="home__card-text">Cadastrar locação</p>
-        </div>
-
-        <div class="home__card" routerLink="/dashboard/equipament/register">
-          <mat-icon class="home__icon home__icon--small">app_registration</mat-icon>
-          <p class="home__card-text">Cadastrar Equipamento</p>
-        </div>
-
-        <div class="home__card" routerLink="/dashboard/equipament/checkin">
-          <mat-icon class="home__icon home__icon--small">login</mat-icon>
-          <p class="home__card-text">Checkin</p>
-        </div>
-
-        <div class="home__card" routerLink="/dashboard/equipament/checkout">
-          <mat-icon class="home__icon home__icon--small">logout</mat-icon>
-          <p class="home__card-text">Checkout</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="home__section">
-      <h2 class="home__section-title">Material</h2>
-      <div class="home__section-grid">
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">list_alt</mat-icon>
-          <p class="home__card-text">Lista de pedidos</p>
-        </div>
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">download</mat-icon>
-          <p class="home__card-text">Receber pedido</p>
-        </div>
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">inventory</mat-icon>
-          <p class="home__card-text">Estoque</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="home__section">
-      <h2 class="home__section-title">Operacional</h2>
-      <div class="home__section-grid">
-        <div class="home__card" routerLink="/dashboard/operational/disciplinary-measure">
-          <mat-icon class="home__icon home__icon--small">gavel</mat-icon>
-          <p class="home__card-text">Medida disciplinar</p>
-        </div>
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">group</mat-icon>
-          <p class="home__card-text">Equipes</p>
-        </div>
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">assignment</mat-icon>
-          <p class="home__card-text">Folha de ponto</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="home__section">
-      <h2 class="home__section-title">Meu Transporte</h2>
-      <div class="home__section-grid">
-        <div class="home__card" routerLink="/dashboard/transport/request">
-          <mat-icon class="home__icon home__icon--small">directions_bus</mat-icon>
-          <p class="home__card-text">Solicitar VT</p>
-        </div>
-
-        <div class="home__card" routerLink="/dashboard/transport/cancel">
-          <mat-icon class="home__icon home__icon--small">no_transfer</mat-icon>
-          <p class="home__card-text">Cancelar VT</p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="home__section home__section--footer">
-      <h2 class="home__section-title">Mais opções</h2>
-      <div class="home__section-grid">
-        <div class="home__card home__card--disabled">
-          <mat-icon class="home__icon home__icon--small">settings</mat-icon>
-          <p class="home__card-text">Configuração</p>
-        </div>
-
-        <div class="home__card home__card--logout" (click)="onLogout()">
-          <mat-icon class="home__icon home__icon--small">logout</mat-icon>
-          <p class="home__card-text">Sair</p>
-        </div>
-      </div>
-    </footer>
-  </div>
+      }
+    </div>
+  </section>
+  }
 </div>

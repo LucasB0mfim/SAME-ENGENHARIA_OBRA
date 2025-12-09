@@ -124,9 +124,7 @@ $bp-desktop-max: 1919px;
     border: none;
     outline: none;
 
-    display: flex;
-    align-items: center;
-
+    color: $dark-black;
     font-size: $fs-mdx;
     text-overflow: ellipsis;
     background-color: transparent;

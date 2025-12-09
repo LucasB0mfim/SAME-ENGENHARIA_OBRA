@@ -14,7 +14,7 @@ import { EquipmentService } from '../../../core/services/equipment.service';
 })
 export class RegisterEquipamentComponent {
   submissionState: FormSubmissionState = FormSubmissionState.IDLE;
-  qrCode: string = ''; // Para armazenar o QR Code retornado
+  qrCode: string = '';
 
   errorMessage: string = '';
   successMessage: string = '';
@@ -52,7 +52,7 @@ export class RegisterEquipamentComponent {
     this._equipamentService.register(formData).subscribe({
       next: (res) => {
         this.successMessage = res.message;
-        this.qrCode = res.qrCode || ''; // Assumindo que o backend retorna o qrCode
+        this.qrCode = res.qrCode || '';
         this.submissionState = FormSubmissionState.SUCCESS;
       },
       error: (error) => {
