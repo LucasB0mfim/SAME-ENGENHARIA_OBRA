@@ -35,7 +35,8 @@ export class HomeComponent implements OnInit {
       cards: [
         { icon: 'app_registration', title: 'Cadastrar', route: '/dashboard/equipament/register' },
         { icon: 'login', title: 'Checkin', route: '/dashboard/equipament/checkin' },
-        { icon: 'logout', title: 'Checkout', route: '/dashboard/equipament/checkout' }
+        { icon: 'logout', title: 'Checkout', route: '/dashboard/equipament/checkout' },
+        { icon: 'menu', title: 'Lista', route: '/dashboard/equipament/list' },
       ]
     },
     {

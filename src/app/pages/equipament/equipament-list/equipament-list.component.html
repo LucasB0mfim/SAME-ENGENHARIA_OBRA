@@ -1,0 +1,32 @@
+<div class="container">
+  <header class="header">
+    <mat-icon class="header__button" routerLink="/dashboard">exit_to_app</mat-icon>
+    <h2 class="header__title">Equipamentos</h2>
+  </header>
+
+  <div class="card" *ngFor="let item of items">
+    <div class="card__photo">
+      <img [src]="getPhoto(item.foto)" [alt]="item.nome" class="card__photo">
+    </div>
+    <div class="card__info">
+      <div class="card__flex">
+        <h3 class="card__title">{{ item.nome }}</h3>
+      </div>
+      <div class="card__group">
+        <div class="card__flex">
+          <mat-icon class="card__icon">calendar_today</mat-icon>
+          <h4 class="card__subtitle">{{ formateDate(item.criado_em) }}</h4>
+        </div>
+        <div class="card__flex">
+          <mat-icon class="card__icon">location_on</mat-icon>
+          <h4 class="card__subtitle">{{ item.destino }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="card__qrcode">
+      <button type="button" class="card__button">
+        <mat-icon>qr_code</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
