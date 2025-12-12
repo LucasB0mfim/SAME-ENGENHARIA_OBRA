@@ -39,7 +39,7 @@ export class EquipamentListComponent implements OnInit {
     if (!photo) {
       return "https://placehold.co/80x80";
     } else {
-      return `http://localhost:3000/equipament/file/${photo}`;
+      return `https://sameengenharia.com.br/api/equipament/file/${photo}`;
     }
   }
 

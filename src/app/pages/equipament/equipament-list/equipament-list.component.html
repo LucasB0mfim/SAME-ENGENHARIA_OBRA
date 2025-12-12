@@ -4,29 +4,59 @@
     <h2 class="header__title">Equipamentos</h2>
   </header>
 
-  <div class="card" *ngFor="let item of items">
-    <div class="card__photo">
-      <img [src]="getPhoto(item.foto)" [alt]="item.nome" class="card__photo">
-    </div>
-    <div class="card__info">
-      <div class="card__flex">
-        <h3 class="card__title">{{ item.nome }}</h3>
+  <div class="cards">
+    <div class="card" *ngFor="let item of items">
+      <div class="card__photo">
+        <img [src]="getPhoto(item.foto)" [alt]="item.nome" class="card__image">
       </div>
-      <div class="card__group">
-        <div class="card__flex">
+      <div class="card__info">
+        <h3 class="card__title">{{ item.nome }}</h3>
+        <div class="card__text">
           <mat-icon class="card__icon">calendar_today</mat-icon>
           <h4 class="card__subtitle">{{ formateDate(item.criado_em) }}</h4>
         </div>
-        <div class="card__flex">
+        <div class="card__text">
           <mat-icon class="card__icon">location_on</mat-icon>
           <h4 class="card__subtitle">{{ item.destino }}</h4>
         </div>
       </div>
     </div>
-    <div class="card__qrcode">
-      <button type="button" class="card__button">
-        <mat-icon>qr_code</mat-icon>
+  </div>
+
+  <div class="details">
+
+    <header class="details__header">
+      <div class="details__handle"></div>
+    </header>
+
+    <div class="details__content">
+      <div class="details__field">
+        <span class="details__label">Equipamento</span>
+        <span class="details__value">Motovibrador</span>
+      </div>
+
+      <div class="details__field">
+        <span class="details__label">Destino</span>
+        <span class="details__value">Armazém Central - Setor B</span>
+      </div>
+
+      <div class="details__field">
+        <span class="details__label">Última atualização</span>
+        <span class="details__value">15/03/2024</span>
+      </div>
+    </div>
+
+    <div class="details__footer">
+      <button class="details__button details__button--blue">
+        <mat-icon class="">download</mat-icon>
+        <span class="">Baixar</span>
+      </button>
+
+      <button class="details__button details__button--green">
+        <mat-icon class="">share</mat-icon>
+        <span class="">Compartilhar</span>
       </button>
     </div>
   </div>
+
 </div>

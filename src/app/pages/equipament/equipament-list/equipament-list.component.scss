@@ -24,7 +24,6 @@ $fs-sm: clamp(0.5rem, 0.5rem + 0vw, 0.5rem);
 $fs-md: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
 $fs-mdx: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
 $fs-lg: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
-
 $icon-sm: 24px;
 $icon-lg: 80px;
 
@@ -37,10 +36,11 @@ $bp-desktop-max: 1919px;
 
 .container {
   width: 100%;
-  height: auto;
+  height: 100%;
 
   display: grid;
   grid-template-rows: auto 1fr;
+  align-items: start;
   gap: $gp-md;
 
   padding: $pd-md;
@@ -67,92 +67,193 @@ $bp-desktop-max: 1919px;
   }
 }
 
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: $gp-sm;
+  overflow-y: auto;
+}
+
 .card {
   width: 100%;
   height: auto;
 
   gap: $gp-md;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
 
   padding: $pd-sm;
   border-radius: $bd-lg;
   border: 2px solid $dark-white;
 
-  &__flex {
+  &__photo {
+    width: 80px;
+    height: 80px;
+
     display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    border-radius: $bd-df;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__info {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+  }
+
+  &__text {
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: $gp-sm;
   }
 
-  &__photo {
-    width: 80px;
-    height: 80px;
-    min-width: 80px;
-    object-fit: cover;
-    border-radius: $bd-df;
-
-    @media (min-width: $bp-tablet) {
-      width: 100px;
-      height: 100px;
-      min-width: 100px;
-    }
-
-    @media (min-width: $bp-desktop) {
-      width: 120px;
-      height: 120px;
-      min-width: 120px;
-    }
-  }
-
-  &__info {
-    width: auto;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: $gp-sm;
-  }
-
   &__title {
-    font-weight: 600;
-    color: $dark-black;
-    font-size: $fs-mdx;
+    width: 100%;
+    height: auto;
+
     overflow: hidden;
-    text-overflow: ellipsis;
+    font-weight: 600;
+    font-size: $fs-mdx;
+    color: $dark-black;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &__subtitle {
-    font-weight: 500;
-    color: $light-gray;
-    font-size: $fs-mdx;
+    max-width: 95%;
+    width: 100%;
+    height: auto;
+
     overflow: hidden;
-    text-overflow: ellipsis;
+    font-weight: 500;
+    font-size: $fs-mdx;
+    color: $light-gray;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &__icon {
     width: $fs-mdx;
     height: $fs-mdx;
+
+    font-weight: 600;
     font-size: $fs-mdx;
     color: $light-gray;
-    flex-shrink: 0;
   }
+}
 
-  &__button {
-    width: auto;
+.details {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: auto;
+  padding: $pd-md;
+
+  display: flex;
+  flex-direction: column;
+  gap: $gp-md;
+
+
+  border-top-left-radius: $bd-lg;
+  border-top-right-radius: $bd-lg;
+  background-color: $dark-white;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+
+  &__header {
+    width: 100%;
     height: auto;
 
     display: flex;
-    align-items: start;
+    align-items: center;
+    justify-content: center;
+  }
 
-    padding: 2px;
-    color: $dark-blue;
+  &__handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: $light-gray;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $gp-sm;
+  }
+
+  &__field {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: $pd-sm;
     border-radius: $bd-lg;
-    border: 2px solid $dark-blue;
-    background-color: transparent;
-    cursor: pointer;
+    background-color: $light-white;
+  }
+
+  &__label {
+    font-weight: 500;
+    color: $dark-black;
+    font-size: $fs-mdx;
+  }
+
+  &__value {
+    color: $dark-black;
+    font-size: $fs-mdx;
+    text-overflow: ellipsis;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: $gp-sm;
+  }
+
+  &__button {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $pd-sm;
+    gap: $gp-sm;
+
+    border: none;
+    border-radius: $bd-df;
+    color: $light-white;
+
+    &--blue {
+      background-color: $dark-blue;
+    }
+
+    &--green {
+      background-color: $light-green;
+    }
   }
 }
