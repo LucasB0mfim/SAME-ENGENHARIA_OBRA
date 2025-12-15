@@ -5,8 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-
+export class RealEstateService {
   private readonly _httpClient = inject(HttpClient);
 
   private _createHeaders(): HttpHeaders {
@@ -15,8 +14,9 @@ export class UserService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getInfo(): Observable<any> {
+  findAll(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cuser', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cnaiahflats', { headers });
   }
+
 }

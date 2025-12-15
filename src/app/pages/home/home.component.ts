@@ -55,6 +55,12 @@ export class HomeComponent implements OnInit {
       ]
     },
     {
+      title: 'Corretores',
+      cards: [
+        { icon: 'group', title: 'Leads', route: '/dashboard/real-estate/lead' }
+      ]
+    },
+    {
       title: 'Mais Opções',
       cards: [
         { icon: 'settings', title: 'Configurações', route: '' },

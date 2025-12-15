@@ -1,0 +1,259 @@
+$light-gray: #878787;
+$light-white: #FCFCFC;
+$light-red: #ff5757;
+$light-green: #4bd28f;
+
+$dark-black: #303030;
+$dark-red: #DC3545;
+$dark-blue: #003278;
+$dark-white: #F3F3F3;
+
+$gp-sm: clamp(0.5rem, 0.5rem + 0vw, 0.5rem);
+$gp-md: clamp(1rem, 1rem + 0vw, 1rem);
+$gp-lg: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);
+
+$pd-sm: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
+$pd-md: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
+
+$bd-sm: 2px;
+$bd-df: 4px;
+$bd-lg: 6px;
+$bd-xx: 8px;
+
+$fs-sm: clamp(0.5rem, 0.5rem + 0vw, 0.5rem);
+$fs-md: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
+$fs-mdx: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
+$fs-lg: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
+$icon-sm: 24px;
+$icon-lg: 80px;
+
+$bp-tablet: 1024px;
+$bp-desktop: 1440px;
+$bp-large: 1920px;
+
+$bp-tablet-max: 1439px;
+$bp-desktop-max: 1919px;
+
+.container {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: $gp-md;
+
+  padding: $pd-md;
+  background-color: $light-white;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+
+  &__title {
+    font-weight: 500;
+    font-size: $fs-mdx;
+    text-align: center;
+  }
+
+  &__button {
+    color: $dark-blue;
+    cursor: pointer;
+  }
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: $gp-sm;
+  overflow-y: auto;
+}
+
+.card {
+  width: 100%;
+  height: auto;
+
+  gap: $gp-md;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+
+  padding: $pd-sm;
+  border-radius: $bd-lg;
+  border: 2px solid $dark-white;
+
+  &__photo {
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    border-radius: $bd-df;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__info {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+  }
+
+  &__text {
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: $gp-sm;
+  }
+
+  &__title {
+    width: 100%;
+    height: auto;
+
+    overflow: hidden;
+    font-weight: 600;
+    font-size: $fs-mdx;
+    color: $dark-black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__subtitle {
+    max-width: 95%;
+    width: 100%;
+    height: auto;
+
+    overflow: hidden;
+    font-weight: 500;
+    font-size: $fs-mdx;
+    color: $light-gray;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__icon {
+    width: $fs-mdx;
+    height: $fs-mdx;
+
+    font-weight: 600;
+    font-size: $fs-mdx;
+    color: $light-gray;
+  }
+}
+
+.details {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: auto;
+  padding: $pd-md;
+
+  display: flex;
+  flex-direction: column;
+  gap: $gp-md;
+
+
+  border-top-left-radius: $bd-lg;
+  border-top-right-radius: $bd-lg;
+  background-color: $dark-white;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+
+  &__header {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: $light-gray;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $gp-sm;
+  }
+
+  &__field {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: $pd-sm;
+    border-radius: $bd-lg;
+    background-color: $light-white;
+  }
+
+  &__label {
+    font-weight: 500;
+    color: $dark-black;
+    font-size: $fs-mdx;
+  }
+
+  &__value {
+    color: $dark-black;
+    font-size: $fs-mdx;
+    text-overflow: ellipsis;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: $gp-sm;
+  }
+
+  &__button {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $pd-sm;
+    gap: $gp-sm;
+
+    border: none;
+    border-radius: $bd-df;
+    color: $light-white;
+
+    &--blue {
+      background-color: $dark-blue;
+    }
+
+    &--green {
+      background-color: $light-green;
+    }
+  }
+}

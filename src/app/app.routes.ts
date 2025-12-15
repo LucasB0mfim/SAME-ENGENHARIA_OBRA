@@ -17,6 +17,7 @@ import { CheckinComponent } from './pages/equipament/checkin/checkin.component';
 import { RegisterEquipamentComponent } from './pages/equipament/register/register.component';
 import { CheckoutComponent } from './pages/equipament/checkout/checkout.component';
 import { EquipamentListComponent } from './pages/equipament/equipament-list/equipament-list.component';
+import { AgentComponent } from './pages/real-estate/agent/agent.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,7 @@ export const routes: Routes = [
       { path: 'equipament/checkout', component: CheckoutComponent },
       { path: 'equipament/rental', component: RentalComponent },
       { path: 'equipament/list', component: EquipamentListComponent },
+      { path: 'real-estate/lead', component: AgentComponent },
     ]
   }
 ];

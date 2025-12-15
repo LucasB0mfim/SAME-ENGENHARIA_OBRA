@@ -53,7 +53,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input() successMessage: string = 'Formulário enviado com sucesso!';
   @Input() asideTitle: string = '';
   @Input() asideContent: string = '';
-  @Input() qrCode: string = ''; // Base64 do QR Code
+  @Input() qrCode: string = '';
 
   @Output() formSubmit = new EventEmitter<FormData>();
   @Output() formStateChange = new EventEmitter<FormSubmissionState>();

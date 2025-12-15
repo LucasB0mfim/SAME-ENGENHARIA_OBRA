@@ -1,54 +1,47 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicListComponent, DynamicListSection } from '../../../components/dynamic-list/dynamic-list.component';
-
-import { EquipmentService } from '../../../core/services/equipment.service';
+import { RealEstateService } from '../../../core/services/real-estate.service';
 
 @Component({
-  selector: 'app-equipament-list',
+  selector: 'app-agent',
   imports: [
     CommonModule,
     DynamicListComponent,
   ],
-  templateUrl: './equipament-list.component.html',
-  styleUrls: ['./equipament-list.component.scss']
+  templateUrl: './agent.component.html',
+  styleUrl: './agent.component.scss'
 })
-export class EquipamentListComponent {
+export class AgentComponent {
 
   constructor(
-    private readonly _equipamentService: EquipmentService
+    private readonly _realEstateService: RealEstateService
   ) { }
+
+  items: any[] = [];
 
   sections: DynamicListSection[] = [
     {
       fields: [
         {
-          name: 'foto',
-          type: 'image'
-        },
-        {
           name: 'nome',
           type: 'text'
         },
         {
-          name: 'criado_em',
+          name: 'telefone',
           type: 'text'
         },
         {
-          name: 'destino',
+          name: 'email',
           type: 'text'
         },
-        {
-          name: 'qr_code',
-          type: 'qrcode'
-        }
       ],
       items: []
     }
   ];
 
   ngOnInit(): void {
-    this._equipamentService.findAll().subscribe({
+    this._realEstateService.findAll().subscribe({
       next: (res) => {
         this.sections[0].items = res.result;
       },

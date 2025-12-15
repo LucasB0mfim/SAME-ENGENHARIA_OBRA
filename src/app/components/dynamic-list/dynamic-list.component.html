@@ -1,0 +1,56 @@
+<div class="container">
+  <header class="header">
+    <mat-icon class="header__button" routerLink="/dashboard">exit_to_app</mat-icon>
+    <h2 class="header__title">{{ titleSection }}</h2>
+  </header>
+
+  <div class="cards" *ngFor="let section of sections">
+    <div class="card" *ngFor="let item of section.items">
+
+      <!-- FOTO (sempre à esquerda) - só mostra se existir -->
+      <div class="card__photo" *ngIf="hasImage(section.fields, item)">
+          <ng-container *ngFor="let field of section.fields">
+            <img *ngIf="field.type === 'image' && item[field.name!]"
+              [src]="'https://sameengenharia.com.br/api/equipament/file/' + item[field.name!]"
+              [alt]="field.name"
+              class="card__image" />
+          </ng-container>
+      </div>
+
+      <!-- INFORMAÇÕES (sempre à direita) -->
+      <div class="card__info">
+        <ng-container *ngFor="let field of section.fields">
+          <!-- Nome -->
+          <h3 *ngIf="field.type === 'text' && field.name === 'nome'" class="card__title">
+            {{ item[field.name!] }}
+          </h3>
+
+          <!-- Data criação -->
+          <div *ngIf="field.type === 'text' && field.name === 'criado_em'" class="card__text">
+            <mat-icon class="card__icon">calendar_today</mat-icon>
+            <h4 class="card__subtitle">{{ item[field.name!] }}</h4>
+          </div>
+
+          <!-- Telefone -->
+          <div *ngIf="field.type === 'text' && field.name === 'telefone'" class="card__text">
+            <mat-icon class="card__icon">phone</mat-icon>
+            <h4 class="card__subtitle">{{ item[field.name!] }}</h4>
+          </div>
+
+          <!-- Email -->
+          <div *ngIf="field.type === 'text' && field.name === 'email'" class="card__text">
+            <mat-icon class="card__icon">mail</mat-icon>
+            <h4 class="card__subtitle">{{ item[field.name!] }}</h4>
+          </div>
+
+          <!-- Destino -->
+          <div *ngIf="field.type === 'text' && field.name === 'destino'" class="card__text">
+            <mat-icon class="card__icon">place</mat-icon>
+            <h4 class="card__subtitle">{{ item[field.name!] }}</h4>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+</div>

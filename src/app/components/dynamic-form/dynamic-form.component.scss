@@ -93,7 +93,9 @@ $bp-desktop-max: 1919px;
     }
 
     &-flex {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
       gap: $gp-md;
     }
 
@@ -125,6 +127,9 @@ $bp-desktop-max: 1919px;
 
     color: $dark-black;
     font-size: $fs-mdx;
+
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
     background-color: transparent;
 

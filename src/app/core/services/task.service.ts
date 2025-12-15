@@ -17,11 +17,11 @@ export class TaskService {
 
   findTaskByUser(user: any) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/my-tasks/${user}`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/ctask/my-tasks/${user}`, { headers });
   }
 
   create(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/task', formData, { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/ctask', formData, { headers });
   }
 }
