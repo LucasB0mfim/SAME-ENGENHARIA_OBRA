@@ -126,13 +126,13 @@ $bp-large: 1440px;
 
   &__photo {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 2 / 1;
 
     display: block;
     overflow: hidden;
     border-radius: $bd-df;
     background-color: $dark-white;
-    filter: brightness(0.3);
+    filter: brightness(0.8);
   }
 
   &__image {
