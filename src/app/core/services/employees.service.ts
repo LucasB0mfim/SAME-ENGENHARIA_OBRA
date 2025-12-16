@@ -17,11 +17,11 @@ export class EmployeesService {
 
   findBasicInfo(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cemployee', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee', { headers });
   }
 
   findActiveNames(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cemployee/active-names', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee/active-names', { headers });
   }
 }

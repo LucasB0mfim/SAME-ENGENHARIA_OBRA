@@ -17,6 +17,6 @@ export class UserService {
 
   getInfo(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cuser', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/user', { headers });
   }
 }

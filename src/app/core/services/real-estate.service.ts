@@ -16,7 +16,7 @@ export class RealEstateService {
 
   findAll(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('https://sameengenharia.com.br/api/cnaiahflats', { headers });
+    return this._httpClient.get<any>('https://sameengenharia.com.br/api/naiahflats', { headers });
   }
 
 }

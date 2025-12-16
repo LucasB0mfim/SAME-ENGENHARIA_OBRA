@@ -1,0 +1,63 @@
+<div class="container">
+
+  <header class="header">
+    <mat-icon class="header__button" routerLink="/dashboard">exit_to_app</mat-icon>
+    <h2 class="header__title">{{ title }}</h2>
+  </header>
+
+  <div class="cards">
+    <div class="card" *ngFor="let item of data; trackBy: trackByIndex">
+
+      <!-- IMAGEM -->
+      <div *ngIf="item.foto" class="card__photo">
+        <img
+          class="card__image"
+          [src]="'https://sameengenharia.com.br/api/equipament/file/' + item.foto"
+          [alt]="item[getTitleField()]"
+          loading="lazy" />
+      </div>
+
+      <div class="card__info">
+        <ng-container *ngFor="let field of fields">
+
+          <!-- TITULO (Nome em destaque) -->
+          <h3 class="card__title" *ngIf="field.type === 'title'">
+            {{ item[field.name] }}
+          </h3>
+
+          <!-- DATA -->
+          <div class="card__field" *ngIf="field.type === 'date' && item[field.name]">
+            <mat-icon class="card__icon">calendar_today</mat-icon>
+            <p class="card__subtitle">{{ item[field.name] }}</p>
+          </div>
+
+          <!-- DESTINO/LOCALIZAÇÃO -->
+          <div class="card__field" *ngIf="field.type === 'text' && item[field.name]">
+            <mat-icon class="card__icon">place</mat-icon>
+            <p class="card__subtitle">{{ item[field.name] }}</p>
+          </div>
+
+          <!-- NOME (Pessoa) -->
+          <div class="card__field" *ngIf="field.type === 'name' && item[field.name]">
+            <mat-icon class="card__icon">account_circle</mat-icon>
+            <p class="card__subtitle">{{ item[field.name] }}</p>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="card__field" *ngIf="field.type === 'email' && item[field.name]">
+            <mat-icon class="card__icon">mail</mat-icon>
+            <p class="card__subtitle">{{ item[field.name] }}</p>
+          </div>
+
+          <!-- TELEFONE -->
+          <div class="card__field" *ngIf="field.type === 'tel' && item[field.name]">
+            <mat-icon class="card__icon">phone</mat-icon>
+            <p class="card__subtitle">{{ item[field.name] }}</p>
+          </div>
+
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</div>

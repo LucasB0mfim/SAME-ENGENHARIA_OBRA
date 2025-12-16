@@ -1,34 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDisplayComponent, DynamicField } from '../../../components/dynamic-display/dynamic-display.component';
-
-import { RealEstateService } from '../../../core/services/real-estate.service';
+import { EquipmentService } from '../../../core/services/equipment.service';
 
 @Component({
-  selector: 'app-agent',
+  selector: 'app-equipament-list',
   imports: [
     CommonModule,
     DynamicDisplayComponent,
   ],
-  templateUrl: './agent.component.html',
-  styleUrl: './agent.component.scss'
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-export class AgentComponent implements OnInit {
+export class EquipamentListComponent implements OnInit {
   apiData: any[] = [];
 
   fields: DynamicField[] = [
-    { label: 'Nome', name: 'nome', type: 'name' },
-    { label: 'Telefone', name: 'telefone', type: 'tel' },
-    { label: 'Email', name: 'email', type: 'email' },
-  ];
+  { label: 'Nome', name: 'nome', type: 'title' },
+  { label: 'Criado em', name: 'criado_em', type: 'date' },
+  { label: 'Destino', name: 'destino', type: 'text' }
+];
 
 
   constructor(
-    private readonly _realEstateService: RealEstateService
+    private readonly _equipamentService: EquipmentService
   ) { }
 
   ngOnInit(): void {
-    this._realEstateService.findAll().subscribe({
+    this._equipamentService.findAll().subscribe({
       next: (res) => {
         this.apiData = res.result;
       },

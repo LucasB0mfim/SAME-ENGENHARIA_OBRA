@@ -16,7 +16,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const headers = _createHeaders();
   const _httpClient = inject(HttpClient);
 
-  return _httpClient.post<any>('https://sameengenharia.com.br/api/cuser/auth-token', body, { headers }).pipe(
+  return _httpClient.post<any>('https://sameengenharia.com.br/api/user/auth-token', body, { headers }).pipe(
     map(response => {
       if (response.success) {
         return true
