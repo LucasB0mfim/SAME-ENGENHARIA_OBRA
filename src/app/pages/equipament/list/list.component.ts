@@ -16,10 +16,10 @@ export class EquipamentListComponent implements OnInit {
   apiData: any[] = [];
 
   fields: DynamicField[] = [
-  { label: 'Nome', name: 'nome', type: 'title' },
-  { label: 'Criado em', name: 'criado_em', type: 'date' },
-  { label: 'Destino', name: 'destino', type: 'text' }
-];
+    { label: 'Nome', name: 'nome', type: 'title' },
+    { label: 'Criação', name: 'criado_em', type: 'date' },
+    { label: 'Destino', name: 'destino', type: 'text' }
+  ];
 
 
   constructor(

@@ -1,7 +1,3 @@
-// ===================================
-// DESIGN TOKENS (Padrão do Projeto)
-// ===================================
-
 $light-gray: #878787;
 $light-white: #FCFCFC;
 $light-red: #ff5757;
@@ -32,15 +28,10 @@ $fs-lg: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);
 $icon-sm: 24px;
 $icon-lg: 80px;
 
-// Breakpoints
 $bp-mobile: 480px;
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
 $bp-large: 1440px;
-
-// ===================================
-// CONTAINER
-// ===================================
 
 .container {
   width: 100%;
@@ -58,10 +49,6 @@ $bp-large: 1440px;
     gap: $gp-lg;
   }
 }
-
-// ===================================
-// HEADER
-// ===================================
 
 .header {
   width: 100%;
@@ -100,10 +87,6 @@ $bp-large: 1440px;
   }
 }
 
-// ===================================
-// LISTA DE CARDS
-// ===================================
-
 .cards {
   width: 100%;
   height: 100%;
@@ -128,10 +111,6 @@ $bp-large: 1440px;
   }
 }
 
-// ===================================
-// CARD
-// ===================================
-
 .card {
   width: 100%;
   height: auto;
@@ -145,19 +124,15 @@ $bp-large: 1440px;
   border: 2px solid $dark-white;
   background-color: $light-white;
 
-  // ===================================
-  // FOTO
-  // ===================================
-
   &__photo {
     width: 100%;
-    height: 130px;
+    aspect-ratio: 1 / 1;
 
     display: block;
     overflow: hidden;
     border-radius: $bd-df;
     background-color: $dark-white;
-    filter: brightness(0.5);
+    filter: brightness(0.3);
   }
 
   &__image {
@@ -169,10 +144,6 @@ $bp-large: 1440px;
     display: block;
   }
 
-  // ===================================
-  // INFORMAÇÕES
-  // ===================================
-
   &__info {
     width: 100%;
     height: auto;
@@ -182,15 +153,10 @@ $bp-large: 1440px;
     gap: $gp-sm;
   }
 
-  // ===================================
-  // TÍTULO (Nome em Destaque)
-  // ===================================
-
   &__title {
-    line-height: 1.4;
     font-weight: 600;
-    font-size: $fs-mdx;
-    color: $dark-black;
+    font-size: $fs-md;
+    color: $dark-blue;
 
     overflow: hidden;
     white-space: nowrap;
@@ -198,7 +164,6 @@ $bp-large: 1440px;
   }
 
   &__subtitle {
-    line-height: 1.4;
     font-weight: 500;
     font-size: $fs-md;
     color: $dark-black;
@@ -207,10 +172,6 @@ $bp-large: 1440px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
-  // ===================================
-  // CAMPO (Informações Secundárias)
-  // ===================================
 
   &__field {
     width: 100%;
@@ -225,7 +186,6 @@ $bp-large: 1440px;
 
     border-radius: $bd-df;
     border: 1px solid $dark-blue;
-    background-color: rgb(0, 50, 120, 0.2);
   }
 
   &__icon {
@@ -242,46 +202,8 @@ $bp-large: 1440px;
 
     border-radius: 50%;
     background-color: $light-white;
-
-    @media (min-width: $bp-tablet) {
-      width: 32px;
-      height: 32px;
-      font-size: 18px !important;
-    }
   }
 }
-
-// ===================================
-// SCROLLBAR CUSTOMIZADA
-// ===================================
-
-.cards {
-  // Firefox
-  scrollbar-width: thin;
-  scrollbar-color: $dark-white transparent;
-
-  // Chrome, Safari, Edge
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: $dark-white;
-    border-radius: $bd-lg;
-
-    &:hover {
-      background-color: darken($dark-white, 10%);
-    }
-  }
-}
-
-// ===================================
-// ANIMAÇÕES
-// ===================================
 
 @media (prefers-reduced-motion: reduce) {
 
