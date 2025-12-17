@@ -1,15 +1,26 @@
 import { Component, OnInit } from '@angular/core'
-import { RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
 import { LoginService } from '../../core/services/login.service';
 import { UserService } from '../../core/services/user.service';
 
+export interface DynamicField {
+  icon: string;
+  title: string;
+  route?: string;
+  externalLink?: string;
+}
+
+export interface DynamicSection {
+  title: string;
+  cards: DynamicField[];
+}
+
 @Component({
   selector: 'app-home',
   imports: [
-    MatIconModule,
-    RouterLink
+    MatIconModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -20,14 +31,19 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private readonly _userService: UserService,
-    private readonly _loginService: LoginService
+    private readonly _loginService: LoginService,
+    private readonly _router: Router
   ) { }
 
-  sections = [
+  sections: DynamicSection[] = [
     {
       title: '',
       cards: [
-        { icon: 'campaign', title: 'Fala Aí - Sua denúncia 100% anônima!', route: 'https://docs.google.com/forms/d/1h_UFcDfnbMmu710rZQ4pqF8_B-RnQUFs_7FsP_AREPc/edit' },
+        {
+          icon: 'campaign',
+          title: 'Fala Aí - Sua denúncia 100% anônima!',
+          externalLink: 'https://docs.google.com/forms/d/1h_UFcDfnbMmu710rZQ4pqF8_B-RnQUFs_7FsP_AREPc/edit'
+        },
       ]
     },
     {
@@ -43,7 +59,6 @@ export class HomeComponent implements OnInit {
       title: 'Operacional',
       cards: [
         { icon: 'gavel', title: 'Medida Disciplinar', route: '/dashboard/operational/disciplinary-measure' },
-        { icon: 'group', title: 'Equipes', route: '' },
         { icon: 'assignment', title: 'Folha de Ponto', route: '' }
       ]
     },
@@ -74,8 +89,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openForm(): void {
-    window.open('https://docs.google.com/forms/d/1h_UFcDfnbMmu710rZQ4pqF8_B-RnQUFs_7FsP_AREPc/edit', "_blank", "noopener,noreferrer");
+  handleCardClick(card: DynamicField): void {
+    if (card.externalLink) {
+      window.open(card.externalLink, '_blank', 'noopener,noreferrer');
+    } else if (card.route) {
+      this._router.navigate([card.route]);
+    }
   }
 
   onLogout(): void {
@@ -86,4 +105,3 @@ export class HomeComponent implements OnInit {
     return string.toLowerCase().split(' ')[0];
   }
 }
-

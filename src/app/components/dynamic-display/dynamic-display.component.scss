@@ -124,6 +124,9 @@ $bp-large: 1440px;
   border: 2px solid $dark-white;
   background-color: $light-white;
 
+  cursor: pointer;
+  transition: all 0.2s ease;
+
   &__photo {
     width: 100%;
     aspect-ratio: 2 / 1;
@@ -182,10 +185,10 @@ $bp-large: 1440px;
     align-items: center;
     gap: $gp-sm;
 
-    padding: 5px;
+    padding: $pd-sm;
 
     border-radius: $bd-df;
-    border: 1px solid $dark-blue;
+    background-color: $dark-white;
   }
 
   &__icon {
@@ -205,10 +208,210 @@ $bp-large: 1440px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+// BOTTOM SHEET STYLES
+.bottom-sheet-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 998;
 
-  .card,
-  .header__button {
-    transition: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: $light-white;
+  border-radius: $bd-lg $bd-lg 0 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &--open {
+    transform: translateY(0);
+  }
+
+  &__header {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: $pd-md;
+    padding-bottom: $gp-md;
+    border-bottom: 1px solid $dark-white;
+
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    right: $pd-md;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    mat-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      color: $light-gray;
+    }
+
+    &:hover {
+      background-color: $dark-white;
+
+      mat-icon {
+        color: $dark-black;
+      }
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+  }
+
+  &__content {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: $gp-lg;
+
+    padding: $pd-md;
+  }
+
+  &__info {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: $gp-sm;
+  }
+
+  &__field {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: $pd-sm;
+    border-radius: $bd-df;
+    background-color: $dark-white;
+  }
+
+  &__label {
+    font-weight: 600;
+    font-size: $fs-md;
+    color: $dark-blue;
+  }
+
+  &__value {
+    margin: 0;
+    font-weight: 500;
+    font-size: $fs-md;
+    color: $dark-black;
+  }
+
+  &__actions {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: $gp-sm;
+  }
+
+  &__button {
+    flex: 1;
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $gp-sm;
+
+    padding: $pd-sm;
+    border: none;
+    border-radius: $bd-lg;
+
+    font-weight: 600;
+    font-size: $fs-md;
+    font-family: inherit;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &--primary {
+      color: $light-white;
+      background-color: $dark-blue;
+    }
+
+    &--secondary {
+      color: $dark-blue;
+      border: 2px solid $dark-blue;
+      background-color: $light-white;
+    }
+  }
+
+  &__button-icon {
+    width: $icon-sm;
+    height: $icon-sm;
+    font-size: $icon-sm !important;
+  }
+
+  &__button-text {
+    display: block;
   }
 }

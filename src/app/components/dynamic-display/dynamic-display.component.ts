@@ -24,7 +24,50 @@ export class DynamicDisplayComponent {
   @Input() data: any[] = [];
   @Input() fields: DynamicField[] = [];
 
+  isBottomSheetOpen: boolean = false;
+  selectedItem: any = null;
+
   constructor() { }
+
+  /**
+   * Abre o Bottom Sheet com o item selecionado
+   */
+  openBottomSheet(item: any): void {
+    this.selectedItem = item;
+    this.isBottomSheetOpen = true;
+    document.body.classList.add('bottom-sheet-open');
+  }
+
+  /**
+   * Fecha o Bottom Sheet
+   */
+  closeBottomSheet(): void {
+    this.isBottomSheetOpen = false;
+    this.selectedItem = null;
+    document.body.classList.remove('bottom-sheet-open');
+  }
+
+  /**
+   * Método placeholder para baixar QR Code
+   * A lógica será implementada depois
+   */
+  downloadQRCode(event: Event): void {
+    event.stopPropagation();
+    console.log('Download QR Code:', this.selectedItem);
+    // TODO: Implementar lógica de download
+    // Acesse o QR Code via: this.selectedItem.qrCode
+  }
+
+  /**
+   * Método placeholder para compartilhar QR Code
+   * A lógica será implementada depois
+   */
+  shareQRCode(event: Event): void {
+    event.stopPropagation();
+    console.log('Share QR Code:', this.selectedItem);
+    // TODO: Implementar lógica de compartilhamento
+    // Acesse o QR Code via: this.selectedItem.qrCode
+  }
 
   /**
    * TrackBy function para otimizar renderização do *ngFor

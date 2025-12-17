@@ -6,7 +6,7 @@
   </header>
 
   <div class="cards">
-    <div class="card" *ngFor="let item of data">
+    <div class="card" *ngFor="let item of data" (click)="openBottomSheet(item)">
 
       <!-- IMAGEM -->
       <div *ngIf="item.foto" class="card__photo">
@@ -28,7 +28,7 @@
           <div class="card__field" *ngIf="field.type === 'date'">
             <div class="card__text">
               <label class="card__title">{{ field.label }}</label>
-              <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] }}</p>
+              <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] | date:'dd/MM/yyyy' }}</p>
             </div>
           </div>
 
@@ -44,4 +44,49 @@
     </div>
   </div>
 
+  <!-- BOTTOM SHEET -->
+  <div class="bottom-sheet-backdrop" *ngIf="isBottomSheetOpen" (click)="closeBottomSheet()"></div>
+
+  <div class="bottom-sheet" [class.bottom-sheet--open]="isBottomSheetOpen">
+    <div class="bottom-sheet__content">
+      <div class="bottom-sheet__info" *ngIf="selectedItem">
+        <div class="bottom-sheet__field">
+          <label class="bottom-sheet__label">Nome</label>
+          <p class="bottom-sheet__value">{{ selectedItem.nome }}</p>
+        </div>
+
+        <div class="bottom-sheet__field">
+          <label class="bottom-sheet__label">Origem</label>
+          <p class="bottom-sheet__value">{{ selectedItem.origem }}</p>
+        </div>
+
+        <div class="bottom-sheet__field">
+          <label class="bottom-sheet__label">Destino</label>
+          <p class="bottom-sheet__value">{{ selectedItem.destino }}</p>
+        </div>
+
+        <div class="bottom-sheet__field">
+          <label class="bottom-sheet__label">Criado em</label>
+          <p class="bottom-sheet__value">{{ selectedItem.criado_em | date:'dd/MM/yyyy' }}</p>
+        </div>
+
+        <div class="bottom-sheet__field">
+          <label class="bottom-sheet__label">Última atualização</label>
+          <p class="bottom-sheet__value">{{ selectedItem.atualizado_em | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+
+      <div class="bottom-sheet__actions">
+        <button class="bottom-sheet__button bottom-sheet__button--primary" (click)="downloadQRCode($event)">
+          <mat-icon class="bottom-sheet__button-icon">download</mat-icon>
+          <span class="bottom-sheet__button-text">Baixar QR Code</span>
+        </button>
+
+        <button class="bottom-sheet__button bottom-sheet__button--secondary" (click)="shareQRCode($event)">
+          <mat-icon class="bottom-sheet__button-icon">share</mat-icon>
+          <span class="bottom-sheet__button-text">Compartilhar QR Code</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicFormComponent, DynamicFormSection, FormSubmissionState } from '../../../components/dynamic-form/dynamic-form.component';
+
 import { EquipmentService } from '../../../core/services/equipment.service';
 
 @Component({
@@ -37,6 +38,17 @@ export class CheckoutComponent {
           name: 'origem',
           type: 'geolocation',
           placeholder: 'Clique para obter sua localização',
+          required: true
+        }
+      ]
+    },
+    {
+      fields: [
+        {
+          label: 'Destino',
+          name: 'destino',
+          type: 'select',
+          options: ['Same Engenharia', 'Fornecedor'],
           required: true
         }
       ]
