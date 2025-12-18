@@ -17,6 +17,7 @@ import { CheckinComponent } from './pages/equipament/checkin/checkin.component';
 import { RegisterEquipamentComponent } from './pages/equipament/register/register.component';
 import { CheckoutComponent } from './pages/equipament/checkout/checkout.component';
 import { EquipamentListComponent } from './pages/equipament/list/list.component';
+import { TimeSheetComponent } from './pages/operational/time-sheet/time-sheet.component';
 
 export const routes: Routes = [
   {
@@ -34,10 +35,11 @@ export const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'task/new', component: NewTaskComponent },
       { path: 'transport/request', component: RequestComponent },
       { path: 'transport/cancel', component: CancelComponent },
       { path: 'operational/disciplinary-measure', component: DisciplinaryMeasureComponent },
+      { path: 'operational/task/resgister', component: NewTaskComponent },
+      { path: 'operational/time-sheet/employees', component: TimeSheetComponent },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },

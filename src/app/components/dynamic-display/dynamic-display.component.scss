@@ -208,14 +208,13 @@ $bp-large: 1440px;
   }
 }
 
-// BOTTOM SHEET STYLES
-.bottom-sheet-backdrop {
+.backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 998;
+  z-index: 2;
 
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
@@ -227,6 +226,7 @@ $bp-large: 1440px;
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -237,7 +237,7 @@ $bp-large: 1440px;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 999;
+  z-index: 3;
 
   width: 100%;
   height: auto;
@@ -269,47 +269,6 @@ $bp-large: 1440px;
     border-bottom: 1px solid $dark-white;
 
     position: relative;
-  }
-
-  &__close {
-    position: absolute;
-    right: $pd-md;
-    top: 50%;
-    transform: translateY(-50%);
-
-    width: 32px;
-    height: 32px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
-
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    mat-icon {
-      width: 24px;
-      height: 24px;
-      font-size: 24px;
-      color: $light-gray;
-    }
-
-    &:hover {
-      background-color: $dark-white;
-
-      mat-icon {
-        color: $dark-black;
-      }
-    }
-
-    &:active {
-      transform: translateY(-50%) scale(0.95);
-    }
   }
 
   &__content {
@@ -352,7 +311,6 @@ $bp-large: 1440px;
   }
 
   &__value {
-    margin: 0;
     font-weight: 500;
     font-size: $fs-md;
     color: $dark-black;
@@ -360,8 +318,7 @@ $bp-large: 1440px;
 
   &__actions {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    height: auto;
 
     display: flex;
     flex-direction: column;
@@ -369,28 +326,25 @@ $bp-large: 1440px;
   }
 
   &__button {
-    flex: 1;
     width: 100%;
     height: auto;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: $pd-sm;
     gap: $gp-sm;
 
-    padding: $pd-sm;
-    border: none;
     border-radius: $bd-lg;
+    border: 2px solid $dark-blue;
 
     font-weight: 600;
     font-size: $fs-md;
-    font-family: inherit;
 
     cursor: pointer;
-    transition: all 0.2s ease;
 
-    &:active {
-      transform: scale(0.98);
+    &-text {
+      display: block;
     }
 
     &--primary {
@@ -400,18 +354,7 @@ $bp-large: 1440px;
 
     &--secondary {
       color: $dark-blue;
-      border: 2px solid $dark-blue;
       background-color: $light-white;
     }
-  }
-
-  &__button-icon {
-    width: $icon-sm;
-    height: $icon-sm;
-    font-size: $icon-sm !important;
-  }
-
-  &__button-text {
-    display: block;
   }
 }
