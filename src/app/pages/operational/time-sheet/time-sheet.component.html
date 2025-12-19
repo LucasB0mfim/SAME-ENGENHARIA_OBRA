@@ -1,5 +1,7 @@
-<app-dynamic-list
+<app-dynamic-display
   title="Colaboradores"
   [data]="apiData"
-  [fields]="fields">
-</app-dynamic-list>
+  [fields]="fields"
+  [showBottomSheet]="false"
+  [clickConfig]="{ type: 'navigation', route: '/dashboard' }">
+</app-dynamic-display>

@@ -9,8 +9,12 @@
     <div class="card" *ngFor="let item of data" (click)="openBottomSheet(item)">
 
       <!-- IMAGEM -->
-      <div *ngIf="item.foto" class="card__photo">
+      <div *ngIf="item.foto" class="card__media">
         <img class="card__image" [src]="'https://sameengenharia.com.br/api/equipament/file/' + item.foto" [alt]="item.name" />
+      </div>
+
+      <div *ngIf="!item.foto" class="card__media">
+        <mat-icon class="card__icon">person</mat-icon>
       </div>
 
       <div class="card__info">
@@ -40,16 +44,17 @@
             </div>
           </div>
         </ng-container>
+
       </div>
     </div>
   </div>
 
-  <!-- BOTTOM SHEET -->
-  <div class="backdrop" *ngIf="isBottomSheetOpen" (click)="closeBottomSheet()"></div>
+  <div class="backdrop" *ngIf="isBottomSheetOpen" (click)="closeBottomSheet()">
+  </div>
 
   <div class="bottom-sheet" [class.bottom-sheet--open]="isBottomSheetOpen">
     <div class="bottom-sheet__content">
-      <div class="bottom-sheet__info" *ngIf="selectedItem">
+      <div class="bottom-sheet__info">
         <div class="bottom-sheet__field">
           <label class="bottom-sheet__label">Nome</label>
           <p class="bottom-sheet__value">{{ selectedItem.nome }}</p>
@@ -77,7 +82,7 @@
       </div>
 
       <div class="bottom-sheet__actions">
-        <button class="bottom-sheet__button bottom-sheet__button--primary" (click)="downloadQRCode($event)">
+        <button class="bottom-sheet__button bottom-sheet__button--primary" (click)="downloadQRCode()">
           <span class="bottom-sheet__button-text">Baixar QR Code</span>
         </button>
 

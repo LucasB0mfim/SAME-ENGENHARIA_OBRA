@@ -1,12 +1,18 @@
+import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from "@angular/router";
 
 export interface DynamicField {
   label: string;
   name: string;
   type: 'title' | 'text' | 'date';
+}
+
+export interface CardClickConfig {
+  type: 'bottomSheet' | 'navigation' | 'custom';
+  route?: string;
+  customHandler?: (item: any) => void;
 }
 
 @Component({
@@ -23,15 +29,40 @@ export class DynamicDisplayComponent {
   @Input() title: string = '';
   @Input() data: any[] = [];
   @Input() fields: DynamicField[] = [];
+  @Input() clickConfig: CardClickConfig = { type: 'bottomSheet' };
+  @Input() showBottomSheet: boolean = true;
 
-  selectedItem: any = null;
+  selectedItem: any = {};
   isBottomSheetOpen: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  onCardClick(item: any): void {
+    switch(this.clickConfig.type) {
+      case 'bottomSheet':
+        this.openBottomSheet(item);
+        break;
+
+      case 'navigation':
+        if (this.clickConfig.route) {
+          // this.router.navigate([this.clickConfig.route, item.id]);
+          this.router.navigate([this.clickConfig.route]);
+        }
+        break;
+
+      case 'custom':
+        if (this.clickConfig.customHandler) {
+          this.clickConfig.customHandler(item);
+        }
+        break;
+    }
+  }
 
   openBottomSheet(item: any): void {
-    this.selectedItem = item;
+    if (!this.showBottomSheet) return;
+
     this.isBottomSheetOpen = true;
+    this.selectedItem = item;
     document.body.classList.add('bottom-sheet-open');
   }
 
@@ -41,12 +72,12 @@ export class DynamicDisplayComponent {
     document.body.classList.remove('bottom-sheet-open');
   }
 
-  downloadQRCode(event: Event): void {
-
+  downloadQRCode(): void {
+    alert("Em desenvolvimento... Tente compartilhar!")
+    return;
   }
 
   async shareQRCode(): Promise<void> {
-
     if (!this.selectedItem?.qr_code) {
       alert("Equipamento sem QR Code!");
       return;

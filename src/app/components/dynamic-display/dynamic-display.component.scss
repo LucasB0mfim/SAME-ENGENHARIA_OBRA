@@ -127,14 +127,16 @@ $bp-large: 1440px;
   cursor: pointer;
   transition: all 0.2s ease;
 
-  &__photo {
+  &__media {
     width: 100%;
     aspect-ratio: 2 / 1;
 
     display: block;
     overflow: hidden;
+
+    color: $light-white;
     border-radius: $bd-df;
-    background-color: $dark-white;
+    background-color: $light-white;
     filter: brightness(0.8);
   }
 
@@ -145,6 +147,18 @@ $bp-large: 1440px;
     object-fit: cover;
     object-position: center;
     display: block;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 4rem;
+    color: $dark-white;
   }
 
   &__info {
@@ -189,22 +203,6 @@ $bp-large: 1440px;
 
     border-radius: $bd-df;
     background-color: $dark-white;
-  }
-
-  &__icon {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 16px !important;
-    color: $dark-blue;
-
-    border-radius: 50%;
-    background-color: $light-white;
   }
 }
 
