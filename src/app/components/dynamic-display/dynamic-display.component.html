@@ -1,12 +1,12 @@
 <div class="container">
 
   <header class="header">
-    <mat-icon class="header__button" routerLink="/dashboard">exit_to_app</mat-icon>
+    <mat-icon class="header__button" (click)="onNavigation()">exit_to_app</mat-icon>
     <h2 class="header__title">{{ title }}</h2>
   </header>
 
   <div class="cards">
-    <div class="card" *ngFor="let item of data" (click)="openBottomSheet(item)">
+    <div class="card" *ngFor="let item of data" (click)="onCardClick(item)">
 
       <!-- IMAGEM -->
       <div *ngIf="item.foto" class="card__media">
@@ -14,7 +14,7 @@
       </div>
 
       <div *ngIf="!item.foto" class="card__media">
-        <mat-icon class="card__icon">person</mat-icon>
+        <mat-icon class="card__icon">{{ iconCard }}</mat-icon>
       </div>
 
       <div class="card__info">

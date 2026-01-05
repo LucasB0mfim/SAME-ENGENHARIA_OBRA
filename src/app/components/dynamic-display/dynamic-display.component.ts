@@ -1,6 +1,6 @@
-import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Router, RouterLink } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
 export interface DynamicField {
@@ -10,9 +10,8 @@ export interface DynamicField {
 }
 
 export interface CardClickConfig {
-  type: 'bottomSheet' | 'navigation' | 'custom';
+  type: 'bottomSheet' | 'navigation' | 'none';
   route?: string;
-  customHandler?: (item: any) => void;
 }
 
 @Component({
@@ -27,43 +26,33 @@ export interface CardClickConfig {
 })
 export class DynamicDisplayComponent {
   @Input() title: string = '';
+  @Input() iconCard: string = 'person';
+  @Input() prevPage: string = '';
   @Input() data: any[] = [];
   @Input() fields: DynamicField[] = [];
-  @Input() clickConfig: CardClickConfig = { type: 'bottomSheet' };
-  @Input() showBottomSheet: boolean = true;
+  @Input() clickHandle: CardClickConfig = { type: 'none' };
 
   selectedItem: any = {};
   isBottomSheetOpen: boolean = false;
+  bottomSheet: boolean = false;
 
   constructor(private router: Router) { }
 
   onCardClick(item: any): void {
-    switch(this.clickConfig.type) {
-      case 'bottomSheet':
-        this.openBottomSheet(item);
-        break;
-
-      case 'navigation':
-        if (this.clickConfig.route) {
-          // this.router.navigate([this.clickConfig.route, item.id]);
-          this.router.navigate([this.clickConfig.route]);
-        }
-        break;
-
-      case 'custom':
-        if (this.clickConfig.customHandler) {
-          this.clickConfig.customHandler(item);
-        }
-        break;
+    if (this.clickHandle.type === 'bottomSheet') {
+      this.openBottomSheet(item);
+    } else if (this.clickHandle.type === 'navigation' && this.clickHandle.route) {
+      const chapa = item.chapa
+      this.router.navigate([`dashboard/time-sheet/${chapa}`]);
     }
   }
 
   openBottomSheet(item: any): void {
-    if (!this.showBottomSheet) return;
-
-    this.isBottomSheetOpen = true;
-    this.selectedItem = item;
-    document.body.classList.add('bottom-sheet-open');
+    if (this.clickHandle.type === 'bottomSheet' && !this.bottomSheet) {
+      this.isBottomSheetOpen = true;
+      this.selectedItem = item;
+      document.body.classList.add('bottom-sheet-open');
+    }
   }
 
   closeBottomSheet(): void {
@@ -97,6 +86,14 @@ export class DynamicDisplayComponent {
     } catch (error) {
       alert("Não foi possível compartilhar QR Code. Tente fazer o download!");
       console.error("Erro ao compartilhar QR Code: ", error);
+    }
+  }
+
+  onNavigation(): void {
+    if (this.prevPage.length > 0) {
+      this.router.navigate([this.prevPage]);
+    } else {
+      this.router.navigate([`/dashboard/home`]);
     }
   }
 }

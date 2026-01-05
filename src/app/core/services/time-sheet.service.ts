@@ -19,4 +19,9 @@ export class TimeSheetService {
     const headers = this._createHeaders();
     return this._httpClient.get<any>('https://sameengenharia.com.br/api/employee', { headers });
   }
+
+  findEmployeeByChapa(chapa: string): Observable<any> {
+    const headers = this._createHeaders();
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/timesheet/${chapa}`, { headers });
+  }
 };

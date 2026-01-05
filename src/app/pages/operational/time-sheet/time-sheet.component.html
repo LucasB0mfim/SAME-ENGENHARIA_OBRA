@@ -1,7 +1,8 @@
 <app-dynamic-display
-  title="Colaboradores"
+  [title]="employeeName"
+  iconCard="alarm"
   [data]="apiData"
   [fields]="fields"
-  [showBottomSheet]="false"
-  [clickConfig]="{ type: 'navigation', route: '/dashboard' }">
+  prevPage="/dashboard/operational/employees"
+  [clickHandle]="{ type: 'none' }">
 </app-dynamic-display>

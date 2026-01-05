@@ -48,7 +48,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input() sections: DynamicFormSection[] = [];
   @Input() submitButtonText: string = 'Enviar';
   @Input() titleForm: string = '';
-  @Input() submissionState: FormSubmissionState = FormSubmissionState.IDLE;
+  @Input() submissionState?: FormSubmissionState = FormSubmissionState.IDLE;
   @Input() errorMessage: string = '';
   @Input() successMessage: string = 'Formulário enviado com sucesso!';
   @Input() asideTitle: string = '';

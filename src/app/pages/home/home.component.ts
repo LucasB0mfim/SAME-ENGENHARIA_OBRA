@@ -27,7 +27,7 @@ export interface DynamicSection {
 })
 export class HomeComponent implements OnInit {
 
-  userData: any = null;
+  userData: any = {};
 
   constructor(
     private readonly _userService: UserService,
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
       cards: [
         { icon: 'gavel', title: 'Medida Disciplinar', route: '/dashboard/operational/disciplinary-measure' },
         { icon: 'task', title: 'Tarefa', route: '/dashboard/operational/task/resgister' },
-        { icon: 'assignment', title: 'Folha de Ponto', route: '/dashboard/operational/time-sheet/employees' }
+        { icon: 'assignment', title: 'Folha de Ponto', route: '/dashboard/operational/employees' }
       ]
     },
     {
@@ -103,6 +103,7 @@ export class HomeComponent implements OnInit {
   }
 
   getUser(string: string): string {
+    if (!string) return 'Colaborador';
     return string.toLowerCase().split(' ')[0];
   }
 }

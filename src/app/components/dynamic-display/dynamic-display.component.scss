@@ -55,7 +55,7 @@ $bp-large: 1440px;
   height: auto;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: auto 1fr auto;
   align-items: center;
 
   &__title {
