@@ -42,25 +42,11 @@ $gradient-end: #0077FF;
   width: 100%;
   height: auto;
   padding: $spacing-md;
-  background-color: $light-white;
-}
 
-.header {
-  width: 100%;
-  height: auto;
-
-  &__title {
-    color: $dark-black;
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-
-    background: linear-gradient(135deg, $dark-black 0%, $dark-blue 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-
-    animation: fadeInUp 2.5s ease-in-out;
+  @media (min-width: $breakpoint-desktop) {
+    max-width: 1280px;
+    padding: 0;
+    margin: 0 auto;
   }
 }
 
@@ -70,15 +56,14 @@ $gradient-end: #0077FF;
   gap: $spacing-md;
   padding: $spacing-lg 0;
 
-  &:first-child {
-    border-top: none;
-    padding-top: 0;
-  }
-
   &__title {
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: $dark-black;
+
+    @media (min-width: $breakpoint-desktop) {
+      font-size: 1.5rem;
+    }
   }
 
   &__card {
@@ -96,7 +81,19 @@ $gradient-end: #0077FF;
   }
 
   &__banner {
-    padding: 0;
+    .section__title {
+      color: $dark-black;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+
+      background: linear-gradient(90deg, $dark-black 0%, $dark-blue 40%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+
+      animation: fadeInUp 2.5s ease-in-out;
+    }
 
     .card {
       grid-column: 1 / -1;
@@ -124,18 +121,17 @@ $gradient-end: #0077FF;
   border: none;
   border-radius: $radius-lg;
 
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-
-  &:active {
-    transform: translateY(0);
-  }
-
   &__icon {
     width: $card-icon-size;
     height: $card-icon-size;
     font-size: $card-icon-size;
     color: $dark-black;
+
+    @media (min-width: $breakpoint-desktop) {
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.5rem;
+    }
   }
 
   &__title {
@@ -147,6 +143,23 @@ $gradient-end: #0077FF;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
+
+    @media (min-width: $breakpoint-desktop) {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (min-width: $breakpoint-desktop) {
+    cursor: pointer;
+
+    height: 7.5rem;
+    padding: $spacing-md;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
   }
 }
 
@@ -155,6 +168,7 @@ $gradient-end: #0077FF;
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

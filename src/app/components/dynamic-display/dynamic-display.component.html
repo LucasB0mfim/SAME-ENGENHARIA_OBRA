@@ -71,7 +71,7 @@
         </div>
 
         <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Criado em</label>
+          <label class="bottom-sheet__label">Dia do cadastro</label>
           <p class="bottom-sheet__value">{{ selectedItem.criado_em | date:'dd/MM/yyyy' }}</p>
         </div>
 
@@ -82,12 +82,11 @@
       </div>
 
       <div class="bottom-sheet__actions">
-        <button class="bottom-sheet__button bottom-sheet__button--primary" (click)="downloadQRCode()">
-          <span class="bottom-sheet__button-text">Baixar QR Code</span>
+        <button class="bottom-sheet__button" (click)="downloadQRCode()">
+          Baixar QR Code
         </button>
-
-        <button class="bottom-sheet__button bottom-sheet__button--secondary" (click)="shareQRCode()">
-          <span class="bottom-sheet__button-text">Compartilhar QR Code</span>
+        <button class="bottom-sheet__button" (click)="shareQRCode()">
+          Compartilhar QR Code
         </button>
       </div>
     </div>

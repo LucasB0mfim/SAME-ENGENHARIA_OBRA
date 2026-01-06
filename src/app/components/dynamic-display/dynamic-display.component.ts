@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
 export interface DynamicField {
@@ -18,8 +18,7 @@ export interface CardClickConfig {
   selector: 'app-dynamic-display',
   imports: [
     CommonModule,
-    MatIconModule,
-    RouterLink
+    MatIconModule
   ],
   templateUrl: './dynamic-display.component.html',
   styleUrl: './dynamic-display.component.scss'

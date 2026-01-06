@@ -1,7 +1,4 @@
 <div class="container">
-  <header class="header">
-    <h1 class="header__title">{{ getUser(userData.nome) }}</h1>
-  </header>
   @for (section of sections; track section.title; let index = $index) {
   <section class="section" [class.section__banner]="index === 0">
     <h2 class="section__title">{{ section.title }}</h2>
