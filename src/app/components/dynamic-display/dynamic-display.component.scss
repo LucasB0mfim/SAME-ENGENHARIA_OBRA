@@ -184,6 +184,10 @@ $gradient-end: #0077FF;
     gap: $gp-sm;
   }
 
+  &__text {
+    min-width: 0;
+  }
+
   &__title {
     font-weight: 600;
     font-size: $fs-md;

@@ -15,9 +15,9 @@ export class TaskService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  findTaskByUser(user: any) {
+  findTaskByChapa(chapa: string) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/my-tasks/${user}`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/manage/${chapa}`, { headers });
   }
 
   create(formData: any) {

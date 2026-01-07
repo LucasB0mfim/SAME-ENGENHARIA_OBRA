@@ -19,6 +19,7 @@ import { CheckoutComponent } from './pages/equipament/checkout/checkout.componen
 import { EquipamentListComponent } from './pages/equipament/list/list.component';
 import { TimeSheetComponent } from './pages/operational/time-sheet/time-sheet.component';
 import { EmployeesComponent } from './pages/operational/employees/employees.component';
+import { ManageComponent } from './pages/operational/manage/manage.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'transport/cancel', component: CancelComponent },
       { path: 'operational/disciplinary-measure', component: DisciplinaryMeasureComponent },
       { path: 'operational/task/resgister', component: NewTaskComponent },
+      { path: 'operational/task/manage', component: ManageComponent },
       { path: 'operational/employees', component: EmployeesComponent },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },

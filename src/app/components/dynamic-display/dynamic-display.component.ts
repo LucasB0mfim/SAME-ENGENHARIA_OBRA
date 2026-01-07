@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 export interface DynamicField {
   label: string;
   name: string;
-  type: 'title' | 'text' | 'date';
+  type: 'title' | 'text' | 'date' | 'bottomSheet' | 'button';
 }
 
 export interface CardClickConfig {

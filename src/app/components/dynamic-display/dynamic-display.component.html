@@ -44,7 +44,6 @@
             </div>
           </div>
         </ng-container>
-
       </div>
     </div>
   </div>
@@ -54,40 +53,22 @@
 
   <div class="bottom-sheet" [class.bottom-sheet--open]="isBottomSheetOpen">
     <div class="bottom-sheet__content">
-      <div class="bottom-sheet__info">
-        <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Nome</label>
-          <p class="bottom-sheet__value">{{ selectedItem.nome }}</p>
-        </div>
+      <div class="bottom-sheet__info" *ngIf="selectedItem">
+        <ng-container *ngFor="let field of fields">
+          <div class="bottom-sheet__field" *ngIf="field.type === 'bottomSheet'">
+            <label class="bottom-sheet__label">{{ field.label }}</label>
+            <p class="bottom-sheet__value">{{ selectedItem[field.name] }}</p>
+          </div>
+        </ng-container>
 
-        <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Origem</label>
-          <p class="bottom-sheet__value">{{ selectedItem.origem }}</p>
+        <div class="bottom-sheet__actions">
+          <button class="bottom-sheet__button" (click)="downloadQRCode()">
+            Baixar QR Code
+          </button>
+          <button class="bottom-sheet__button" (click)="shareQRCode()">
+            Compartilhar QR Code
+          </button>
         </div>
-
-        <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Destino</label>
-          <p class="bottom-sheet__value">{{ selectedItem.destino }}</p>
-        </div>
-
-        <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Dia do cadastro</label>
-          <p class="bottom-sheet__value">{{ selectedItem.criado_em | date:'dd/MM/yyyy' }}</p>
-        </div>
-
-        <div class="bottom-sheet__field">
-          <label class="bottom-sheet__label">Última atualização</label>
-          <p class="bottom-sheet__value">{{ selectedItem.atualizado_em | date:'dd/MM/yyyy' }}</p>
-        </div>
-      </div>
-
-      <div class="bottom-sheet__actions">
-        <button class="bottom-sheet__button" (click)="downloadQRCode()">
-          Baixar QR Code
-        </button>
-        <button class="bottom-sheet__button" (click)="shareQRCode()">
-          Compartilhar QR Code
-        </button>
       </div>
     </div>
   </div>

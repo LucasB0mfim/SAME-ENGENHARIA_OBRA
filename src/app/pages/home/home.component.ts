@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
         cards: [
           { icon: 'gavel', title: 'Medida Disciplinar', route: '/dashboard/operational/disciplinary-measure' },
           { icon: 'task', title: 'Tarefa', route: '/dashboard/operational/task/resgister' },
+          { icon: 'storage', title: 'Minhas tarefas', route: '/dashboard/operational/task/manage' },
           { icon: 'assignment', title: 'Folha de Ponto', route: '/dashboard/operational/employees' }
         ]
       },

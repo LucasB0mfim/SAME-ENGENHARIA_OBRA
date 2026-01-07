@@ -9,7 +9,6 @@ import { TimeSheetService } from '../../../core/services/time-sheet.service';
 
 @Component({
   selector: 'app-time-sheet',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,
