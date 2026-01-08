@@ -1,11 +1,14 @@
 <div class="container">
-
   <header class="header">
     <mat-icon class="header__button" (click)="onNavigation()">exit_to_app</mat-icon>
     <h2 class="header__title">{{ title }}</h2>
   </header>
 
-  <div class="cards">
+  <div class="viewport" *ngIf="isLoading && !isEmpty">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="cards" *ngIf="!isLoading && !isEmpty">
     <div class="card" *ngFor="let item of data" (click)="onCardClick(item)">
 
       <!-- IMAGEM -->
@@ -46,6 +49,11 @@
         </ng-container>
       </div>
     </div>
+  </div>
+
+  <div class="viewport" *ngIf="isEmpty && !isLoading">
+    <mat-icon class="viewport__icon">search_off</mat-icon>
+    <h2 class="viewport__text">Nenhum resultado foi encontrado!</h2>
   </div>
 
   <div class="backdrop" *ngIf="isBottomSheetOpen" (click)="closeBottomSheet()">

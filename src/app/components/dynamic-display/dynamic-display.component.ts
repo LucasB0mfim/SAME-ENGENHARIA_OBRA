@@ -24,10 +24,13 @@ export interface CardClickConfig {
   styleUrl: './dynamic-display.component.scss'
 })
 export class DynamicDisplayComponent {
-  @Input() title: string = '';
-  @Input() iconCard: string = 'person';
-  @Input() prevPage: string = '';
   @Input() data: any[] = [];
+  @Input() title: string = '';
+  @Input() prevPage: string = '';
+  @Input() iconCard: string = 'person';
+  @Input() isLoading: boolean = false;
+  @Input() isEmpty: boolean = false;
+
   @Input() fields: DynamicField[] = [];
   @Input() clickHandle: CardClickConfig = { type: 'none' };
 

@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDisplayComponent, DynamicField, CardClickConfig } from '../../../components/dynamic-display/dynamic-display.component';
@@ -15,6 +16,9 @@ import { EmployeesService } from '../../../core/services/employees.service';
 })
 export class EmployeesComponent implements OnInit {
   apiData: any[] = [];
+  
+  isEmpty: boolean = false;
+  isLoading: boolean = true;
 
   fields: DynamicField[] = [
     { label: 'Nome', name: 'nome', type: 'title' },
@@ -31,12 +35,16 @@ export class EmployeesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._employeesService.findBasicInfo().subscribe({
+    this._employeesService.findBasicInfo()
+    .pipe(finalize(() => this.isLoading = false))
+    .subscribe({
       next: (res) => {
         this.apiData = res.result;
+        this.isEmpty = this.apiData.length === 0;
       },
       error: (error) => {
         console.error(error);
+        this.isEmpty = this.apiData.length === 0;
       }
     });
   }

@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +23,10 @@ export class TimeSheetComponent implements OnInit {
 
   chapa: string = '';
   apiData: any = null;
-  employeeName: string = 'Colaborador';
+  userName: string = 'Colaborador';
+
+  isEmpty: boolean = false;
+  isLoading: boolean = true;
 
   fields: DynamicField[] = [
     { label: 'Período', name: 'periodo', type: 'date' },
@@ -35,22 +39,29 @@ export class TimeSheetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.router.params.subscribe(params => {
-      this.chapa = params['chapa'];
-    });
-
+    this.getChapa();
     this.getTimeSheet();
   }
 
-  getTimeSheet(): void {
-    this.timeSheetService.findEmployeeByChapa(this.chapa).subscribe({
-      next: (res) => {
-        this.apiData = res.result;
-        this.employeeName = this.apiData[0]?.nome;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar dados do colaborador:', error);
-      }
+  getChapa(): void {
+    this.router.params.subscribe(params => {
+      this.chapa = params['chapa'];
     });
+  }
+
+  getTimeSheet(): void {
+    this.timeSheetService.findEmployeeByChapa(this.chapa)
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (res) => {
+          this.apiData = res.result;
+          this.userName = res.colaborador;
+          this.isEmpty = this.apiData.length === 0;
+        },
+        error: (error) => {
+          this.isEmpty = this.apiData.length === 0;
+          console.error('Erro ao buscar dados do colaborador:', error);
+        }
+      });
   }
 }

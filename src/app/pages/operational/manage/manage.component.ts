@@ -4,6 +4,7 @@ import { DynamicDisplayComponent, DynamicField } from '../../../components/dynam
 
 import { UserService } from '../../../core/services/user.service';
 import { TaskService } from '../../../core/services/task.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-manage',
@@ -15,8 +16,11 @@ import { TaskService } from '../../../core/services/task.service';
   styleUrl: './manage.component.scss'
 })
 export class ManageComponent implements OnInit {
-  apiData: any[] = [];
   userData: any = {};
+  apiData: any[] = [];
+
+  isEmpty: boolean = false;
+  isLoading: boolean = true;
 
   fields: DynamicField[] = [
     { label: 'Centro de custo', name: 'centro_custo', type: 'title' },
@@ -45,12 +49,16 @@ export class ManageComponent implements OnInit {
   }
 
   getTask(): void {
-    this._taskService.findTaskByChapa(this.userData.chapa).subscribe({
+    this._taskService.findTaskByChapa(this.userData.chapa)
+    .pipe(finalize(() => this.isLoading = false))
+    .subscribe({
       next: (res) => {
         this.apiData = res.result;
+        this.isEmpty = this.apiData.length === 0;
       },
       error: (error) => {
         console.error(error);
+        this.isEmpty = this.apiData.length === 0;
       }
     });
   }

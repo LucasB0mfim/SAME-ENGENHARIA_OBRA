@@ -28,7 +28,7 @@ export interface DynamicSection {
 export class HomeComponent implements OnInit {
 
   userData: any = {};
-  userName: string = 'Colaborador'
+  userName: string = 'Carregando...'
 
   constructor(
     private readonly _userService: UserService,

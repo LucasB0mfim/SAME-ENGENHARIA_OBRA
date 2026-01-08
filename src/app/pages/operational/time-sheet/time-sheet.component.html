@@ -1,8 +1,10 @@
 <app-dynamic-display
-  [title]="employeeName"
+  [title]="userName"
   iconCard="alarm"
   [data]="apiData"
   [fields]="fields"
   prevPage="/dashboard/operational/employees"
-  [clickHandle]="{ type: 'none' }">
+  [clickHandle]="{ type: 'none' }"
+  [isLoading]="isLoading"
+  [isEmpty]="isEmpty">
 </app-dynamic-display>

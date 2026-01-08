@@ -248,14 +248,36 @@ $gradient-end: #0077FF;
   animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+.viewport {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__icon {
+    width: 6rem;
+    height: 6rem;
+    font-size: 6rem;
+    color: $light-gray;
   }
 
-  to {
-    opacity: 1;
+  &__text {
+    font-size: 1.25rem;
+    color: $light-gray;
+    font-weight: 500;
   }
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid $dark-white;
+  border-top-color: $dark-blue;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 .bottom-sheet {
@@ -375,6 +397,20 @@ $gradient-end: #0077FF;
       }
     }
   }
+}
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
 
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
