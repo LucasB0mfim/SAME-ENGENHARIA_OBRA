@@ -16,13 +16,13 @@ import { EmployeesService } from '../../../core/services/employees.service';
 })
 export class EmployeesComponent implements OnInit {
   apiData: any[] = [];
-  
+
   isEmpty: boolean = false;
   isLoading: boolean = true;
 
   fields: DynamicField[] = [
-    { label: 'Nome', name: 'nome', type: 'title' },
-    { label: 'Função', name: 'funcao', type: 'title' },
+    { label: 'Nome', name: 'nome', type: 'title', style: 'card' },
+    { label: 'Função', name: 'funcao', type: 'title', style: 'card' },
   ]
 
   clickConfig: CardClickConfig = {

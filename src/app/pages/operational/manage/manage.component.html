@@ -5,5 +5,8 @@
   [fields]="fields"
   [clickHandle]="{ type: 'bottomSheet' }"
   [isLoading]="isLoading"
-  [isEmpty]="isEmpty">
+  [isEmpty]="isEmpty"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (formSubmit)="onSubmit($event)">
 </app-dynamic-display>

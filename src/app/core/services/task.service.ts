@@ -24,4 +24,9 @@ export class TaskService {
     const headers = this._createHeaders();
     return this._httpClient.post<any>('https://sameengenharia.com.br/api/task', formData, { headers });
   }
+
+  updateConsent(formData: any) {
+    const headers = this._createHeaders();
+    return this._httpClient.put<any>('https://sameengenharia.com.br/api/task/consent', formData, { headers });
+  }
 }

@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
 export interface DynamicField {
-  label: string;
+  label?: string;
   name: string;
-  type: 'title' | 'text' | 'date' | 'bottomSheet' | 'button';
+  type: 'title' | 'text' | 'date' | 'button';
+  style: 'card' | 'bottomSheet';
+  action?: 'shareQRCode' | 'copyID' | 'acceptTask' | 'rejectTask';
 }
 
 export interface CardClickConfig {
@@ -33,6 +35,11 @@ export class DynamicDisplayComponent {
 
   @Input() fields: DynamicField[] = [];
   @Input() clickHandle: CardClickConfig = { type: 'none' };
+
+  @Input() errorMessage: string = '';
+  @Input() successMessage: string = '';
+
+  @Output() formSubmit = new EventEmitter<FormData>();
 
   selectedItem: any = {};
   isBottomSheetOpen: boolean = false;
@@ -63,12 +70,27 @@ export class DynamicDisplayComponent {
     document.body.classList.remove('bottom-sheet-open');
   }
 
-  downloadQRCode(): void {
-    alert("Em desenvolvimento... Tente compartilhar!")
-    return;
+  onNavigation(): void {
+    if (this.prevPage.length > 0) {
+      this.router.navigate([this.prevPage]);
+    } else {
+      this.router.navigate([`/dashboard/home`]);
+    }
   }
 
-  async shareQRCode(): Promise<void> {
+  async onClick(action?: string): Promise<void> {
+    if (action === 'shareQRCode') {
+      this.shareQRCode();
+    } else if (action === 'copyID') {
+      this.downloadQRCode();
+    } else if (action === 'acceptTask') {
+      this.updateConsert('APROVADO');
+    } else if (action === 'rejectTask') {
+      this.updateConsert('RECUSADO');
+    }
+  }
+
+  private async shareQRCode(): Promise<void> {
     if (!this.selectedItem?.qr_code) {
       alert("Equipamento sem QR Code!");
       return;
@@ -91,11 +113,16 @@ export class DynamicDisplayComponent {
     }
   }
 
-  onNavigation(): void {
-    if (this.prevPage.length > 0) {
-      this.router.navigate([this.prevPage]);
-    } else {
-      this.router.navigate([`/dashboard/home`]);
-    }
+  private downloadQRCode(): void {
+    console.log("download");
+  }
+
+  private updateConsert(consent: string): void {
+    const formData = new FormData();
+    formData.append('id', this.selectedItem.id);
+    formData.append('consent', consent);
+
+    this.formSubmit.emit(formData);
+    this.closeBottomSheet();
   }
 }

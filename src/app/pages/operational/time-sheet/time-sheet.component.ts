@@ -29,8 +29,8 @@ export class TimeSheetComponent implements OnInit {
   isLoading: boolean = true;
 
   fields: DynamicField[] = [
-    { label: 'Período', name: 'periodo', type: 'date' },
-    { label: 'Jornada de Trabalho', name: 'jornada_realizada', type: 'text' }
+    { label: 'Período', name: 'periodo', type: 'date', style: 'card' },
+    { label: 'Jornada de Trabalho', name: 'jornada_realizada', type: 'text', style: 'card' }
   ];
 
   constructor(

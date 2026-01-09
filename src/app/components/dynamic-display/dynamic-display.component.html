@@ -24,7 +24,7 @@
         <ng-container *ngFor="let field of fields">
 
           <!-- EQUIPAMENTO -->
-          <div class="card__field" *ngIf="field.type === 'title'">
+          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'title'">
             <div class="card__text">
               <label class="card__title">{{ field.label }}</label>
               <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] }}</p>
@@ -32,7 +32,7 @@
           </div>
 
           <!-- DATA -->
-          <div class="card__field" *ngIf="field.type === 'date'">
+          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'date'">
             <div class="card__text">
               <label class="card__title">{{ field.label }}</label>
               <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] | date:'dd/MM/yyyy' }}</p>
@@ -40,7 +40,7 @@
           </div>
 
           <!-- DESTINO/LOCALIZAÇÃO -->
-          <div class="card__field" *ngIf="field.type === 'text'">
+          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'text'">
             <div class="card__text">
               <label class="card__title">{{ field.label }}</label>
               <p class="card__subtitle">{{ item[field.name] }}</p>
@@ -63,19 +63,24 @@
     <div class="bottom-sheet__content">
       <div class="bottom-sheet__info" *ngIf="selectedItem">
         <ng-container *ngFor="let field of fields">
-          <div class="bottom-sheet__field" *ngIf="field.type === 'bottomSheet'">
+          <div class="bottom-sheet__field" *ngIf="field.style === 'bottomSheet' && field.type === 'title'">
             <label class="bottom-sheet__label">{{ field.label }}</label>
             <p class="bottom-sheet__value">{{ selectedItem[field.name] }}</p>
+          </div>
+
+          <!-- DATA -->
+          <div class="bottom-sheet__field" *ngIf="field.style === 'bottomSheet' && field.type === 'date'">
+            <label class="bottom-sheet__label">{{ field.label }}</label>
+            <p class="bottom-sheet__value">{{ selectedItem[field.name] | date:'dd/MM/yyyy' }}</p>
           </div>
         </ng-container>
 
         <div class="bottom-sheet__actions">
-          <button class="bottom-sheet__button" (click)="downloadQRCode()">
-            Baixar QR Code
-          </button>
-          <button class="bottom-sheet__button" (click)="shareQRCode()">
-            Compartilhar QR Code
-          </button>
+          <ng-container *ngFor="let field of fields">
+            <button class="bottom-sheet__button" *ngIf="field.type === 'button'" (click)="onClick(field.action)">
+              {{ field.name }}
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>
