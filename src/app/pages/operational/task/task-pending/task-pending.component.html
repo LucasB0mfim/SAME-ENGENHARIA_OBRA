@@ -1,5 +1,6 @@
 <app-dynamic-display
-  title="Equipamentos"
+  title="Tarefas pendentes"
+  iconCard="assignment"
   [data]="apiData"
   [fields]="fields"
   [clickHandle]="{ type: 'bottomSheet' }"
@@ -7,7 +8,7 @@
   [isLoading]="isLoading"
   [modalState]="modalState"
   [modalMessage]="modalMessage"
-  (modalClose)="onModalClose()"
   (actionClick)="onActionClick($event)"
-  (navigationBack)="onNavigationBack()">
+  (navigationBack)="onNavigationBack()"
+  (modalClose)="onModalClose()">
 </app-dynamic-display>

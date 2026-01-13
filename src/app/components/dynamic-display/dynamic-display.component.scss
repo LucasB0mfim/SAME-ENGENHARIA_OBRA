@@ -84,8 +84,15 @@ $gradient-end: #0077FF;
   &__button {
     width: auto;
     height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+
+    border: none;
     color: $dark-blue;
+    background-color: transparent;
     transition: transform 0.2s ease;
 
     &:hover {
@@ -212,13 +219,10 @@ $gradient-end: #0077FF;
     width: 100%;
     height: auto;
 
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: $gp-sm;
+    display: flex;
+    flex-direction: column;
 
     padding: $pd-sm;
-
     border-radius: $bd-df;
     background-color: $dark-white;
   }
@@ -280,12 +284,34 @@ $gradient-end: #0077FF;
   animation: spin 1s linear infinite;
 }
 
+// BETA
+
+.overlay {
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
+  padding: $pd-md;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: $gp-md;
+
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .bottom-sheet {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 3;
+  z-index: 2;
 
   width: 100%;
   height: auto;
@@ -296,9 +322,7 @@ $gradient-end: #0077FF;
   background-color: $light-white;
   border-radius: $bd-lg $bd-lg 0 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideUp  0.2s ease;
 
   @media (min-width: $bp-desktop) {
     max-width: 1280px;
@@ -399,6 +423,146 @@ $gradient-end: #0077FF;
   }
 }
 
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: $gp-md;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+
+  padding: $pd-md;
+  border-radius: $bd-xx;
+  background-color: $dark-white;
+
+  &__title {
+    font-weight: 500;
+    font-size: $fs-lg;
+    text-align: center;
+    color: $dark-black;
+
+    &-success {
+      color: $light-green;
+    }
+
+    &-error {
+      color: $light-red;
+    }
+  }
+
+  &__subtitle {
+    font-weight: 500;
+    font-size: $fs-mdx;
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+
+    font-weight: 600;
+    font-size: $fs-lg;
+    color: $light-white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    mat-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 42px;
+    }
+
+    &-success {
+      background: $light-green;
+    }
+
+    &-error {
+      background: $light-red;
+    }
+  }
+
+  &__qrcode-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $gp-sm;
+  }
+
+  &__button {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+
+    font-weight: 500;
+    font-size: $fs-mdx;
+
+    padding: $pd-sm;
+    border: none;
+    border-radius: $bd-xx;
+    background-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $gp-sm;
+
+    mat-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+    }
+
+    &-success {
+      color: $light-white;
+      background-color: $light-green;
+    }
+
+    &-error {
+      color: $light-white;
+      background-color: $light-red;
+    }
+  }
+}
+
+.loading {
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: $gp-md;
+
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &__title {
+    font-size: $fs-lg;
+    font-weight: 500;
+    color: $light-white;
+  }
+
+  &__spinner {
+    width: 42px;
+    height: 42px;
+    border: 4px solid $dark-white;
+    border-top-color: $dark-blue;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -412,5 +576,14 @@ $gradient-end: #0077FF;
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
   }
 }

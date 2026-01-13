@@ -3,8 +3,8 @@
   iconCard="alarm"
   [data]="apiData"
   [fields]="fields"
-  prevPage="/dashboard/operational/employees"
   [clickHandle]="{ type: 'none' }"
   [isLoading]="isLoading"
-  [isEmpty]="isEmpty">
+  [isEmpty]="isEmpty"
+  (navigationBack)="onNavigationBack()">
 </app-dynamic-display>

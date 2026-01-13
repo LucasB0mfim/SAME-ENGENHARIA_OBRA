@@ -1,128 +1,170 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from "@angular/router";
 import { MatIconModule } from '@angular/material/icon';
 
-export interface DynamicField {
-  label?: string;
-  name: string;
-  type: 'title' | 'text' | 'date' | 'button';
+// ========================================
+// INTERFACES E TYPES
+// ========================================
+
+type BaseField = {
   style: 'card' | 'bottomSheet';
-  action?: 'shareQRCode' | 'copyID' | 'acceptTask' | 'rejectTask';
-}
+};
+
+type DataField = BaseField & {
+  type: 'title' | 'text' | 'date';
+  label: string;
+  name: string;
+};
+
+type ButtonField = BaseField & {
+  type: 'button';
+  name: string;
+  action: string;
+};
+
+export type DynamicField = DataField | ButtonField;
+
+export type ClickHandleType = 'bottomSheet' | 'navigation' | 'none';
 
 export interface CardClickConfig {
-  type: 'bottomSheet' | 'navigation' | 'none';
-  route?: string;
+  type: ClickHandleType;
 }
+
+export interface ActionEvent<T = any> {
+  action: string;
+  item: T;
+}
+
+export enum ModalType {
+  IDLE = 'idle',
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
+
+// ========================================
+// COMPONENTE
+// ========================================
 
 @Component({
   selector: 'app-dynamic-display',
-  imports: [
-    CommonModule,
-    MatIconModule
-  ],
+  standalone: true,
+  imports: [CommonModule, MatIconModule],
   templateUrl: './dynamic-display.component.html',
   styleUrl: './dynamic-display.component.scss'
 })
-export class DynamicDisplayComponent {
-  @Input() data: any[] = [];
-  @Input() title: string = '';
-  @Input() prevPage: string = '';
-  @Input() iconCard: string = 'person';
-  @Input() isLoading: boolean = false;
-  @Input() isEmpty: boolean = false;
+export class DynamicDisplayComponent<T extends Record<string, any>> {
+  // ========================================
+  // INPUTS - Configuração e dados
+  // ========================================
 
+  @Input() data: T[] = [];
   @Input() fields: DynamicField[] = [];
+  @Input() title = '';
+  @Input() iconCard = 'person';
+  @Input() imageBaseUrl = 'https://sameengenharia.com.br/api/equipament/file/';
+
+  // Estados
+  @Input() isLoading = false;
+  @Input() isEmpty = false;
+  @Input() modalState: ModalType = ModalType.IDLE;
+  @Input() modalMessage = '';
+
+  // Comportamento
   @Input() clickHandle: CardClickConfig = { type: 'none' };
 
-  @Input() errorMessage: string = '';
-  @Input() successMessage: string = '';
+  // ========================================
+  // OUTPUTS - Eventos para o componente pai
+  // ========================================
 
-  @Output() formSubmit = new EventEmitter<FormData>();
+  @Output() cardClick = new EventEmitter<T>();
+  @Output() actionClick = new EventEmitter<ActionEvent<T>>();
+  @Output() navigationBack = new EventEmitter<void>();
+  @Output() modalClose = new EventEmitter<void>();
 
-  selectedItem: any = {};
-  isBottomSheetOpen: boolean = false;
-  bottomSheet: boolean = false;
+  // ========================================
+  // ESTADO INTERNO
+  // ========================================
 
-  constructor(private router: Router) { }
+  selectedItem: T | null = null;
+  isBottomSheetOpen = false;
 
-  onCardClick(item: any): void {
-    if (this.clickHandle.type === 'bottomSheet') {
-      this.openBottomSheet(item);
-    } else if (this.clickHandle.type === 'navigation' && this.clickHandle.route) {
-      const chapa = item.chapa
-      this.router.navigate([`dashboard/time-sheet/${chapa}`]);
+  // Expor enum para o template
+  readonly ModalType = ModalType;
+
+  // ========================================
+  // HANDLERS DE EVENTOS
+  // ========================================
+
+  onCardClick(item: T): void {
+    switch (this.clickHandle.type) {
+      case 'bottomSheet':
+        this.openBottomSheet(item);
+        break;
+      case 'navigation':
+        this.cardClick.emit(item);
+        break;
+      case 'none':
+      default:
+        // Não faz nada
+        break;
     }
   }
 
-  openBottomSheet(item: any): void {
-    if (this.clickHandle.type === 'bottomSheet' && !this.bottomSheet) {
-      this.isBottomSheetOpen = true;
-      this.selectedItem = item;
-      document.body.classList.add('bottom-sheet-open');
-    }
+  onActionClick(action: string): void {
+    if (!this.selectedItem) return;
+
+    this.actionClick.emit({
+      action,
+      item: this.selectedItem
+    });
+
+    this.closeBottomSheet();
+  }
+
+  onNavigationBack(): void {
+    this.navigationBack.emit();
+  }
+
+  onModalClose(): void {
+    this.modalClose.emit();
+  }
+
+  // ========================================
+  // MÉTODOS DE CONTROLE DE BOTTOM SHEET
+  // ========================================
+
+  private openBottomSheet(item: T): void {
+    this.selectedItem = item;
+    this.isBottomSheetOpen = true;
   }
 
   closeBottomSheet(): void {
     this.isBottomSheetOpen = false;
     this.selectedItem = null;
-    document.body.classList.remove('bottom-sheet-open');
   }
 
-  onNavigation(): void {
-    if (this.prevPage.length > 0) {
-      this.router.navigate([this.prevPage]);
-    } else {
-      this.router.navigate([`/dashboard/home`]);
-    }
+  closeModal(): void {
+    this.onModalClose();
   }
 
-  async onClick(action?: string): Promise<void> {
-    if (action === 'shareQRCode') {
-      this.shareQRCode();
-    } else if (action === 'copyID') {
-      this.downloadQRCode();
-    } else if (action === 'acceptTask') {
-      this.updateConsert('APROVADO');
-    } else if (action === 'rejectTask') {
-      this.updateConsert('RECUSADO');
-    }
+  // ========================================
+  // UTILITÁRIOS
+  // ========================================
+
+  trackByFn(index: number, item: any): any {
+    return item?.id ?? index;
   }
 
-  private async shareQRCode(): Promise<void> {
-    if (!this.selectedItem?.qr_code) {
-      alert("Equipamento sem QR Code!");
-      return;
-    }
-
-    try {
-      const response = await fetch(this.selectedItem.qr_code);
-      const blob = await response.blob();
-      const file = new File([blob], 'qrcode.png', { type: 'image/png' });
-
-      await navigator.share({
-        title: 'QR Code',
-        text: 'Compartilhar QR Code',
-        files: [file]
-      });
-
-    } catch (error) {
-      alert("Não foi possível compartilhar QR Code. Tente fazer o download!");
-      console.error("Erro ao compartilhar QR Code: ", error);
-    }
+  getImageUrl(photo: string): string {
+    return this.imageBaseUrl + photo;
   }
 
-  private downloadQRCode(): void {
-    console.log("download");
+  isDataField(field: DynamicField): field is DataField {
+    return field.type !== 'button';
   }
 
-  private updateConsert(consent: string): void {
-    const formData = new FormData();
-    formData.append('id', this.selectedItem.id);
-    formData.append('consent', consent);
-
-    this.formSubmit.emit(formData);
-    this.closeBottomSheet();
+  isButtonField(field: DynamicField): field is ButtonField {
+    return field.type === 'button';
   }
 }

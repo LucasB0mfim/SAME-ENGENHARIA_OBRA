@@ -1,9 +1,28 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from "@angular/router";
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+
+import {
+  NgxMaskDirective,
+  provideNgxMask
+} from 'ngx-mask';
+
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
+
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
 
 export interface DynamicFormField {
   label: string;
@@ -11,15 +30,14 @@ export interface DynamicFormField {
   type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation';
   placeholder?: string;
   required?: boolean;
-  options?: string[]; // Para select
-  accept?: string; // Para file
-  mask?: string; // Para tel e text com máscara
-  min?: number; // Para number
-  max?: number; // Para number
+  options?: string[];
+  accept?: string;
+  mask?: string;
+  min?: number;
+  max?: number;
 }
 
 export interface DynamicFormSection {
-  // title: string;
   fields: DynamicFormField[];
 }
 

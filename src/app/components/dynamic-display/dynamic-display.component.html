@@ -1,88 +1,188 @@
 <div class="container">
+  <!-- ========================================
+    HEADER
+  ======================================== -->
   <header class="header">
-    <mat-icon class="header__button" (click)="onNavigation()">exit_to_app</mat-icon>
+    <button
+      type="button"
+      class="header__button"
+      (click)="onNavigationBack()"
+      aria-label="Voltar">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
     <h2 class="header__title">{{ title }}</h2>
   </header>
 
-  <div class="viewport" *ngIf="isLoading && !isEmpty">
-    <div class="spinner"></div>
+  <!-- ========================================
+    LOADING STATE
+  ======================================== -->
+  <div class="viewport" *ngIf="isLoading">
+    <div class="spinner" role="status" aria-label="Carregando"></div>
   </div>
 
+  <!-- ========================================
+    CARDS LIST
+  ======================================== -->
   <div class="cards" *ngIf="!isLoading && !isEmpty">
-    <div class="card" *ngFor="let item of data" (click)="onCardClick(item)">
+    <div
+      class="card"
+      *ngFor="let item of data; trackBy: trackByFn"
+      role="button"
+      tabindex="0"
+      [attr.aria-label]="'Abrir detalhes'"
+      (click)="onCardClick(item)"
+      (keydown.enter)="onCardClick(item)"
+      (keydown.space)="$event.preventDefault(); onCardClick(item)">
 
       <!-- IMAGEM -->
-      <div *ngIf="item.foto" class="card__media">
-        <img class="card__image" [src]="'https://sameengenharia.com.br/api/equipament/file/' + item.foto" [alt]="item.name" />
+      <div class="card__media">
+        <img
+          *ngIf="item['foto']"
+          class="card__image"
+          [src]="getImageUrl(item['foto'])"
+          [alt]="item['name'] || 'Imagem do item'" />
+
+        <mat-icon *ngIf="!item['foto']" class="card__icon">
+          {{ iconCard }}
+        </mat-icon>
       </div>
 
-      <div *ngIf="!item.foto" class="card__media">
-        <mat-icon class="card__icon">{{ iconCard }}</mat-icon>
-      </div>
-
+      <!-- INFORMAÇÕES DO CARD -->
       <div class="card__info">
         <ng-container *ngFor="let field of fields">
-
-          <!-- EQUIPAMENTO -->
-          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'title'">
-            <div class="card__text">
-              <label class="card__title">{{ field.label }}</label>
-              <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] }}</p>
-            </div>
-          </div>
-
-          <!-- DATA -->
-          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'date'">
-            <div class="card__text">
-              <label class="card__title">{{ field.label }}</label>
-              <p class="card__subtitle" [id]="item[field.name]">{{ item[field.name] | date:'dd/MM/yyyy' }}</p>
-            </div>
-          </div>
-
-          <!-- DESTINO/LOCALIZAÇÃO -->
-          <div class="card__field" *ngIf="field.style === 'card' && field.type === 'text'">
-            <div class="card__text">
-              <label class="card__title">{{ field.label }}</label>
-              <p class="card__subtitle">{{ item[field.name] }}</p>
-            </div>
+          <div
+            class="card__field"
+            *ngIf="isDataField(field) && field.style === 'card'">
+            <label class="card__title">{{ field.label }}</label>
+            <p class="card__subtitle">
+              <ng-container [ngSwitch]="field.type">
+                <ng-container *ngSwitchCase="'date'">
+                  {{ item[field.name] | date:'dd/MM/yyyy' }}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{ item[field.name] }}
+                </ng-container>
+              </ng-container>
+            </p>
           </div>
         </ng-container>
       </div>
     </div>
   </div>
 
+  <!-- ========================================
+    EMPTY STATE
+  ======================================== -->
   <div class="viewport" *ngIf="isEmpty && !isLoading">
-    <mat-icon class="viewport__icon">search_off</mat-icon>
+    <mat-icon class="viewport__icon" aria-hidden="true">search_off</mat-icon>
     <h2 class="viewport__text">Nenhum resultado foi encontrado!</h2>
   </div>
 
-  <div class="backdrop" *ngIf="isBottomSheetOpen" (click)="closeBottomSheet()">
-  </div>
+  <!-- ========================================
+    OVERLAY (BOTTOM SHEET + MODALS)
+  ======================================== -->
+  <div
+    class="overlay"
+    *ngIf="modalState !== ModalType.IDLE || isBottomSheetOpen"
+    (click)="modalState !== ModalType.IDLE ? closeModal() : closeBottomSheet()">
 
-  <div class="bottom-sheet" [class.bottom-sheet--open]="isBottomSheetOpen">
-    <div class="bottom-sheet__content">
-      <div class="bottom-sheet__info" *ngIf="selectedItem">
-        <ng-container *ngFor="let field of fields">
-          <div class="bottom-sheet__field" *ngIf="field.style === 'bottomSheet' && field.type === 'title'">
-            <label class="bottom-sheet__label">{{ field.label }}</label>
-            <p class="bottom-sheet__value">{{ selectedItem[field.name] }}</p>
-          </div>
+    <!-- BOTTOM SHEET -->
+    <div
+      class="bottom-sheet"
+      *ngIf="isBottomSheetOpen"
+      [class.bottom-sheet--open]="isBottomSheetOpen"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'Detalhes do item'"
+      (click)="$event.stopPropagation()">
 
-          <!-- DATA -->
-          <div class="bottom-sheet__field" *ngIf="field.style === 'bottomSheet' && field.type === 'date'">
-            <label class="bottom-sheet__label">{{ field.label }}</label>
-            <p class="bottom-sheet__value">{{ selectedItem[field.name] | date:'dd/MM/yyyy' }}</p>
-          </div>
-        </ng-container>
+      <div class="bottom-sheet__content">
+        <div class="bottom-sheet__info" *ngIf="selectedItem">
 
-        <div class="bottom-sheet__actions">
+          <!-- CAMPOS DE DADOS -->
           <ng-container *ngFor="let field of fields">
-            <button class="bottom-sheet__button" *ngIf="field.type === 'button'" (click)="onClick(field.action)">
-              {{ field.name }}
-            </button>
+            <div
+              class="bottom-sheet__field"
+              *ngIf="isDataField(field) && field.style === 'bottomSheet'">
+              <label class="bottom-sheet__label">{{ field.label }}</label>
+              <p class="bottom-sheet__value">
+                <ng-container [ngSwitch]="field.type">
+                  <ng-container *ngSwitchCase="'date'">
+                    {{ selectedItem[field.name] | date:'dd/MM/yyyy' }}
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    {{ selectedItem[field.name] }}
+                  </ng-container>
+                </ng-container>
+              </p>
+            </div>
           </ng-container>
+
+          <!-- BOTÕES DE AÇÃO -->
+          <div class="bottom-sheet__actions">
+            <ng-container *ngFor="let field of fields">
+              <button
+                class="bottom-sheet__button"
+                *ngIf="isButtonField(field) && field.style === 'bottomSheet'"
+                type="button"
+                (click)="onActionClick(field.action)">
+                {{ field.name }}
+              </button>
+            </ng-container>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- MODAL DE LOADING -->
+    <div
+      *ngIf="modalState === ModalType.LOADING"
+      class="loading"
+      role="alert"
+      aria-live="polite"
+      (click)="$event.stopPropagation()">
+      <div class="loading__spinner"></div>
+      <p class="loading__title">{{ modalMessage || 'Processando...' }}</p>
+    </div>
+
+    <!-- MODAL DE SUCESSO -->
+    <div
+      class="modal"
+      *ngIf="modalState === ModalType.SUCCESS"
+      role="alertdialog"
+      aria-modal="true"
+      [attr.aria-label]="modalMessage"
+      (click)="$event.stopPropagation()">
+      <div class="modal__icon modal__icon-success">
+        <mat-icon>check</mat-icon>
+      </div>
+      <h3 class="modal__title">{{ modalMessage }}</h3>
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="modal__button modal__button-success">
+        Fechar
+      </button>
+    </div>
+
+    <!-- MODAL DE ERRO -->
+    <div
+      class="modal"
+      *ngIf="modalState === ModalType.ERROR"
+      role="alertdialog"
+      aria-modal="true"
+      [attr.aria-label]="modalMessage"
+      (click)="$event.stopPropagation()">
+      <div class="modal__icon modal__icon-error">
+        <mat-icon>block</mat-icon>
+      </div>
+      <h3 class="modal__title">{{ modalMessage }}</h3>
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="modal__button modal__button-error">
+        Tentar novamente
+      </button>
     </div>
   </div>
 </div>

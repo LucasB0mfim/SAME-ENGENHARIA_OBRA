@@ -1,10 +1,10 @@
 <app-dynamic-display
-  title="Colaboradores"
+  title="Histórico de tarefas"
+  iconCard="assignment"
   [data]="apiData"
   [fields]="fields"
-  [clickHandle]="{ type: 'navigation' }"
-  [isLoading]="isLoading"
   [isEmpty]="isEmpty"
-  (cardClick)="onCardClick($event)"
+  [isLoading]="isLoading"
+  [clickHandle]="{ type: 'bottomSheet' }"
   (navigationBack)="onNavigationBack()">
 </app-dynamic-display>

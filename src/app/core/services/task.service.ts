@@ -15,9 +15,14 @@ export class TaskService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  findTaskByChapa(chapa: string) {
+  findPendingTaskByChapa(chapa: string) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/manage/${chapa}`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/pending/${chapa}`, { headers });
+  }
+
+  findHistoryTaskByChapa(chapa: string) {
+    const headers = this._createHeaders();
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/history/${chapa}`, { headers });
   }
 
   create(formData: any) {

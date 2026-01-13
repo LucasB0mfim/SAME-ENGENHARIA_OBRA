@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guard/auth.guard';
+import { roleGuard } from './core/guard/role.guard';
 
 import { LoginComponent } from './pages/login/login.component';
 
@@ -19,7 +20,8 @@ import { CheckoutComponent } from './pages/equipament/checkout/checkout.componen
 import { EquipamentListComponent } from './pages/equipament/list/list.component';
 import { TimeSheetComponent } from './pages/operational/time-sheet/time-sheet.component';
 import { EmployeesComponent } from './pages/operational/employees/employees.component';
-import { ManageComponent } from './pages/operational/manage/manage.component';
+import { TaskPendingComponent } from './pages/operational/task/task-pending/task-pending.component';
+import { TaskHistoryComponent } from './pages/operational/task/task-history/task-history.component';
 
 export const routes: Routes = [
   {
@@ -39,10 +41,21 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'transport/request', component: RequestComponent },
       { path: 'transport/cancel', component: CancelComponent },
-      { path: 'operational/disciplinary-measure', component: DisciplinaryMeasureComponent },
+      {
+        path: 'operational/disciplinary-measure',
+        component: DisciplinaryMeasureComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI'] }
+      },
       { path: 'operational/task/resgister', component: NewTaskComponent },
-      { path: 'operational/task/manage', component: ManageComponent },
-      { path: 'operational/employees', component: EmployeesComponent },
+      { path: 'operational/task/pending', component: TaskPendingComponent },
+      { path: 'operational/task/history', component: TaskHistoryComponent },
+      {
+        path: 'operational/employees',
+        component: EmployeesComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI'] }
+      },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },
