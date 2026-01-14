@@ -104,12 +104,6 @@ $padding-large: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
     }
   }
 
-  &__link {
-    color: $dark-blue;
-    text-decoration: none;
-    font-size: $fz-small;
-  }
-
   &__label {
     color: $light-gray;
     font-size: $fz-small;
@@ -134,12 +128,6 @@ $padding-large: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
   &--primary {
     color: $dark-white;
     background-color: $dark-blue;
-  }
-
-  &--secondary {
-    color: $dark-blue;
-    border: 1px solid $dark-blue;
-    background-color: transparent;
   }
 
   &:disabled {
