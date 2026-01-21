@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicFormComponent, DynamicFormSection, FormSubmissionState } from '../../../../components/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent, DynamicFormSection, FormSubmissionState, SelectListItem } from '../../../../components/dynamic-form/dynamic-form.component';
 
 import { UserService } from '../../../../core/services/user.service';
 import { EmployeesService } from '../../../../core/services/employees.service';
@@ -20,6 +20,7 @@ export class TaskRegisterComponent implements OnInit {
 
   userData: any = null;
   employeesList: any[] = [];
+  costCenterList: any[] = [];
 
   errorMessage: string = '';
   successMessage: string = '';
@@ -39,9 +40,21 @@ export class TaskRegisterComponent implements OnInit {
     {
       fields: [
         {
+          label: 'Colaboradores',
+          name: 'colaboradores',
+          type: 'select-list',
+          options: [], // Será preenchido dinamicamente
+          required: false
+        }
+      ]
+    },
+    {
+      fields: [
+        {
           label: 'Centro de custo',
           name: 'centro_custo',
-          type: 'text',
+          type: 'select',
+          options: [], // Será preenchido dinamicamente
           placeholder: 'Insira o centro de custo',
           required: true
         }
@@ -82,6 +95,7 @@ export class TaskRegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.getActiveEmployees();
+    this.getActiveCostCenters();
   }
 
   getUser(): void {
@@ -100,7 +114,7 @@ export class TaskRegisterComponent implements OnInit {
       next: (res) => {
         this.employeesList = res.result;
 
-        const colaboradorField = this.formSections[0].fields.find(f => f.name === 'colaborador');
+        const colaboradorField = this.formSections[1].fields.find(f => f.name === 'colaboradores');
         if (colaboradorField) {
           colaboradorField.options = this.employeesList;
         }
@@ -111,8 +125,32 @@ export class TaskRegisterComponent implements OnInit {
     });
   }
 
+  getActiveCostCenters(): void {
+    this._employeesService.findActiveCostCenters().subscribe({
+      next: (res) => {
+        this.costCenterList = res.result;
+
+        const costCenterField = this.formSections[2].fields.find(f => f.name === 'centro_custo');
+        if (costCenterField) {
+          costCenterField.options = this.costCenterList;
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
   onSubmit(formData: FormData): void {
     formData.append('criado_por', this.userData.nome);
+
+    // Exemplo de como acessar os dados dos colaboradores
+    const colaboradoresJson = formData.get('colaboradores') as string;
+    if (colaboradoresJson) {
+      const colaboradores: SelectListItem[] = JSON.parse(colaboradoresJson);
+      console.log('Colaboradores selecionados:', colaboradores);
+      // colaboradores será um array como: [{nome: "JOÃO PEDRO", valor: 200}, {nome: "LUCAS", valor: 1250}]
+    }
 
     this.submissionState = FormSubmissionState.LOADING;
     this._disciplinaryMeasureService.create(formData).subscribe({

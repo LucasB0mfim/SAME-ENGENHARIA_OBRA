@@ -12,7 +12,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  AbstractControl
+  AbstractControl,
+  FormArray
 } from '@angular/forms';
 
 import {
@@ -27,7 +28,7 @@ import {
 export interface DynamicFormField {
   label: string;
   name: string;
-  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'checkbox' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation';
+  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'checkbox' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation' | 'select-list';
   placeholder?: string;
   required?: boolean;
   options?: string[];
@@ -46,6 +47,11 @@ export enum FormSubmissionState {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error'
+}
+
+export interface SelectListItem {
+  nome: string;
+  valor: number;
 }
 
 @Component({
@@ -117,15 +123,44 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
           validators.push(Validators.max(field.max));
         }
 
-        formConfig[field.name] = ['', validators];
+        if (field.type === 'select-list') {
+          formConfig[field.name] = this.fb.array([
+            this.createSelectListItem()
+          ]);
+        } else {
+          formConfig[field.name] = ['', validators];
+        }
       });
     });
 
     this.dynamicForm = this.fb.group(formConfig);
   }
 
+  private createSelectListItem(): FormGroup {
+    return this.fb.group({
+      nome: [''],
+      valor: [0]
+    });
+  }
+
   getFieldControl(fieldName: string): AbstractControl | null {
     return this.dynamicForm.get(fieldName);
+  }
+
+  getSelectListArray(fieldName: string): FormArray {
+    return this.dynamicForm.get(fieldName) as FormArray;
+  }
+
+  addSelectListItem(fieldName: string): void {
+    const formArray = this.getSelectListArray(fieldName);
+    formArray.push(this.createSelectListItem());
+  }
+
+  removeSelectListItem(fieldName: string, index: number): void {
+    const formArray = this.getSelectListArray(fieldName);
+    if (formArray.length > 1) {
+      formArray.removeAt(index);
+    }
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -167,7 +202,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    // Marca todos os campos como touched para exibir erros
     Object.keys(this.dynamicForm.controls).forEach(key => {
       this.dynamicForm.get(key)?.markAsTouched();
     });
@@ -190,6 +224,11 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         if (value) {
           if (field.type === 'file' && this.uploadedFiles[field.name]) {
             formData.append(field.name, this.uploadedFiles[field.name]);
+          } else if (field.type === 'select-list') {
+            const filteredItems = value.filter((item: SelectListItem) => item.nome && item.nome.trim() !== '');
+            if (filteredItems.length > 0) {
+              formData.append(field.name, JSON.stringify(filteredItems));
+            }
           } else if (field.type !== 'file') {
             formData.append(field.name, value.toString());
           }
@@ -215,7 +254,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
       this.qrStream[fieldName] = stream;
 
-      // Aguarda o próximo ciclo de detecção de mudanças
       setTimeout(() => {
         const video = document.getElementById(`qr-video-${fieldName}`) as HTMLVideoElement;
         if (video) {
@@ -251,7 +289,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-        // Importar jsQR dinamicamente
         import('jsqr').then(({ default: jsQR }) => {
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
@@ -285,7 +322,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Limpa todos os scanners ativos
     Object.keys(this.qrStream).forEach(fieldName => {
       this.stopQrScanner(fieldName);
     });

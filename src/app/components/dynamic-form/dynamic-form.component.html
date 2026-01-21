@@ -9,7 +9,7 @@
     <div *ngFor="let section of sections; let idx = index" class="form__section">
 
       <div *ngFor="let field of section.fields" class=""
-        [class.dynamic-form__field--wide]="field.type === 'textarea' || field.type === 'file' || field.type === 'qrcode' || field.type === 'geolocation'"
+        [class.dynamic-form__field--wide]="field.type === 'textarea' || field.type === 'file' || field.type === 'qrcode' || field.type === 'geolocation' || field.type === 'select-list'"
         [class.dynamic-form__field--error]="isFieldInvalid(field.name)">
 
         <div class="form__field">
@@ -50,7 +50,47 @@
             </option>
           </select>
 
+          <!-- Simple Checkbox -->
           <input *ngIf="field.type === 'checkbox'" [id]="field.name" type="checkbox">
+
+          <!-- Select List with Dynamic Rows -->
+          <div *ngIf="field.type === 'select-list'" class="select-list">
+            <div [formArrayName]="field.name">
+              <div *ngFor="let item of getSelectListArray(field.name).controls; let i = index"
+                   [formGroupName]="i"
+                   class="select-list__row">
+
+                <select formControlName="nome" class="select-list__select">
+                  <option value="">Selecione...</option>
+                  <option *ngFor="let option of field.options" [value]="option">
+                    {{ option }}
+                  </option>
+                </select>
+
+                <input
+                  type="number"
+                  formControlName="valor"
+                  placeholder="Valor"
+                  class="select-list__input">
+
+                <button
+                  *ngIf="getSelectListArray(field.name).length > 1"
+                  type="button"
+                  (click)="removeSelectListItem(field.name, i)"
+                  class="select-list__button select-list__button--remove">
+                  <mat-icon>remove</mat-icon>
+                </button>
+
+                <button
+                  *ngIf="i === getSelectListArray(field.name).length - 1"
+                  type="button"
+                  (click)="addSelectListItem(field.name)"
+                  class="select-list__button select-list__button--add">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
 
           <!-- Textarea -->
           <textarea *ngIf="field.type === 'textarea'" [id]="field.name" [formControlName]="field.name" rows="4"

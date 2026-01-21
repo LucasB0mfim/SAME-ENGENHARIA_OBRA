@@ -24,4 +24,9 @@ export class EmployeesService {
     const headers = this._createHeaders();
     return this._httpClient.get<any>('http://localhost:3000/employee/active-names', { headers });
   }
+
+  findActiveCostCenters(): Observable<any> {
+    const headers = this._createHeaders();
+    return this._httpClient.get<any>('http://localhost:3000/employee/cost-centers', { headers });
+  }
 }
