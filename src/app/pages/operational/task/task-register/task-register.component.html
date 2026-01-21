@@ -1,0 +1,10 @@
+<app-dynamic-form
+  [sections]="formSections"
+  [titleForm]="'Cadastrar tarefa'"
+  [submitButtonText]="'Cadastrar tarefa'"
+  [submissionState]="submissionState"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (formSubmit)="onSubmit($event)"
+  (formStateChange)="onFormStateChange($event)">
+</app-dynamic-form>

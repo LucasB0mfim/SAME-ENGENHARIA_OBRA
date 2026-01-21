@@ -22,6 +22,7 @@ import { TimeSheetComponent } from './pages/operational/time-sheet/time-sheet.co
 import { EmployeesComponent } from './pages/operational/employees/employees.component';
 import { TaskPendingComponent } from './pages/operational/task/task-pending/task-pending.component';
 import { TaskHistoryComponent } from './pages/operational/task/task-history/task-history.component';
+import { TaskRegisterComponent } from './pages/operational/task/task-register/task-register.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,7 @@ export const routes: Routes = [
         data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI'] }
       },
       { path: 'operational/task/resgister', component: NewTaskComponent },
+      { path: 'operational/task/beta', component: TaskRegisterComponent },
       { path: 'operational/task/pending', component: TaskPendingComponent },
       { path: 'operational/task/history', component: TaskHistoryComponent },
       {

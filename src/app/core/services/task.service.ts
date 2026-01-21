@@ -17,21 +17,21 @@ export class TaskService {
 
   findPendingTaskByChapa(chapa: string) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/pending/${chapa}`, { headers });
+    return this._httpClient.get<any>(`http://localhost:3000/task/pending/${chapa}`, { headers });
   }
 
   findHistoryTaskByChapa(chapa: string) {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/task/history/${chapa}`, { headers });
+    return this._httpClient.get<any>(`http://localhost:3000/task/history/${chapa}`, { headers });
   }
 
   create(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/task', formData, { headers });
+    return this._httpClient.post<any>('http://localhost:3000/task', formData, { headers });
   }
 
   updateConsent(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.put<any>('https://sameengenharia.com.br/api/task/consent', formData, { headers });
+    return this._httpClient.put<any>('http://localhost:3000/task/consent', formData, { headers });
   }
 }

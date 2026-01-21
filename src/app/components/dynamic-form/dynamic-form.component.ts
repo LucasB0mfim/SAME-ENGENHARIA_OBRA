@@ -27,7 +27,7 @@ import {
 export interface DynamicFormField {
   label: string;
   name: string;
-  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation';
+  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'checkbox' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation';
   placeholder?: string;
   required?: boolean;
   options?: string[];

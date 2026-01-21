@@ -16,6 +16,6 @@ export class DisciplinaryMeasureService {
 
   create(request: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/disciplinary-measure', request, { headers });
+    return this._httpClient.post<any>('http://localhost:3000/disciplinary-measure', request, { headers });
   }
 }
