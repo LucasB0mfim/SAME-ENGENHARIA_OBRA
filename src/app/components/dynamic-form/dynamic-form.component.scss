@@ -105,6 +105,15 @@ $gradient-end: #0077FF;
   flex-direction: column;
   gap: $gp-md;
 
+  &__flex {
+    display: flex;
+    gap: $gp-sm;
+
+    &--mg-bottom {
+      margin-bottom: $gp-sm;
+    }
+  }
+
   &__field {
     width: 100%;
     height: auto;
@@ -164,6 +173,7 @@ $gradient-end: #0077FF;
 
     border: none;
     outline: none;
+    cursor: pointer;
 
     color: $dark-black;
     font-size: $fs-mdx;
@@ -175,6 +185,12 @@ $gradient-end: #0077FF;
 
     &-file {
       display: none;
+    }
+
+    &--bg-dark {
+      padding-left: $pd-sm;
+      border-radius: $bd-lg;
+      background-color: $dark-white;
     }
   }
 

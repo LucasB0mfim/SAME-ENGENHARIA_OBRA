@@ -45,50 +45,43 @@
           <!-- Select -->
           <select *ngIf="field.type === 'select'" [id]="field.name" [formControlName]="field.name" class="form__input">
             <option value="">Selecione...</option>
+            <option value="TESTE">TESTE</option>
             <option *ngFor="let option of field.options" [value]="option">
               {{ option }}
             </option>
           </select>
 
-          <!-- Simple Checkbox -->
-          <input *ngIf="field.type === 'checkbox'" [id]="field.name" type="checkbox">
+          <!-- Select List -->
+          <div [formArrayName]="field.name" *ngIf="field.type === 'select-list'">
+            <div *ngFor="let item of getSelectListArray(field.name).controls; let i = index" [formGroupName]="i"
+              class="form__flex form__flex--mg-bottom">
 
-          <!-- Select List with Dynamic Rows -->
-          <div *ngIf="field.type === 'select-list'" class="select-list">
-            <div [formArrayName]="field.name">
-              <div *ngFor="let item of getSelectListArray(field.name).controls; let i = index"
-                   [formGroupName]="i"
-                   class="select-list__row">
+              <select formControlName="nome" class="form__input form__input--bg-dark">
+                <option value="">Selecione...</option>
+                <option *ngFor="let option of field.options" [value]="option">
+                  {{ option }}
+                </option>
+              </select>
 
-                <select formControlName="nome" class="select-list__select">
-                  <option value="">Selecione...</option>
-                  <option *ngFor="let option of field.options" [value]="option">
-                    {{ option }}
-                  </option>
-                </select>
+              <input
+                type="number"
+                formControlName="valor"
+                placeholder="Valor da premiação"
+                class="form__input form__input--bg-dark">
 
-                <input
-                  type="number"
-                  formControlName="valor"
-                  placeholder="Valor"
-                  class="select-list__input">
+              <button
+                *ngIf="getSelectListArray(field.name).length > 1" type="button"
+                (click)="removeSelectListItem(field.name, i)"
+                class="form__field-button">
+                <mat-icon>cancel</mat-icon>
+              </button>
 
-                <button
-                  *ngIf="getSelectListArray(field.name).length > 1"
-                  type="button"
-                  (click)="removeSelectListItem(field.name, i)"
-                  class="select-list__button select-list__button--remove">
-                  <mat-icon>remove</mat-icon>
-                </button>
-
-                <button
-                  *ngIf="i === getSelectListArray(field.name).length - 1"
-                  type="button"
-                  (click)="addSelectListItem(field.name)"
-                  class="select-list__button select-list__button--add">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
+              <button
+                *ngIf="i === getSelectListArray(field.name).length - 1" type="button"
+                (click)="addSelectListItem(field.name)"
+                class="form__field-button">
+                <mat-icon>add_circle</mat-icon>
+              </button>
             </div>
           </div>
 

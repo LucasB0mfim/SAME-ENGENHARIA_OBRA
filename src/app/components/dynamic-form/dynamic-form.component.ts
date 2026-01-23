@@ -28,7 +28,7 @@ import {
 export interface DynamicFormField {
   label: string;
   name: string;
-  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'checkbox' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation' | 'select-list';
+  type: 'text' | 'email' | 'tel' | 'number' | 'date' | 'select' | 'textarea' | 'file' | 'qrcode' | 'geolocation' | 'select-list';
   placeholder?: string;
   required?: boolean;
   options?: string[];
@@ -139,7 +139,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private createSelectListItem(): FormGroup {
     return this.fb.group({
       nome: [''],
-      valor: [0]
+      valor: []
     });
   }
 

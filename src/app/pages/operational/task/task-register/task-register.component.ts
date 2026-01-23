@@ -4,7 +4,7 @@ import { DynamicFormComponent, DynamicFormSection, FormSubmissionState, SelectLi
 
 import { UserService } from '../../../../core/services/user.service';
 import { EmployeesService } from '../../../../core/services/employees.service';
-import { DisciplinaryMeasureService } from '../../../../core/services/disciplinary-measure.service';
+import { TaskService } from '../../../../core/services/task.service';
 
 @Component({
   selector: 'app-task-register',
@@ -83,7 +83,7 @@ export class TaskRegisterComponent implements OnInit {
   ];
 
   constructor(
-    private readonly _disciplinaryMeasureService: DisciplinaryMeasureService,
+    private readonly _taskService: TaskService,
     private readonly _userService: UserService,
     private readonly _employeesService: EmployeesService
   ) { }
@@ -142,18 +142,17 @@ export class TaskRegisterComponent implements OnInit {
   }
 
   onSubmit(formData: FormData): void {
-    formData.append('criado_por', this.userData.nome);
+    formData.append('chapa', this.userData.chapa);
 
     // Exemplo de como acessar os dados dos colaboradores
     const colaboradoresJson = formData.get('colaboradores') as string;
     if (colaboradoresJson) {
       const colaboradores: SelectListItem[] = JSON.parse(colaboradoresJson);
       console.log('Colaboradores selecionados:', colaboradores);
-      // colaboradores será um array como: [{nome: "JOÃO PEDRO", valor: 200}, {nome: "LUCAS", valor: 1250}]
     }
 
     this.submissionState = FormSubmissionState.LOADING;
-    this._disciplinaryMeasureService.create(formData).subscribe({
+    this._taskService.create(formData).subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.submissionState = FormSubmissionState.SUCCESS;
