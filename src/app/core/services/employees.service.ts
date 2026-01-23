@@ -20,13 +20,18 @@ export class EmployeesService {
     return this._httpClient.get<any>('http://localhost:3000/employee', { headers });
   }
 
-  findActiveNames(): Observable<any> {
+  findByStatus(status: string): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>('http://localhost:3000/employee/active-names', { headers });
+    return this._httpClient.get<any>(`http://localhost:3000/employee/status/${status}`, { headers });
   }
 
   findActiveCostCenters(): Observable<any> {
     const headers = this._createHeaders();
     return this._httpClient.get<any>('http://localhost:3000/employee/cost-centers', { headers });
+  }
+
+  findAllNames(): Observable<any> {
+    const headers = this._createHeaders();
+    return this._httpClient.get<any>('http://localhost:3000/employee/names', { headers });
   }
 }

@@ -45,7 +45,6 @@
           <!-- Select -->
           <select *ngIf="field.type === 'select'" [id]="field.name" [formControlName]="field.name" class="form__input">
             <option value="">Selecione...</option>
-            <option value="TESTE">TESTE</option>
             <option *ngFor="let option of field.options" [value]="option">
               {{ option }}
             </option>

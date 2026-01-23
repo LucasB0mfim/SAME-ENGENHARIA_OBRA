@@ -43,7 +43,7 @@ export class TaskRegisterComponent implements OnInit {
           label: 'Colaboradores',
           name: 'colaboradores',
           type: 'select-list',
-          options: [], // Será preenchido dinamicamente
+          options: [],
           required: false
         }
       ]
@@ -54,7 +54,7 @@ export class TaskRegisterComponent implements OnInit {
           label: 'Centro de custo',
           name: 'centro_custo',
           type: 'select',
-          options: [], // Será preenchido dinamicamente
+          options: [],
           placeholder: 'Insira o centro de custo',
           required: true
         }
@@ -104,23 +104,29 @@ export class TaskRegisterComponent implements OnInit {
         this.userData = res.result;
       },
       error: (error) => {
-        console.error(error);
+        console.error('Erro ao buscar usuário:', error);
       }
     });
   }
 
   getActiveEmployees(): void {
-    this._employeesService.findActiveNames().subscribe({
+    this._employeesService.findAllNames().subscribe({
       next: (res) => {
-        this.employeesList = res.result;
+        if (res.success && res.result) {
+          this.employeesList = res.result;
 
-        const colaboradorField = this.formSections[1].fields.find(f => f.name === 'colaboradores');
-        if (colaboradorField) {
-          colaboradorField.options = this.employeesList;
+          const colaboradoresField = this.formSections
+            .flatMap(section => section.fields)
+            .find(field => field.name === 'colaboradores');
+
+          if (colaboradoresField) {
+            colaboradoresField.options = this.employeesList;
+          }
         }
       },
       error: (error) => {
-        console.error(error);
+        console.error('Erro ao buscar colaboradores:', error);
+        this.employeesList = [];
       }
     });
   }
@@ -128,15 +134,21 @@ export class TaskRegisterComponent implements OnInit {
   getActiveCostCenters(): void {
     this._employeesService.findActiveCostCenters().subscribe({
       next: (res) => {
-        this.costCenterList = res.result;
+        if (res.success && res.result) {
+          this.costCenterList = res.result;
 
-        const costCenterField = this.formSections[2].fields.find(f => f.name === 'centro_custo');
-        if (costCenterField) {
-          costCenterField.options = this.costCenterList;
+          const costCenterField = this.formSections
+            .flatMap(section => section.fields)
+            .find(field => field.name === 'centro_custo');
+
+          if (costCenterField) {
+            costCenterField.options = this.costCenterList;
+          }
         }
       },
       error: (error) => {
-        console.error(error);
+        console.error('Erro ao buscar centros de custo:', error);
+        this.costCenterList = [];
       }
     });
   }
@@ -144,7 +156,6 @@ export class TaskRegisterComponent implements OnInit {
   onSubmit(formData: FormData): void {
     formData.append('chapa', this.userData.chapa);
 
-    // Exemplo de como acessar os dados dos colaboradores
     const colaboradoresJson = formData.get('colaboradores') as string;
     if (colaboradoresJson) {
       const colaboradores: SelectListItem[] = JSON.parse(colaboradoresJson);
@@ -158,7 +169,7 @@ export class TaskRegisterComponent implements OnInit {
         this.submissionState = FormSubmissionState.SUCCESS;
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Erro ao registrar medida disciplinar';
+        this.errorMessage = error.error?.message || 'Erro ao registrar tarefa';
         this.submissionState = FormSubmissionState.ERROR;
       }
     });

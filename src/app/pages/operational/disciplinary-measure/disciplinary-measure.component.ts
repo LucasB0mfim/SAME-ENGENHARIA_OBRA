@@ -86,18 +86,30 @@ export class DisciplinaryMeasureComponent implements OnInit {
   }
 
   getActiveEmployees(): void {
-    this._employeesService.findActiveNames().subscribe({
+    this._employeesService.findAllNames().subscribe({
       next: (res) => {
         this.employeesList = res.result;
 
-        const colaboradorField = this.formSections[0].fields.find(f => f.name === 'colaborador');
-        if (colaboradorField) {
-          colaboradorField.options = this.employeesList;
+        // Encontramos o índice da seção e do campo
+        const sectionIndex = 1;
+        const fieldIndex = this.formSections[sectionIndex].fields.findIndex(f => f.name === 'colaboradores');
+
+        if (fieldIndex !== -1) {
+          // Criamos uma cópia da seção com as novas opções
+          const updatedFields = [...this.formSections[sectionIndex].fields];
+          updatedFields[fieldIndex] = {
+            ...updatedFields[fieldIndex],
+            options: this.employeesList
+          };
+
+          // Substituímos a seção inteira para disparar a re-renderização
+          this.formSections[sectionIndex] = {
+            ...this.formSections[sectionIndex],
+            fields: updatedFields
+          };
         }
       },
-      error: (error) => {
-        console.error(error);
-      }
+      error: (error) => console.error(error)
     });
   }
 
