@@ -62,7 +62,7 @@ export class DynamicDisplayComponent<T extends Record<string, any>> {
   @Input() fields: DynamicField[] = [];
   @Input() title = '';
   @Input() iconCard = 'person';
-  @Input() imageBaseUrl = 'http://localhost:3000/equipament/file/';
+  @Input() imageBaseUrl = 'https://sameengenharia.com.br/api/equipament/file/';
 
   // Estados
   @Input() isLoading = false;
