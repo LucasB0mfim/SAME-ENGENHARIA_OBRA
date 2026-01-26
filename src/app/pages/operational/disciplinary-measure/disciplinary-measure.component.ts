@@ -88,28 +88,14 @@ export class DisciplinaryMeasureComponent implements OnInit {
   getActiveEmployees(): void {
     this._employeesService.findAllNames().subscribe({
       next: (res) => {
-        this.employeesList = res.result;
-
-        // Encontramos o índice da seção e do campo
-        const sectionIndex = 1;
-        const fieldIndex = this.formSections[sectionIndex].fields.findIndex(f => f.name === 'colaboradores');
-
-        if (fieldIndex !== -1) {
-          // Criamos uma cópia da seção com as novas opções
-          const updatedFields = [...this.formSections[sectionIndex].fields];
-          updatedFields[fieldIndex] = {
-            ...updatedFields[fieldIndex],
-            options: this.employeesList
-          };
-
-          // Substituímos a seção inteira para disparar a re-renderização
-          this.formSections[sectionIndex] = {
-            ...this.formSections[sectionIndex],
-            fields: updatedFields
-          };
+        if (res.success && res.result) {
+          // Atualiza diretamente a seção do formulário
+          this.formSections[0].fields[0].options = res.result;
         }
       },
-      error: (error) => console.error(error)
+      error: (error) => {
+        console.error('Erro ao buscar colaboradores:', error);
+      }
     });
   }
 

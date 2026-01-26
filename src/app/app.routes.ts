@@ -46,7 +46,7 @@ export const routes: Routes = [
         path: 'operational/disciplinary-measure',
         component: DisciplinaryMeasureComponent,
         canActivate: [roleGuard],
-        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI'] }
+        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI', 'RECURSOS HUMANOS'] }
       },
       { path: 'operational/task/resgister', component: NewTaskComponent },
       { path: 'operational/task/beta', component: TaskRegisterComponent },
