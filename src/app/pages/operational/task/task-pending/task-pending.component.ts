@@ -217,10 +217,10 @@ export class TaskPendingComponent implements OnInit {
     this.modalState = ModalType.LOADING;
     this.modalMessage = 'Processando solicitação...';
 
-    this.taskService.updateConsent(formData).subscribe({
+    this.taskService.update(formData).subscribe({
       next: (res) => {
         this.showSuccessModal(res.message || 'Operação realizada com sucesso');
-        this.loadTasks(); // Recarrega a lista
+        this.loadTasks();
       },
       error: (error) => {
         console.error('Erro ao atualizar consentimento:', error);

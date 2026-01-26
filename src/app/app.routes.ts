@@ -48,15 +48,19 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI', 'RECURSOS HUMANOS'] }
       },
-      { path: 'operational/task/resgister', component: NewTaskComponent },
-      { path: 'operational/task/beta', component: TaskRegisterComponent },
+      {
+        path: 'operational/task/register',
+        component: TaskRegisterComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI', 'RECURSOS HUMANOS'] }
+      },
       { path: 'operational/task/pending', component: TaskPendingComponent },
       { path: 'operational/task/history', component: TaskHistoryComponent },
       {
         path: 'operational/employees',
         component: EmployeesComponent,
         canActivate: [roleGuard],
-        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI'] }
+        data: { allowedRoles: ['ENGENHEIRO', 'DIRETOR', 'TI', 'RECURSOS HUMANOS'] }
       },
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },

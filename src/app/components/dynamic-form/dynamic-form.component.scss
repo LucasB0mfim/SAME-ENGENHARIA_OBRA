@@ -388,6 +388,7 @@ $gradient-end: #0077FF;
   &__button {
     width: 100%;
     height: auto;
+    cursor: pointer;
 
     font-weight: 500;
     font-size: $fs-mdx;

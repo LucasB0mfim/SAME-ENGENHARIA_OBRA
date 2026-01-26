@@ -30,8 +30,8 @@ export class TaskService {
     return this._httpClient.post<any>('http://localhost:3000/task', formData, { headers });
   }
 
-  updateConsent(formData: any) {
+  update(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.put<any>('http://localhost:3000/task/consent', formData, { headers });
+    return this._httpClient.put<any>('http://localhost:3000/task', formData, { headers });
   }
 }
