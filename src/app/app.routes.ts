@@ -7,9 +7,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { NewTaskComponent } from './components/task/new-task/new-task.component';
-
-import { RentalComponent } from './components/equipament/rental/rental.component';
 import { CancelComponent } from './pages/transport/cancel-transport/cancel.component';
 import { RequestComponent } from './pages/transport/request-transport/request.component';
 
@@ -65,7 +62,6 @@ export const routes: Routes = [
       { path: 'equipament/register', component: RegisterEquipamentComponent },
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },
-      { path: 'equipament/rental', component: RentalComponent },
       { path: 'equipament/list', component: EquipamentListComponent },
       { path: 'time-sheet/:chapa', component: TimeSheetComponent },
     ]

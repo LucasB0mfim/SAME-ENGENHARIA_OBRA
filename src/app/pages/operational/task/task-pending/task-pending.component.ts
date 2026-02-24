@@ -97,18 +97,12 @@ export class TaskPendingComponent implements OnInit {
       style: 'bottomSheet'
     },
 
-    // Botões de ação
+    // Botão de ação
     {
       name: 'Aprovar',
       type: 'button',
       style: 'bottomSheet',
       action: 'acceptTask'
-    },
-    {
-      name: 'Recusar',
-      type: 'button',
-      style: 'bottomSheet',
-      action: 'rejectTask'
     },
   ];
 
@@ -176,15 +170,8 @@ export class TaskPendingComponent implements OnInit {
   // ========================================
 
   onActionClick(event: ActionEvent<Task>): void {
-    switch (event.action) {
-      case 'acceptTask':
-        this.approveTask(event.item);
-        break;
-      case 'rejectTask':
-        this.rejectTask(event.item);
-        break;
-      default:
-        console.warn(`Ação desconhecida: ${event.action}`);
+    if (event.action === 'acceptTask') {
+      this.approveTask(event.item);
     }
   }
 
@@ -202,17 +189,9 @@ export class TaskPendingComponent implements OnInit {
   // ========================================
 
   private approveTask(task: Task): void {
-    this.updateTaskConsent(task.id, 'APROVADO');
-  }
-
-  private rejectTask(task: Task): void {
-    this.updateTaskConsent(task.id, 'RECUSADO');
-  }
-
-  private updateTaskConsent(taskId: string, consent: string): void {
     const formData = new FormData();
-    formData.append('id', taskId);
-    formData.append('consent', consent);
+    formData.append('id', task.id);
+    formData.append('consent', 'APROVADO');
 
     this.modalState = ModalType.LOADING;
     this.modalMessage = 'Processando solicitação...';
@@ -223,7 +202,7 @@ export class TaskPendingComponent implements OnInit {
         this.loadTasks();
       },
       error: (error) => {
-        console.error('Erro ao atualizar consentimento:', error);
+        console.error('Erro ao aprovar tarefa:', error);
         this.showErrorModal(
           error.error?.message || 'Erro ao processar solicitação'
         );
