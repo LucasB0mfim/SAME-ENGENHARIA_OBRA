@@ -142,7 +142,7 @@ export class TaskHistoryComponent implements OnInit {
     }
 
     this.taskService
-      .findHistoryTaskByChapa(this.userData.chapa)
+      .findByChapaAndType(this.userData.chapa, 'APROVADO')
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (res) => {

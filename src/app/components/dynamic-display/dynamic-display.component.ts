@@ -114,12 +114,12 @@ export class DynamicDisplayComponent<T extends Record<string, any>> {
   onActionClick(action: string): void {
     if (!this.selectedItem) return;
 
-    this.actionClick.emit({
-      action,
-      item: this.selectedItem
-    });
+    this.actionClick.emit({ action, item: this.selectedItem });
 
-    this.closeBottomSheet();
+    setTimeout(() => {
+      this.isBottomSheetOpen = false;
+      this.selectedItem = null;
+    });
   }
 
   onNavigationBack(): void {

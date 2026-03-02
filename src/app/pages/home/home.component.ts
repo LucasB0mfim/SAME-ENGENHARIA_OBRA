@@ -63,8 +63,7 @@ export class HomeComponent implements OnInit {
           { icon: 'gavel', title: 'Medida Disciplinar', route: '/dashboard/operational/disciplinary-measure' },
           { icon: 'assignment_add', title: 'Cadastrar tarefa', route: '/dashboard/operational/task/register' },
           { icon: 'hourglass_top', title: 'Tarefas pendentes', route: '/dashboard/operational/task/pending' },
-          { icon: 'storage', title: 'Histórico de tarefas', route: '/dashboard/operational/task/history' },
-          { icon: 'groups', title: 'Colaboradores', route: '/dashboard/operational/employees' }
+          { icon: 'storage', title: 'Histórico de tarefas', route: '/dashboard/operational/task/history' }
         ]
       },
       {

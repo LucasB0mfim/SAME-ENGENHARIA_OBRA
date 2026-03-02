@@ -11,12 +11,12 @@ import { CancelComponent } from './pages/transport/cancel-transport/cancel.compo
 import { RequestComponent } from './pages/transport/request-transport/request.component';
 
 import { DisciplinaryMeasureComponent } from './pages/operational/disciplinary-measure/disciplinary-measure.component';
+import { EquipamentListComponent } from './pages/equipament/list/list.component';
 import { CheckinComponent } from './pages/equipament/checkin/checkin.component';
 import { RegisterEquipamentComponent } from './pages/equipament/register/register.component';
 import { CheckoutComponent } from './pages/equipament/checkout/checkout.component';
-import { EquipamentListComponent } from './pages/equipament/list/list.component';
-import { TimeSheetComponent } from './pages/operational/time-sheet/time-sheet.component';
 import { EmployeesComponent } from './pages/operational/employees/employees.component';
+
 import { TaskPendingComponent } from './pages/operational/task/task-pending/task-pending.component';
 import { TaskHistoryComponent } from './pages/operational/task/task-history/task-history.component';
 import { TaskRegisterComponent } from './pages/operational/task/task-register/task-register.component';
@@ -63,7 +63,6 @@ export const routes: Routes = [
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },
       { path: 'equipament/list', component: EquipamentListComponent },
-      { path: 'time-sheet/:chapa', component: TimeSheetComponent },
     ]
   }
 ];

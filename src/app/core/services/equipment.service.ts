@@ -15,11 +15,6 @@ export class EquipmentService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  send(formData: any): Observable<any> {
-    const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipment-rental/register', formData, { headers });
-  }
-
   findAll() {
     const headers = this._createHeaders();
     return this._httpClient.get<any>('https://sameengenharia.com.br/api/equipament', { headers });
@@ -27,16 +22,11 @@ export class EquipmentService {
 
   register(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipament/register', formData, { headers });
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/equipament', formData, { headers });
   }
 
-  checkin(formData: any) {
+  update(formData: any) {
     const headers = this._createHeaders();
-    return this._httpClient.put<any>('https://sameengenharia.com.br/api/equipament/checkin', formData, { headers });
-  }
-
-  checkout(formData: any) {
-    const headers = this._createHeaders();
-    return this._httpClient.put<any>('https://sameengenharia.com.br/api/equipament/checkout', formData, { headers });
+    return this._httpClient.put<any>('https://sameengenharia.com.br/api/equipament', formData, { headers });
   }
 }

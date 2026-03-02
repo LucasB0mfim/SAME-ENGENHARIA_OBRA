@@ -62,7 +62,7 @@ export class CheckinComponent {
 
   onSubmit(formData: FormData): void {
     this.submissionState = FormSubmissionState.LOADING;
-    this._equipamentService.checkin(formData).subscribe({
+    this._equipamentService.update(formData).subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.submissionState = FormSubmissionState.SUCCESS;

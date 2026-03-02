@@ -48,7 +48,7 @@ export class CheckoutComponent {
           label: 'Destino',
           name: 'destino',
           type: 'select',
-          options: ['Same Engenharia', 'Fornecedor'],
+          options: ['SAME ENGENHARIA', 'FORNECEDOR'],
           required: true
         }
       ]
@@ -61,7 +61,7 @@ export class CheckoutComponent {
 
   onSubmit(formData: FormData): void {
     this.submissionState = FormSubmissionState.LOADING;
-    this._equipamentService.checkout(formData).subscribe({
+    this._equipamentService.update(formData).subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.submissionState = FormSubmissionState.SUCCESS;

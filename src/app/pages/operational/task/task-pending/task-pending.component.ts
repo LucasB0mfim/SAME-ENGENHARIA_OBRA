@@ -148,7 +148,7 @@ export class TaskPendingComponent implements OnInit {
     this.isLoading = true;
 
     this.taskService
-      .findPendingTaskByChapa(this.userData.chapa)
+      .findByChapaAndType(this.userData.chapa, 'PENDENTE')
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (res) => {

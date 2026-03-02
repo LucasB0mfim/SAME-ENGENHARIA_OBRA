@@ -81,14 +81,13 @@
   <!-- ========================================
     OVERLAY (BOTTOM SHEET + MODALS)
   ======================================== -->
-  <div
-    class="overlay"
-    *ngIf="modalState !== ModalType.IDLE || isBottomSheetOpen"
-    (click)="modalState !== ModalType.IDLE ? closeModal() : closeBottomSheet()">
+  <div class="overlay"
+  *ngIf="modalState !== ModalType.IDLE || isBottomSheetOpen"
+  (click)="modalState !== ModalType.IDLE ? closeModal() : closeBottomSheet()">
+
 
     <!-- BOTTOM SHEET -->
-    <div
-      class="bottom-sheet"
+    <div class="bottom-sheet"
       *ngIf="isBottomSheetOpen"
       [class.bottom-sheet--open]="isBottomSheetOpen"
       role="dialog"
@@ -135,9 +134,8 @@
     </div>
 
     <!-- MODAL DE LOADING -->
-    <div
+    <div class="loading"
       *ngIf="modalState === ModalType.LOADING"
-      class="loading"
       role="alert"
       aria-live="polite"
       (click)="$event.stopPropagation()">
@@ -146,8 +144,7 @@
     </div>
 
     <!-- MODAL DE SUCESSO -->
-    <div
-      class="modal"
+    <div class="modal"
       *ngIf="modalState === ModalType.SUCCESS"
       role="alertdialog"
       aria-modal="true"
@@ -166,8 +163,7 @@
     </div>
 
     <!-- MODAL DE ERRO -->
-    <div
-      class="modal"
+    <div class="modal"
       *ngIf="modalState === ModalType.ERROR"
       role="alertdialog"
       aria-modal="true"
