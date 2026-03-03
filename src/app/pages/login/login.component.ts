@@ -3,12 +3,14 @@ import { finalize } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 import { LoginService } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
+  providers: [provideNgxMask()],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -19,28 +21,39 @@ export class LoginComponent {
   private readonly _loginService = inject(LoginService);
 
   // ========== FORMULÁRIOS ========== //
-  loginForm = new FormGroup({
-    usuario: new FormControl('', [Validators.required, Validators.minLength(11)]),
-    senha: new FormControl('')
+  cpfForm = new FormGroup({
+    cpf: new FormControl('', [Validators.required, Validators.minLength(11)])
+  });
+
+  usernameForm = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    password: new FormControl('', [Validators.required])
   });
 
   // ========== ESTADOS ========== //
   isLogin: boolean = false;
+  loginMode: 'username' | 'cpf' = 'cpf';
 
   message: string = '';
   showMessage: boolean = false;
   messageType: 'success' | 'error' = 'success';
 
+  // ========== MODO DE ACESSO ========== //
+  toggleLoginMode(): void {
+    this.loginMode = this.loginMode === 'cpf' ? 'username' : 'cpf';
+    this.cpfForm.reset();
+    this.usernameForm.reset();
+  }
+
   // ========== API ========== //
   onSubmit(): void {
     this.isLogin = true;
 
-    const request = {
-      usuario: this.loginForm.value.usuario,
-      senha: this.loginForm.value.senha
-    }
+    const serviceCall = this.loginMode === 'cpf'
+      ? this._loginService.loginByCPF({ cpf: this.cpfForm.value.cpf })
+      : this._loginService.loginByUsername({ username: this.usernameForm.value.username, password: this.usernameForm.value.password });
 
-    this._loginService.login(request)
+    serviceCall
       .pipe(finalize(() => this.isLogin = false))
       .subscribe({
         next: () => {
@@ -55,8 +68,8 @@ export class LoginComponent {
   }
 
   // ========== CAMPO INVÁLIDO ========== //
-  isInvalid(fieldName: string): boolean {
-    const field = this.loginForm.get(fieldName);
+  isInvalid(form: FormGroup, fieldName: string): boolean {
+    const field = form.get(fieldName);
     return !!field && field.invalid && field.touched;
   }
 

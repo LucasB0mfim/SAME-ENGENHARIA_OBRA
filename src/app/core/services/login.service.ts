@@ -11,8 +11,20 @@ export class LoginService {
   private readonly _router = inject(Router);
   private readonly _httpClient = inject(HttpClient);
 
-  login(request: any): Observable<any> {
-    return this._httpClient.post<any>('https://sameengenharia.com.br/api/user/login', request).pipe(
+  loginByUsername(request: any): Observable<any> {
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/user/login/username', request).pipe(
+      map((response) => {
+        if (response.success) {
+          localStorage.setItem('token', response.token);
+        } else {
+          return response;
+        }
+      })
+    );
+  };
+
+  loginByCPF(request: any): Observable<any> {
+    return this._httpClient.post<any>('https://sameengenharia.com.br/api/user/login/cpf', request).pipe(
       map((response) => {
         if (response.success) {
           localStorage.setItem('token', response.token);

@@ -130,6 +130,16 @@ $padding-large: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
     background-color: $dark-blue;
   }
 
+  &--secondary {
+    color: $dark-blue;
+    background-color: transparent;
+    border: 1px solid $dark-blue;
+
+    &:hover {
+      background-color: rgba($dark-blue, 0.06);
+    }
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
