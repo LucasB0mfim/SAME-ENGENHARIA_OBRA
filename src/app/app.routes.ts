@@ -20,6 +20,8 @@ import { EmployeesComponent } from './pages/operational/employees/employees.comp
 import { TaskPendingComponent } from './pages/operational/task/task-pending/task-pending.component';
 import { TaskHistoryComponent } from './pages/operational/task/task-history/task-history.component';
 import { TaskRegisterComponent } from './pages/operational/task/task-register/task-register.component';
+import { ApproverIdComponent } from './pages/approver/approver-id/approver-id.component';
+import { ApproverContractComponent } from './pages/approver/approver-contract/approver-contract.component';
 
 export const routes: Routes = [
   {
@@ -63,6 +65,19 @@ export const routes: Routes = [
       { path: 'equipament/checkin', component: CheckinComponent },
       { path: 'equipament/checkout', component: CheckoutComponent },
       { path: 'equipament/list', component: EquipamentListComponent },
+
+      {
+        path: 'approver/id',
+        component: ApproverIdComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['DIRETOR', 'TI'] }
+      },
+      {
+        path: 'approver/contract',
+        component: ApproverContractComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['DIRETOR', 'TI'] }
+      },
     ]
   }
 ];
