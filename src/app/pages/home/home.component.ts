@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
           { icon: 'gavel', title: 'Medida Disciplinar', route: '/dashboard/operational/disciplinary-measure' },
           { icon: 'assignment_add', title: 'Cadastrar tarefa', route: '/dashboard/operational/task/register' },
           { icon: 'hourglass_top', title: 'Tarefas pendentes', route: '/dashboard/operational/task/pending' },
-          { icon: 'storage', title: 'Histórico de tarefas', route: '/dashboard/operational/task/history' }
+          { icon: 'done_all', title: 'Tarefas Aprovadas', route: '/dashboard/operational/task/history' }
         ]
       },
       {
@@ -71,6 +71,13 @@ export class HomeComponent implements OnInit {
         cards: [
           { icon: 'directions_bus', title: 'Solicitar', route: '/dashboard/transport/request' },
           { icon: 'no_transfer', title: 'Cancelar', route: '/dashboard/transport/cancel' }
+        ]
+      },
+      {
+        title: 'Aprovador',
+        cards: [
+          { icon: 'check', title: 'Aprovar ID', route: '/dashboard/approver/id' },
+          { icon: 'sticky_note_2', title: 'Aprovar Contrato', route: '/dashboard/approver/contract' }
         ]
       },
       {
