@@ -17,20 +17,20 @@ export class ApproverService {
   findByID(): Observable<any> {
     const headers = this._createHeaders();
     return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findById`, { headers });
-  };
+  }
 
   findByOC(): Observable<any> {
     const headers = this._createHeaders();
     return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findByOc`, { headers });
-  };
+  }
 
   findByContract(): Observable<any> {
     const headers = this._createHeaders();
     return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findByContract`, { headers });
-  };
+  }
 
   approveByID(idmov: string): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/approver/approverr/${idmov}`, { headers });
-  };
+    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/approver/approve/${idmov}`, null, { headers });
+  }
 }

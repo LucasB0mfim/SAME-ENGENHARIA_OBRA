@@ -22,6 +22,7 @@ import { TaskHistoryComponent } from './pages/operational/task/task-history/task
 import { TaskRegisterComponent } from './pages/operational/task/task-register/task-register.component';
 import { ApproverIdComponent } from './pages/approver/approver-id/approver-id.component';
 import { ApproverContractComponent } from './pages/approver/approver-contract/approver-contract.component';
+import { ApproverOcComponent } from './pages/approver/approver-oc/approver-oc.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,12 @@ export const routes: Routes = [
       {
         path: 'approver/contract',
         component: ApproverContractComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['DIRETOR', 'TI'] }
+      },
+      {
+        path: 'approver/oc',
+        component: ApproverOcComponent,
         canActivate: [roleGuard],
         data: { allowedRoles: ['DIRETOR', 'TI'] }
       },

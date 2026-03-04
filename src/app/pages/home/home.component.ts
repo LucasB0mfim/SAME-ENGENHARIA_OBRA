@@ -77,7 +77,8 @@ export class HomeComponent implements OnInit {
         title: 'Aprovador',
         cards: [
           { icon: 'check', title: 'Aprovar ID', route: '/dashboard/approver/id' },
-          { icon: 'sticky_note_2', title: 'Aprovar Contrato', route: '/dashboard/approver/contract' }
+          { icon: 'sticky_note_2', title: 'Aprovar Contrato', route: '/dashboard/approver/contract' },
+          { icon: 'add_shopping_cart', title: 'Aprovar OC', route: '/dashboard/approver/oc' }
         ]
       },
       {
