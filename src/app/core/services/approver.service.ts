@@ -16,21 +16,21 @@ export class ApproverService {
 
   findByID(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findById`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/purchase-order/findById`, { headers });
   }
 
   findByOC(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findByOc`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/purchase-order/findByOc`, { headers });
   }
 
   findByContract(): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/approver/findByContract`, { headers });
+    return this._httpClient.get<any>(`https://sameengenharia.com.br/api/purchase-order/findByContract`, { headers });
   }
 
-  approveByID(idmov: string): Observable<any> {
+  approve(request: any): Observable<any> {
     const headers = this._createHeaders();
-    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/approver/approve/${idmov}`, null, { headers });
+    return this._httpClient.post<any>(`https://sameengenharia.com.br/api/purchase-order/approve`, request, { headers });
   }
 }

@@ -73,7 +73,7 @@
               {{ req.OC }}
             </span>
             <span class="chip chip--neutral">
-              {{ req.ITEMS.length }} {{ req.ITEMS.length === 1 ? 'item' : 'itens' }}
+              {{ req.DATA_EMISSAO | date:'dd/MM/yyyy' }}
             </span>
           </div>
           <div class="card__user">
@@ -124,7 +124,7 @@
           class="card__approve"
           [class.card__approve--loading]="approvingOc === req.OC"
           [disabled]="!!approvingOc"
-          (click)="approve(req.OC, $event)"
+          (click)="approve(req.OC, req.MOVIMENTO, $event)"
         >
           <ng-container *ngIf="approvingOc !== req.OC">
             ✓ Aprovar Solicitação

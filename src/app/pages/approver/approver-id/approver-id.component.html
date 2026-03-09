@@ -73,7 +73,7 @@
               {{ req.ID }}
             </span>
             <span class="chip chip--neutral">
-              {{ req.ITEMS.length }} {{ req.ITEMS.length === 1 ? 'item' : 'itens' }}
+              {{ req.DATA_EMISSAO | date:'dd/MM/yyyy' }}
             </span>
           </div>
           <div class="card__user">
@@ -124,7 +124,7 @@
           class="card__approve"
           [class.card__approve--loading]="approvingId === req.ID"
           [disabled]="!!approvingId"
-          (click)="approve(req.ID, $event)"
+          (click)="approve(req.ID, req.MOVIMENTO, $event)"
         >
           <ng-container *ngIf="approvingId !== req.ID">
             ✓ Aprovar Solicitação

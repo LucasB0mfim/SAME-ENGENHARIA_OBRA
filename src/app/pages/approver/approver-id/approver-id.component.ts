@@ -82,17 +82,20 @@ export class ApproverIdComponent implements OnInit {
     this.location.back();
   }
 
-  approve(id: string, event: Event): void {
+  approve(id: string, movimento: string, event: Event): void {
     event.stopPropagation();
     if (this.approvingId) return;
 
     this.approvingId = id;
+    const request = {
+      id: id,
+      movimento: movimento,
+    };
 
-    this.approverService.approveByID(id).subscribe({
+    this.approverService.approve(request).subscribe({
       next: (response: { success: boolean; message: string }) => {
-        this.requests = this.requests.filter((req) => req.ID !== id);
-        if (this.expandedId === id) this.expandedId = null;
         this.approvingId = null;
+        this.expandedId = null;
         this.feedback = {
           status: 'success',
           message: response?.message ?? 'Solicitação aprovada com sucesso!',

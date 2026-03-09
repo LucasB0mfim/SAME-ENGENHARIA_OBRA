@@ -81,17 +81,20 @@ export class ApproverContractComponent implements OnInit {
     this.location.back();
   }
 
-  approve(oc: string, event: Event): void {
+  approve(id: string, movimento: string, event: Event): void {
     event.stopPropagation();
     if (this.approvingOc) return;
 
-    this.approvingOc = oc;
+    this.approvingOc = id;
+    const request = {
+      id: id,
+      movimento: movimento,
+    };
 
-    this.approverService.approveByID(oc).subscribe({
+    this.approverService.approve(request).subscribe({
       next: (response: { success: boolean; message: string }) => {
-        this.requests = this.requests.filter((req) => req.OC !== oc);
-        if (this.expandedId === oc) this.expandedId = null;
         this.approvingOc = null;
+        this.expandedId = null;
         this.feedback = {
           status: 'success',
           message: response?.message ?? 'Solicitação aprovada com sucesso!',
@@ -99,7 +102,7 @@ export class ApproverContractComponent implements OnInit {
         this.loadRequests();
       },
       error: (err) => {
-        console.error(`Erro ao aprovar solicitação ${oc}:`, err);
+        console.error(`Erro ao aprovar solicitação ${id}:`, err);
         this.approvingOc = null;
         this.feedback = {
           status: 'error',
