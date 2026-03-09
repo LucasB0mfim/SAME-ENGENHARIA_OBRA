@@ -3,15 +3,17 @@ import { CommonModule, Location } from '@angular/common';
 import { ApproverService } from '../../../core/services/approver.service';
 
 export interface ApproverItem {
-  MATERIAL: string;
+  PRECO_UNITARIO: string;
   QUANTIDADE: string | number;
   UNIDADE: string;
+  MATERIAL: string;
 }
 
 export interface ApproverRequest {
   OC: string;
   USUARIO_CRIACAO: string;
   CENTRO_CUSTO: string;
+  FORNECEDOR: string;
   DATA_EMISSAO: string | Date;
   MOVIMENTO: string;
   OBSERVACAO?: string;
@@ -114,5 +116,22 @@ export class ApproverOcComponent implements OnInit {
 
   closeFeedback(): void {
     this.feedback = null;
+  }
+
+  private formatBRL(value: number): string {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  }
+
+  getTotalValue(items: ApproverItem[]): string {
+    const total = items.reduce((sum, item) => sum + (+item.QUANTIDADE * +item.PRECO_UNITARIO), 0);
+    return this.formatBRL(total);
+  }
+
+  getItemTotal(item: ApproverItem): string {
+    return this.formatBRL(+item.QUANTIDADE * +item.PRECO_UNITARIO);
+  }
+
+  getItemUnitPrice(item: ApproverItem): string {
+    return this.formatBRL(+item.PRECO_UNITARIO);
   }
 }

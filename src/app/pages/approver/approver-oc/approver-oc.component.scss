@@ -175,9 +175,7 @@ $radius-sm: 0.75rem;
     font-weight: 600;
     color: $foreground;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-word;
   }
 
   &__user-dept {
@@ -248,24 +246,16 @@ $radius-sm: 0.75rem;
     border-radius: $radius-sm;
     padding: 0.75rem;
 
-    &-index {
-      width: 1.5rem;
-      height: 1.5rem;
-      border-radius: 0.5rem;
-      background: rgba($primary, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      color: $primary;
-      flex-shrink: 0;
-      margin-top: 0.125rem;
-    }
-
     &-info {
       min-width: 0;
       flex: 1;
+    }
+
+    &-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
     }
 
     &-name {
@@ -274,11 +264,21 @@ $radius-sm: 0.75rem;
       color: $foreground;
       line-height: 1.4;
       margin: 0;
+      flex: 1;
+    }
+
+    &-total {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $foreground;
+      margin: 0;
+      white-space: nowrap;
     }
 
     &-qty {
       font-size: 0.75rem;
       color: $muted;
+      margin: 0.125rem 0 0;
     }
   }
 
