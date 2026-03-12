@@ -23,6 +23,7 @@ import { TaskRegisterComponent } from './pages/operational/task/task-register/ta
 import { ApproverIdComponent } from './pages/approver/approver-id/approver-id.component';
 import { ApproverContractComponent } from './pages/approver/approver-contract/approver-contract.component';
 import { ApproverOcComponent } from './pages/approver/approver-oc/approver-oc.component';
+import { PurchaseOrderOcComponent } from './pages/purchase-order/purchase-order-oc/purchase-order-oc.component';
 
 export const routes: Routes = [
   {
@@ -82,6 +83,13 @@ export const routes: Routes = [
       {
         path: 'approver/oc',
         component: ApproverOcComponent,
+        canActivate: [roleGuard],
+        data: { allowedRoles: ['DIRETOR', 'TI'] }
+      },
+
+      {
+        path: 'purchase-order/oc',
+        component: PurchaseOrderOcComponent,
         canActivate: [roleGuard],
         data: { allowedRoles: ['DIRETOR', 'TI'] }
       },

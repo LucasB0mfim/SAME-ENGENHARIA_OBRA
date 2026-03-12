@@ -1,53 +1,31 @@
+import { forkJoin, finalize } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ApproverService } from '../../../core/services/approver.service';
-
-export interface ApproverItem {
-  MATERIAL: string;
-  QUANTIDADE: string | number;
-  UNIDADE: string;
-}
-
-export interface ApproverRequest {
-  ID: string;
-  USUARIO_CRIACAO: string;
-  CENTRO_CUSTO: string;
-  DATA_EMISSAO: string | Date;
-  MOVIMENTO: string;
-  OBSERVACAO?: string;
-  ITEMS: ApproverItem[];
-}
-
-export type FeedbackStatus = 'success' | 'error';
-
-export interface FeedbackState {
-  status: FeedbackStatus;
-  message: string;
-}
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-approver-id',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    RouterLink,
+    CommonModule
+  ],
   templateUrl: './approver-id.component.html',
   styleUrl: './approver-id.component.scss',
 })
 export class ApproverIdComponent implements OnInit {
-  requests: ApproverRequest[] = [];
+  requests: any[] = [];
+  isLoading: boolean = false;
   expandedId: string | null = null;
-
-  /** Exibe o overlay de tela cheia no carregamento inicial */
-  isLoading = false;
-
-  /** ID do card cuja aprovação está em andamento */
   approvingId: string | null = null;
+  feedback: { status: string; message: string; ids?: string[] } | null = null;
 
-  /** Estado do modal de feedback (sucesso / erro) */
-  feedback: FeedbackState | null = null;
+  selectedIds: Set<string> = new Set();
+  isBatchApproving: boolean = false;
 
   constructor(
-    private approverService: ApproverService,
-    private location: Location
+    private approverService: ApproverService
   ) { }
 
   ngOnInit(): void {
@@ -56,30 +34,17 @@ export class ApproverIdComponent implements OnInit {
 
   loadRequests(): void {
     this.isLoading = true;
-
-    this.approverService.findByID().subscribe({
-      next: (response: { success: boolean; message: string; result: ApproverRequest[] }) => {
-        this.requests = response.result;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar solicitações:', err);
-        this.isLoading = false;
-        this.feedback = {
-          status: 'error',
-          message: err?.error?.message ?? 'Não foi possível carregar as solicitações.',
-        };
-      },
-    });
-  }
-
-  toggle(id: string): void {
-    if (this.approvingId) return;
-    this.expandedId = this.expandedId === id ? null : id;
-  }
-
-  goBack(): void {
-    this.location.back();
+    this.selectedIds = new Set();
+    this.approverService.findByID()
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (res) => {
+          this.requests = res.result;
+        },
+        error: (err) => {
+          this.setFeedback('error', err?.error?.message);
+        }
+      });
   }
 
   approve(id: string, movimento: string, event: Event): void {
@@ -87,30 +52,76 @@ export class ApproverIdComponent implements OnInit {
     if (this.approvingId) return;
 
     this.approvingId = id;
-    const request = {
-      id: id,
-      movimento: movimento,
-    };
 
-    this.approverService.approve(request).subscribe({
-      next: (response: { success: boolean; message: string }) => {
-        this.approvingId = null;
-        this.expandedId = null;
-        this.feedback = {
-          status: 'success',
-          message: response?.message ?? 'Solicitação aprovada com sucesso!',
-        };
-        this.loadRequests();
-      },
-      error: (err) => {
-        console.error(`Erro ao aprovar solicitação ${id}:`, err);
-        this.approvingId = null;
-        this.feedback = {
-          status: 'error',
-          message: err?.error?.message ?? 'Não foi possível aprovar a solicitação.',
-        };
-      },
+    this.approverService.approve({ id, movimento })
+      .pipe(finalize(() => (
+        this.approvingId = null,
+        this.loadRequests()
+      )))
+      .subscribe({
+        next: (res) => {
+          this.expandedId = null;
+          this.setFeedback('success', res?.message, [id]);
+        },
+        error: (err) => {
+          this.setFeedback('error', err?.error?.message);
+        }
+      });
+  }
+
+  approveGroup(): void {
+    if (this.isBatchApproving || this.selectedIds.size < 2) return;
+
+    this.isBatchApproving = true;
+
+    const approvals$ = Array.from(this.selectedIds).map(id => {
+      const req = this.requests.find(r => r.ID === id);
+      return this.approverService.approve({ id, movimento: req.MOVIMENTO });
     });
+
+    forkJoin(approvals$)
+      .pipe(finalize(() => {
+        this.isBatchApproving = false;
+        this.loadRequests();
+      }))
+      .subscribe({
+        next: (responses) => {
+          this.expandedId = null;
+          this.setFeedback('success', `${responses.length} solicitações aprovadas com sucesso!`, Array.from(this.selectedIds));
+        },
+        error: (err) => {
+          this.setFeedback('error', err?.error?.message ?? 'Não foi possível aprovar as solicitações.');
+        }
+      });
+  }
+
+  toggleSelection(id: string, event: Event): void {
+    event.stopPropagation();
+    if (this.approvingId || this.isBatchApproving) return;
+    this.selectedIds.has(id) ? this.selectedIds.delete(id) : this.selectedIds.add(id);
+    this.selectedIds = new Set(this.selectedIds);
+  }
+
+  isSelected(id: string): boolean {
+    return this.selectedIds.has(id);
+  }
+
+  get selectedCount(): number {
+    return this.selectedIds.size;
+  }
+
+  setFeedback(status: string, message: string, ids?: string[]): void {
+    this.feedback = { status, message, ids };
+  }
+
+  copyFeedbackIds(): void {
+    if (!this.feedback?.ids) return;
+    navigator.clipboard.writeText(this.feedback.ids.join('\n'));
+  }
+
+  toggle(id: string): void {
+    if (this.approvingId) return;
+    this.expandedId = this.expandedId === id ? null : id;
   }
 
   closeFeedback(): void {

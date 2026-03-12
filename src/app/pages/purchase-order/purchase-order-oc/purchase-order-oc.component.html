@@ -1,0 +1,82 @@
+<div class="container">
+  @if (listedCards.size >= 2) {
+  <div class="approve">
+    <p class="approve__label">
+      {{ listedCards.size }}
+      solicitações selecionadas
+    </p>
+    <button class="approve__btn" (click)="approveGroup()">
+      @if (isApproving) {
+      Aprovando...
+      } @else {
+      ✓ Aprovar Solicitação
+      }
+    </button>
+  </div>
+  }
+
+  <section class="search">
+    <input type="text" placeholder="Buscar" class="search__input" [(ngModel)]="searchTerm">
+    <mat-icon class="search__icon">tune</mat-icon>
+  </section>
+
+  <section class="card-list">
+    <article *ngFor="let req of filteredRequests; let i = index" class="card"
+      [class.card--expanded]="selectCard === req.OC">
+      <div class="card__header" (click)="toggleCard(req.OC)">
+        <div class="card__content">
+          <ul class="card__tags">
+            <li class="card__tag card__tag--blue" [class.card__tag--select]="isSelected(req)"
+              (click)="listCard(req, $event)">{{ req.OC }}
+            </li>
+            <li class="card__tag card__tag--default">{{ totalPrice(req.ITEMS) | currency:'BRL' }}</li>
+          </ul>
+          <div class="card__info">
+            <h3 class="card__title">{{ req.FORNECEDOR }}</h3>
+            <p class="card__subtitle">{{ req.CENTRO_CUSTO }}</p>
+          </div>
+        </div>
+        <button class="card__action" [class.card__action--toggle]="selectCard === req.OC">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+      <div class="card__body" *ngIf="selectCard === req.OC">
+        <dl class="card__meta">
+          <div class="card__meta-item">
+            <dt class="card__meta-label">CRIADO POR</dt>
+            <dd class="card__meta-value">{{ req.USUARIO_CRIACAO }}</dd>
+          </div>
+          <div class="card__meta-item">
+            <dt class="card__meta-label">EMISSÃO</dt>
+            <dd class="card__meta-value">{{ req.DATA_EMISSAO | date:'dd/MM/yyyy' }}</dd>
+          </div>
+          <div class="card__meta-item">
+            <dt class="card__meta-label">OBSERVAÇÃO</dt>
+            <dd class="card__meta-value">{{ req.OBSERVACAO || 'N/A' }}</dd>
+          </div>
+        </dl>
+        <div class="card__items">
+          <h4 class="card__items-label">MATERIAIS</h4>
+          <div class="card__item" *ngFor="let item of req.ITEMS; let idx">
+            <div class="card__item-info">
+              <p class="card__item-name">{{ item.MATERIAL }}</p>
+              <div class="card__item-qty">
+                <span>{{ +item.QUANTIDADE }}</span>
+                <span>{{ item.UNIDADE }}</span>
+                <span>{{ +item.PRECO_UNITARIO | currency:'BRL' }}</span>
+                <span>{{ itemPrice(item) | currency:'BRL' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="card__btn" (click)="approve(req)">
+          @if (isApproving) {
+          Aprovando...
+          } @else {
+          ✓ Aprovar Solicitação
+          }
+        </button>
+      </div>
+    </article>
+  </section>
+</div>

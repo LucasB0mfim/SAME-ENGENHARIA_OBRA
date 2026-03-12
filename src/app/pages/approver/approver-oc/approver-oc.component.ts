@@ -1,54 +1,31 @@
+import { forkJoin, finalize } from 'rxjs';
+import { RouterLink } from "@angular/router";
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
 import { ApproverService } from '../../../core/services/approver.service';
-
-export interface ApproverItem {
-  PRECO_UNITARIO: string;
-  QUANTIDADE: string | number;
-  UNIDADE: string;
-  MATERIAL: string;
-}
-
-export interface ApproverRequest {
-  OC: string;
-  USUARIO_CRIACAO: string;
-  CENTRO_CUSTO: string;
-  FORNECEDOR: string;
-  DATA_EMISSAO: string | Date;
-  MOVIMENTO: string;
-  OBSERVACAO?: string;
-  ITEMS: ApproverItem[];
-}
-
-export type FeedbackStatus = 'success' | 'error';
-
-export interface FeedbackState {
-  status: FeedbackStatus;
-  message: string;
-}
 
 @Component({
   selector: 'app-approver-oc',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    RouterLink
+  ],
   templateUrl: './approver-oc.component.html',
   styleUrl: './approver-oc.component.scss'
 })
 export class ApproverOcComponent implements OnInit {
-  requests: ApproverRequest[] = [];
+  requests: any[] = [];
   expandedId: string | null = null;
 
-  /** Exibe o overlay de tela cheia no carregamento inicial */
-  isLoading = false;
-
-  /** OC do card cuja aprovação está em andamento */
+  isLoading: boolean = false;
   approvingOc: string | null = null;
+  feedback: { status: string; message: string; ids?: string[] } | null = null;
 
-  /** Estado do modal de feedback (sucesso / erro) */
-  feedback: FeedbackState | null = null;
+  selectedOcs: Set<string> = new Set();
+  isBatchApproving: boolean = false;
 
   constructor(
-    private approverService: ApproverService,
-    private location: Location
+    private approverService: ApproverService
   ) { }
 
   ngOnInit(): void {
@@ -57,21 +34,18 @@ export class ApproverOcComponent implements OnInit {
 
   loadRequests(): void {
     this.isLoading = true;
+    this.selectedOcs = new Set();
 
-    this.approverService.findByContract().subscribe({
-      next: (response: { success: boolean; message: string; result: ApproverRequest[] }) => {
-        this.requests = response.result;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar solicitações:', err);
-        this.isLoading = false;
-        this.feedback = {
-          status: 'error',
-          message: err?.error?.message ?? 'Não foi possível carregar as solicitações.',
-        };
-      },
-    });
+    this.approverService.findByOC()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (res) => {
+          this.requests = res.result;
+        },
+        error: (err) => {
+          this.setFeedback('error', err.error.message);
+        },
+      });
   }
 
   toggle(oc: string): void {
@@ -79,59 +53,94 @@ export class ApproverOcComponent implements OnInit {
     this.expandedId = this.expandedId === oc ? null : oc;
   }
 
-  goBack(): void {
-    this.location.back();
-  }
-
   approve(id: string, movimento: string, event: Event): void {
     event.stopPropagation();
     if (this.approvingOc) return;
 
     this.approvingOc = id;
-    const request = {
-      id: id,
-      movimento: movimento,
-    };
 
-    this.approverService.approve(request).subscribe({
-      next: (response: { success: boolean; message: string }) => {
-        this.approvingOc = null;
-        this.expandedId = null;
-        this.feedback = {
-          status: 'success',
-          message: response?.message ?? 'Solicitação aprovada com sucesso!',
-        };
-        this.loadRequests();
-      },
-      error: (err) => {
-        console.error(`Erro ao aprovar solicitação ${id}:`, err);
-        this.approvingOc = null;
-        this.feedback = {
-          status: 'error',
-          message: err?.error?.message ?? 'Não foi possível aprovar a solicitação.',
-        };
-      },
+    this.approverService.approve({ id, movimento })
+      .pipe(finalize(() => (
+        this.loadRequests(),
+        this.approvingOc = null
+      )))
+      .subscribe({
+        next: (res) => {
+          this.expandedId = null;
+          this.setFeedback('success', res.message, [id]);
+        },
+        error: (err) => {
+          console.error(err);
+          this.setFeedback('error', 'Não foi possível aprovar a solicitação.');
+        },
+      });
+  }
+
+  approveGroup(): void {
+    if (this.isBatchApproving || this.selectedOcs.size < 2) return;
+
+    this.isBatchApproving = true;
+
+    const approvals$ = Array.from(this.selectedOcs).map(oc => {
+      const req = this.requests.find(r => r.OC === oc);
+      return this.approverService.approve({ id: oc, movimento: req.MOVIMENTO });
     });
+
+    forkJoin(approvals$)
+      .pipe(finalize(() => {
+        this.isBatchApproving = false;
+        this.loadRequests();
+      }))
+      .subscribe({
+        next: (responses) => {
+          this.expandedId = null;
+          this.setFeedback('success', `${responses.length} solicitações aprovadas com sucesso!`, Array.from(this.selectedOcs));
+        },
+        error: (err) => {
+          console.error(err);
+          this.setFeedback('error', 'Não foi possível aprovar as solicitações.');
+        },
+      });
+  }
+
+  toggleSelection(oc: string, event: Event): void {
+    event.stopPropagation();
+    if (this.approvingOc || this.isBatchApproving) return;
+    this.selectedOcs.has(oc) ? this.selectedOcs.delete(oc) : this.selectedOcs.add(oc);
+    this.selectedOcs = new Set(this.selectedOcs);
+  }
+
+  isSelected(oc: string): boolean {
+    return this.selectedOcs.has(oc);
+  }
+
+  get selectedCount(): number {
+    return this.selectedOcs.size;
+  }
+
+  setFeedback(status: string, message: string, ids?: string[]): void {
+    this.feedback = { status, message, ids };
+  }
+
+  copyFeedbackIds(): void {
+    if (!this.feedback?.ids) return;
+    navigator.clipboard.writeText(this.feedback.ids.join('\n'));
   }
 
   closeFeedback(): void {
     this.feedback = null;
   }
 
-  private formatBRL(value: number): string {
+  formatBRL(value: number): string {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   }
 
-  getTotalValue(items: ApproverItem[]): string {
+  getTotalValue(items: any[]): string {
     const total = items.reduce((sum, item) => sum + (+item.QUANTIDADE * +item.PRECO_UNITARIO), 0);
     return this.formatBRL(total);
   }
 
-  getItemTotal(item: ApproverItem): string {
+  getItemTotal(item: any): string {
     return this.formatBRL(+item.QUANTIDADE * +item.PRECO_UNITARIO);
-  }
-
-  getItemUnitPrice(item: ApproverItem): string {
-    return this.formatBRL(+item.PRECO_UNITARIO);
   }
 }

@@ -29,14 +29,44 @@
         {{ feedback.status === 'success' ? 'Sucesso!' : 'Ocorreu um erro' }}
       </h2>
       <p class="feedback-modal__message">{{ feedback.message }}</p>
+      <button
+        *ngIf="feedback.status === 'success' && feedback.ids?.length"
+        class="feedback-modal__copy"
+        (click)="copyFeedbackIds()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        Copiar {{ feedback.ids!.length > 1 ? 'OCs' : 'OC' }}
+      </button>
       <button class="feedback-modal__btn" (click)="closeFeedback()">Fechar</button>
     </div>
+  </div>
+
+  <!-- ─── Barra de aprovação em lote (≥ 2 selecionados) ─── -->
+  <div class="batch-bar" *ngIf="selectedCount >= 2">
+    <button
+      class="batch-bar__btn"
+      [class.batch-bar__btn--loading]="isBatchApproving"
+      [disabled]="isBatchApproving"
+      (click)="approveGroup()"
+    >
+      <ng-container *ngIf="!isBatchApproving">
+        Aprovar solicitação em grupo ({{ selectedCount }})
+      </ng-container>
+      <ng-container *ngIf="isBatchApproving">
+        <span class="spinner spinner--sm spinner--light"></span>
+        Aprovando…
+      </ng-container>
+    </button>
   </div>
 
   <!-- ─── Hero header ─── -->
   <header class="header">
     <div class="header__inner">
-      <button class="header__back" (click)="goBack()">
+      <button class="header__back" routerLink="/dashboard">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m12 19-7-7 7-7" />
@@ -53,12 +83,21 @@
 
   <!-- ─── Card list ─── -->
   <main class="card-list">
-    <div *ngFor="let req of requests; let i = index" class="card" [class.card--expanded]="expandedId === req.OC"
+    <div
+      *ngFor="let req of requests; let i = index"
+      class="card"
+      [class.card--expanded]="expandedId === req.OC"
+    >
+      <div class="card__header"
+      [class.card__header--selected]="isSelected(req.OC)"
       (click)="toggle(req.OC)">
-      <div class="card__header">
         <div class="card__header-content">
           <div class="card__chips">
-            <span class="chip chip--primary">
+            <span
+              class="chip chip--primary"
+              (click)="toggleSelection(req.OC, $event)"
+              [class.chip--selected]="isSelected(req.OC)"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="4" x2="20" y1="9" y2="9" />
@@ -106,16 +145,14 @@
           <p class="card__items-label">Materiais</p>
           <div class="card__item" *ngFor="let item of req.ITEMS; let idx = index">
             <div class="card__item-info">
-              <div class="card__item-row">
-                <p class="card__item-name">{{ item.MATERIAL }}</p>
-                <p class="card__item-total">{{ getItemTotal(item) }}</p>
-              </div>
-              <p class="card__item-qty">{{ +item.QUANTIDADE }} {{ item.UNIDADE }} · {{ getItemUnitPrice(item) }} / un.</p>
+              <p class="card__item-name">{{ item.MATERIAL }}</p>
+              <p class="card__item-qty">
+                {{ +item.QUANTIDADE }} {{ item.UNIDADE }} (UND) · {{ formatBRL(item.PRECO_UNITARIO) }} · {{ getItemTotal(item) }}
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Botão com estado de loading -->
         <button class="card__approve" [class.card__approve--loading]="approvingOc === req.OC" [disabled]="!!approvingOc"
           (click)="approve(req.OC, req.MOVIMENTO, $event)">
           <ng-container *ngIf="approvingOc !== req.OC">
