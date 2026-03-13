@@ -160,10 +160,14 @@ $weight-bold: 700;
     grid-template-columns: 1fr auto;
     align-items: start;
     gap: $space-md;
-    transition: all 0.3s ease;
+    border: 2px dashed transparent;
+    transition: all 0.2s ease;
 
     &--select {
+      border-radius: $radius-md;
+      border: 2px dashed $dark-green;
       background-color: $light-green;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 
       .card__tag {
         background-color: $light-white;
@@ -239,7 +243,7 @@ $weight-bold: 700;
     background-color: $dark-white;
     display: flex;
     padding: $padding-tag;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 
     &--toggle {
       transform: rotate(90deg);
