@@ -5,14 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApproverService } from '../../../core/services/approver.service';
 import { finalize, forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-purchase-order-oc',
   imports: [
     CommonModule,
     MatIconModule,
-    FormsModule
-  ],
+    FormsModule,
+    RouterLink
+],
   templateUrl: './purchase-order-oc.component.html',
   styleUrl: './purchase-order-oc.component.scss'
 })
@@ -87,6 +89,10 @@ export class PurchaseOrderOcComponent implements OnInit {
         next: (res) => this.selectCard = null,
         error: (err) => console.error(err)
       })
+  }
+
+  clearGroup(): void {
+    this.listedCards.clear();
   }
 
   listCard(card: any, event: Event): void {

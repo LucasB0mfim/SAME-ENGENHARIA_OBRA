@@ -1,15 +1,29 @@
 <div class="container">
+  <header class="header">
+    <div class="header__content">
+      <div class="header__icon">
+        <mat-icon>shopping_cart</mat-icon>
+      </div>
+      <div class="header__text">
+        <h3 class="header__title">Aprovador de OC</h3>
+        <span class="header__subtitle">Selecione as ordens de compra que deseja aprovar.</span>
+      </div>
+    </div>
+    <mat-icon class="header__action" routerLink="/dashboard">close</mat-icon>
+  </header>
+
   @if (listedCards.size >= 2) {
   <div class="approve">
-    <p class="approve__label">
-      {{ listedCards.size }}
-      solicitações selecionadas
-    </p>
-    <button class="approve__btn" (click)="approveGroup()">
+    <button class="approve__btn approve__btn--red">
+      <mat-icon class="approve__icon" (click)="clearGroup()">
+        close
+      </mat-icon>
+    </button>
+    <button class="approve__btn approve__btn--blue" (click)="approveGroup()">
       @if (isApproving) {
       Aprovando...
       } @else {
-      ✓ Aprovar Solicitação
+      ✓ Aprovar Solicitação ({{ listedCards.size }})
       }
     </button>
   </div>
@@ -23,17 +37,18 @@
   <section class="card-list">
     <article *ngFor="let req of filteredRequests; let i = index" class="card"
       [class.card--expanded]="selectCard === req.OC">
-      <div class="card__header" (click)="toggleCard(req.OC)">
+      <div class="card__header" (click)="toggleCard(req.OC)" [class.card__header--select]="isSelected(req)">
         <div class="card__content">
           <ul class="card__tags">
-            <li class="card__tag card__tag--blue" [class.card__tag--select]="isSelected(req)"
-              (click)="listCard(req, $event)">{{ req.OC }}
+            <li class="card__tag" [class.card__select]="isSelected(req)" (click)="listCard(req, $event)">{{ req.OC }}
             </li>
-            <li class="card__tag card__tag--default">{{ totalPrice(req.ITEMS) | currency:'BRL' }}</li>
+            <li class="card__tag">
+              {{ totalPrice(req.ITEMS) | currency:'BRL' }}
+            </li>
           </ul>
           <div class="card__info">
-            <h3 class="card__title">{{ req.FORNECEDOR }}</h3>
-            <p class="card__subtitle">{{ req.CENTRO_CUSTO }}</p>
+            <h3 class="card__title" [class.card__select]="isSelected(req)">{{ req.FORNECEDOR }}</h3>
+            <p class="card__subtitle" [class.card__select]="isSelected(req)">{{ req.CENTRO_CUSTO }}</p>
           </div>
         </div>
         <button class="card__action" [class.card__action--toggle]="selectCard === req.OC">
@@ -61,15 +76,14 @@
             <div class="card__item-info">
               <p class="card__item-name">{{ item.MATERIAL }}</p>
               <div class="card__item-qty">
-                <span>{{ +item.QUANTIDADE }}</span>
-                <span>{{ item.UNIDADE }}</span>
+                <span>{{ +item.QUANTIDADE }} {{ item.UNIDADE }}(UND)</span>
                 <span>{{ +item.PRECO_UNITARIO | currency:'BRL' }}</span>
                 <span>{{ itemPrice(item) | currency:'BRL' }}</span>
               </div>
             </div>
           </div>
         </div>
-        <button class="card__btn" (click)="approve(req)">
+        <button class="card__btn" [attr.disabled]="listedCards.size >= 2 ? true : null" (click)="approve(req)">
           @if (isApproving) {
           Aprovando...
           } @else {
