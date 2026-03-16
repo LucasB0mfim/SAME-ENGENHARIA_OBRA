@@ -1,1 +1,19 @@
-<p>toast works!</p>
+<div class="overlay" *ngIf="visible" (click)="close.emit()">
+  <div class="modal" [class.modal--success]="type === 'success'" [class.modal--error]="type === 'error'"
+    (click)="$event.stopPropagation()">
+    <div class="modal__banner">
+      <button class="modal__close" (click)="close.emit()">
+        <mat-icon [class.modal--success]="type === 'success'" [class.modal--error]="type === 'error'">close</mat-icon>
+      </button>
+      <div class="modal__icon">
+        <mat-icon>{{ type === 'success' ? 'check' : 'close' }}</mat-icon>
+      </div>
+    </div>
+
+    <div class="modal__content">
+      <h3 class="modal__title" [class.modal--success]="type === 'success'" [class.modal--error]="type === 'error'">{{
+        type === 'success' ? 'Sucesso!' : 'Erro!' }}</h3>
+      <p class="modal__message">{{ message }}</p>
+    </div>
+  </div>
+</div>

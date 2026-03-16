@@ -6,6 +6,8 @@ import { ApproverService } from '../../../../core/services/approver.service';
 import { finalize, forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from "@angular/router";
+import { LoadingComponent } from "../../../../shared/components/loading/loading.component";
+import { FeedbackType, ToastComponent } from "../../../../shared/components/toast/toast.component";
 
 @Component({
   selector: 'app-purchase-order-oc',
@@ -13,8 +15,10 @@ import { RouterLink } from "@angular/router";
     CommonModule,
     MatIconModule,
     FormsModule,
-    RouterLink
-],
+    RouterLink,
+    LoadingComponent,
+    ToastComponent
+  ],
   templateUrl: './purchase-order-oc.component.html',
   styleUrl: './purchase-order-oc.component.scss'
 })
@@ -27,6 +31,12 @@ export class PurchaseOrderOcComponent implements OnInit {
   isApproving: boolean = false;
 
   searchTerm: string = '';
+
+  feedback: { visible: boolean, type: FeedbackType, message: string } = {
+    visible: false,
+    type: 'success',
+    message: ''
+  };
 
   constructor(
     private readonly _approverService: ApproverService
@@ -45,6 +55,7 @@ export class PurchaseOrderOcComponent implements OnInit {
   }
 
   loadRequests(): void {
+    this.isLoading = true;
     this._approverService.findByOC()
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
@@ -67,8 +78,14 @@ export class PurchaseOrderOcComponent implements OnInit {
         this.loadRequests();
       }))
       .subscribe({
-        next: (res) => this.selectCard = null,
-        error: (err) => console.error(err)
+        next: (res) => {
+          this.selectCard = null;
+          this.showFeedback('success', 'Solicitação aprovada com sucesso!');
+        },
+        error: (err) => {
+          console.error(err);
+          this.showFeedback('error', 'Erro ao aprovar. Tente novamente mais tarde.');
+        }
       });
   }
 
@@ -86,8 +103,14 @@ export class PurchaseOrderOcComponent implements OnInit {
         this.loadRequests();
       }))
       .subscribe({
-        next: (res) => this.selectCard = null,
-        error: (err) => console.error(err)
+        next: (res) => {
+          this.selectCard = null;
+          this.showFeedback('success', 'Solicitações aprovadas com sucesso!');
+        },
+        error: (err) => {
+          console.error(err);
+          this.showFeedback('error', 'Erro ao aprovar. Tente novamente mais tarde.');
+        }
       })
   }
 
@@ -131,5 +154,17 @@ export class PurchaseOrderOcComponent implements OnInit {
 
   itemPrice(item: any): number {
     return +item.QUANTIDADE * +item.PRECO_UNITARIO || 0;
+  }
+
+  onAlert(): void {
+    alert("Em desenvolvimento!");
+  }
+
+  showFeedback(type: FeedbackType, message: string): void {
+    this.feedback = { visible: true, type, message };
+  }
+
+  closeFeedback(): void {
+    this.feedback.visible = false;
   }
 }

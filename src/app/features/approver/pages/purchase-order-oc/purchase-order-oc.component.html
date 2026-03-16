@@ -1,17 +1,13 @@
-<div class="container">
-  <header class="header">
-    <div class="header__content">
-      <div class="header__icon">
-        <mat-icon>shopping_cart</mat-icon>
-      </div>
-      <div class="header__text">
-        <h3 class="header__title">Aprovador de OC</h3>
-        <span class="header__subtitle">Selecione as ordens de compra que deseja aprovar.</span>
-      </div>
-    </div>
-    <mat-icon class="header__action" routerLink="/dashboard">close</mat-icon>
-  </header>
+<header class="header">
+  <mat-icon class="header__icon" routerLink="/dashboard">keyboard_arrow_left</mat-icon>
+  <div class="header__text">
+    <h3 class="header__title">Ordem de compra</h3>
+    <span class="header__subtitle">{{ filteredRequests.length }} Solicitações</span>
+  </div>
+  <mat-icon class="header__icon" (click)="onAlert()">tune</mat-icon>
+</header>
 
+<div class="container">
   @if (listedCards.size >= 2) {
   <div class="approve">
     <button class="approve__btn approve__btn--red">
@@ -30,11 +26,13 @@
   }
 
   <section class="search">
+    <mat-icon class="search__icon">search</mat-icon>
     <input type="text" placeholder="Buscar" class="search__input" [(ngModel)]="searchTerm">
-    <mat-icon class="search__icon">tune</mat-icon>
   </section>
 
-  <section class="card-list">
+  <app-loading *ngIf="isLoading" />
+
+  <section class="card-list" *ngIf="!isLoading">
     <article *ngFor="let req of filteredRequests; let i = index" class="card"
       [class.card--expanded]="selectCard === req.OC">
       <div class="card__header" (click)="toggleCard(req.OC)" [class.card__header--select]="isSelected(req)">
@@ -93,4 +91,11 @@
       </div>
     </article>
   </section>
+
+  <app-toast
+  [visible]="feedback.visible"
+  [type]="feedback.type"
+  [message]="feedback.message"
+  (close)="closeFeedback()"
+/>
 </div>
