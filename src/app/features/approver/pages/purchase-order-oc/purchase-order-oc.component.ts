@@ -29,8 +29,14 @@ export class PurchaseOrderOcComponent implements OnInit {
 
   isLoading: boolean = false;
   isApproving: boolean = false;
+  isFiltered: boolean = false;
 
   searchTerm: string = '';
+
+  dateFilter: { start: string, end: string } = {
+    start: '',
+    end: ''
+  };
 
   feedback: { visible: boolean, type: FeedbackType, message: string } = {
     visible: false,
@@ -136,14 +142,28 @@ export class PurchaseOrderOcComponent implements OnInit {
   }
 
   get filteredRequests(): any[] {
-    const term = this.searchTerm.toLowerCase().trim();
-    if (!term) return this.requests;
+    let result = this.requests;
 
-    return this.requests.filter(req =>
-      req.OC?.toLowerCase().includes(term) ||
-      req.FORNECEDOR?.toLowerCase().includes(term) ||
-      req.CENTRO_CUSTO?.toLowerCase().includes(term)
-    );
+    const term = this.searchTerm.toLowerCase().trim();
+    if (term) {
+      result = result.filter(req =>
+        req.OC?.toLowerCase().includes(term) ||
+        req.FORNECEDOR?.toLowerCase().includes(term) ||
+        req.CENTRO_CUSTO?.toLowerCase().includes(term)
+      );
+    }
+
+    if (this.dateFilter.start) {
+      const start = new Date(this.dateFilter.start);
+      result = result.filter(req => new Date(req.DATA_EMISSAO) >= start);
+    }
+
+    if (this.dateFilter.end) {
+      const end = new Date(this.dateFilter.end);
+      result = result.filter(req => new Date(req.DATA_EMISSAO) <= end);
+    }
+
+    return result;
   }
 
   totalPrice(items: any[]): number {
@@ -166,5 +186,14 @@ export class PurchaseOrderOcComponent implements OnInit {
 
   closeFeedback(): void {
     this.feedback.visible = false;
+  }
+
+  toggleFilter(): void {
+    this.isFiltered = !this.isFiltered;
+  }
+
+  clearFilter(): void {
+    this.dateFilter = { start: '', end: '' };
+    this.isFiltered = false;
   }
 }

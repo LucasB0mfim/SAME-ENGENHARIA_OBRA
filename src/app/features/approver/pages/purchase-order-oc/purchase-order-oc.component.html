@@ -4,27 +4,10 @@
     <h3 class="header__title">Ordem de compra</h3>
     <span class="header__subtitle">{{ filteredRequests.length }} Solicitações</span>
   </div>
-  <mat-icon class="header__icon" (click)="onAlert()">tune</mat-icon>
+  <mat-icon class="header__icon" (click)="toggleFilter()">tune</mat-icon>
 </header>
 
 <div class="container">
-  @if (listedCards.size >= 2) {
-  <div class="approve">
-    <button class="approve__btn approve__btn--red">
-      <mat-icon class="approve__icon" (click)="clearGroup()">
-        close
-      </mat-icon>
-    </button>
-    <button class="approve__btn approve__btn--blue" (click)="approveGroup()">
-      @if (isApproving) {
-      Aprovando...
-      } @else {
-      ✓ Aprovar Solicitação ({{ listedCards.size }})
-      }
-    </button>
-  </div>
-  }
-
   <section class="search">
     <mat-icon class="search__icon">search</mat-icon>
     <input type="text" placeholder="Buscar" class="search__input" [(ngModel)]="searchTerm">
@@ -92,10 +75,57 @@
     </article>
   </section>
 
-  <app-toast
-  [visible]="feedback.visible"
-  [type]="feedback.type"
-  [message]="feedback.message"
-  (close)="closeFeedback()"
-/>
+  <app-toast [visible]="feedback.visible" [type]="feedback.type" [message]="feedback.message"
+    (close)="closeFeedback()" />
+
+  @if (listedCards.size >= 2) {
+  <div class="approve">
+    <button class="approve__btn approve__btn--red">
+      <mat-icon class="approve__icon" (click)="clearGroup()">
+        close
+      </mat-icon>
+    </button>
+    <button class="approve__btn approve__btn--blue" (click)="approveGroup()">
+      @if (isApproving) {
+      Aprovando...
+      } @else {
+      ✓ Aprovar Solicitação ({{ listedCards.size }})
+      }
+    </button>
+  </div>
+  }
+
+  @if (isFiltered) {
+  <div class="filtered">
+    <div class="filtered__header">
+      <div class="filtered__header-left">
+        <div class="filtered__header-icon">
+          <mat-icon>tune</mat-icon>
+        </div>
+        <div class="filtered__header-text">
+          <span class="filtered__title">Filtros</span>
+          <span class="filtered__subtitle">Filtrar por período de emissão</span>
+        </div>
+      </div>
+      <button class="filtered__close" (click)="toggleFilter()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="filtered__fields">
+      <div class="filtered__field">
+        <label class="filtered__label">De</label>
+        <input type="date" class="filtered__input" [(ngModel)]="dateFilter.start">
+      </div>
+      <div class="filtered__field">
+        <label class="filtered__label">Até</label>
+        <input type="date" class="filtered__input" [(ngModel)]="dateFilter.end">
+      </div>
+    </div>
+
+    <button class="filtered__clear" (click)="clearFilter()">
+      Limpar filtros
+    </button>
+  </div>
+  }
 </div>
