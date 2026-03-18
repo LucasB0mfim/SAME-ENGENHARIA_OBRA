@@ -1,33 +1,27 @@
 import { Routes } from "@angular/router";
 import { roleGuard } from "../../core/guard/role.guard";
-import { ApproverContractComponent } from "./pages/approver-contract/approver-contract.component";
-import { ApproverIdComponent } from "./pages/approver-id/approver-id.component";
-import { ApproverOcComponent } from "./pages/approver-oc/approver-oc.component";
-import { PurchaseOrderOcComponent } from "./pages/purchase-order-oc/purchase-order-oc.component";
 
-export const APPROVER_ROUTES: Routes = [
+import { PurchaseOrderOcComponent } from "./pages/purchase-order-oc/purchase-order-oc.component";
+import { PurchaseOrderIdComponent } from "./pages/purchase-order-id/purchase-order-id.component";
+import { PurchaseOrderContractComponent } from "./pages/purchase-order-contract/purchase-order-contract.component";
+
+export const PURCHASE_ORDER_ROUTES: Routes = [
   {
     path: 'id',
-    component: ApproverIdComponent,
+    component: PurchaseOrderIdComponent,
     canActivate: [roleGuard],
     data: { allowedRoles: ['DIRETOR', 'TI'] }
   },
   {
     path: 'contract',
-    component: ApproverContractComponent,
+    component: PurchaseOrderContractComponent,
     canActivate: [roleGuard],
     data: { allowedRoles: ['DIRETOR', 'TI'] }
   },
   {
     path: 'oc',
-    component: ApproverOcComponent,
-    canActivate: [roleGuard],
-    data: { allowedRoles: ['DIRETOR', 'TI'] }
-  },
-  {
-    path: 'purchase-order',
     component: PurchaseOrderOcComponent,
     canActivate: [roleGuard],
     data: { allowedRoles: ['DIRETOR', 'TI'] }
-  },
+  }
 ];

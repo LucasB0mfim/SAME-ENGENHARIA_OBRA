@@ -13,6 +13,7 @@ $border-small: 4px;
 $fz-small: clamp(0.875rem, 0.8447rem + 0.1294vw, 1rem);
 $fz-medium: clamp(1.125rem, 1.0643rem + 0.2589vw, 1.375rem);
 $fz-large: clamp(2.25rem, 2.1286rem + 0.5178vw, 2.75rem);
+$font-input: clamp(1rem, 2.5vw, 1.125rem);
 
 $gap-small: clamp(0.625rem, 0.625rem + 0vw, 0.625rem);
 $gap-medium: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
@@ -73,6 +74,7 @@ $padding-large: clamp(1.25rem, 1.0983rem + 0.6472vw, 1.875rem);
   &__input {
     border: none;
     color: $dark-black;
+    font-size: $font-input;
     border-radius: $border-small;
     background-color: $dark-white;
     padding: $padding-small;

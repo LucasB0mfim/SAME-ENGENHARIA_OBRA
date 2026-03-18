@@ -18,7 +18,7 @@ export const routes: Routes = [
       { path: 'transport', loadChildren: () => import('./features/transport/transport.routes').then(r => r.TRANSPORT_ROUTES) },
       { path: 'operational', loadChildren: () => import('./features/operational/operational.routes').then(r => r.OPERATIONAL_ROUTES) },
       { path: 'equipament', loadChildren: () => import('./features/equipament/equipament.routes').then(r => r.EQUIPAMENT_ROUTES) },
-      { path: 'approver', loadChildren: () => import('./features/approver/approver.routes').then(r => r.APPROVER_ROUTES) },
+      { path: 'purchase-order', loadChildren: () => import('./features/purchase-order/purchase-order.routes').then(r => r.PURCHASE_ORDER_ROUTES) },
 
     ]
   }

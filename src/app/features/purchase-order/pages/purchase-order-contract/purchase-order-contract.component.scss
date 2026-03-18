@@ -39,6 +39,7 @@ $radius-md: 6px;
 
 $font-sm: clamp(0.6875rem, 1.4vw, 0.75rem);
 $font-base: clamp(0.8125rem, 1.8vw, 0.875rem);
+$font-input: clamp(1rem, 2.5vw, 1.125rem);
 
 $weight-medium: 500;
 $weight-bold: 700;
@@ -97,6 +98,7 @@ $weight-bold: 700;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: $space-sm;
+  font-size: $font-input;
   background-color: $light-white;
   padding: $padding-search;
   border-radius: $radius-md;
